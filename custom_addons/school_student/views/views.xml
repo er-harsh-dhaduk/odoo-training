@@ -1,0 +1,138 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="school_student.list">
+      <field name="name">school_student list</field>
+      <field name="model">school.student</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="school_id"/>
+          <field name="is_virtual_school" />
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="school_student.form">
+      <field name="name">school_student form</field>
+      <field name="model">school.student</field>
+      <field name="arch" type="xml">
+        <form>
+          <group>
+            <group>
+              <field name="name"/>
+              <field name="currency_id" />
+              <field name="school_id" string="School"
+                     options="{'no_create':True, 'no_open':True}"
+
+                     domain="[('is_virtual_class','=', True),('school_type','!=',False)]"/>
+              <field name="school_address" string="School Address"
+                     nolabel="1"/>
+              <field name="hobby_list" widget="many2many_checkboxes"
+                     string="Hobby"
+                     help="Please select at least one hobby for this student."/>
+              <field name="student_fees" string="Fees" readonly="0"/>
+              <field name="total_fees" widget="monetary"/>
+
+            </group>
+          </group>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="hobby_form">
+      <field name="name">hobby form</field>
+      <field name="model">hobby</field>
+      <field name="arch" type="xml">
+        <form>
+          <group>
+            <field name="name" />
+          </group>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="hobby_list">
+      <field name="name">hobby list</field>
+      <field name="model">hobby</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name" />
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="school_extend_form">
+      <field name="name">school_extend form</field>
+      <field name="model">school.profile</field>
+      <field name="inherit_id" ref="school.school_form_view"/>
+      <field name="arch" type="xml">
+        <field name="school_description" position="after">
+          <field name="school_list" string="Students"
+                help="Hello this is student list here management can see list of students for this school">
+            <tree editable="top" >
+              <field name="name" />
+              <field name="student_fees" />
+            </tree>
+            <form>
+              <group>
+                <field name="name" />
+              </group>
+            </form>
+          </field>
+        </field>
+      </field>
+    </record>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="school_student.action_window">
+      <field name="name">school_student window</field>
+      <field name="res_model">school.student</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="hobby_action_window">
+      <field name="name">Hobby</field>
+      <field name="res_model">hobby</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- server action to the one above -->
+
+    <record model="ir.actions.server" id="school_student.action_server">
+      <field name="name">school_student server</field>
+      <field name="model_id" ref="model_school_student"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+
+
+    <!-- Top menu item -->
+
+    <menuitem name="school_student" id="school_student.menu_root"/>
+
+    <!-- menu categories -->
+
+    <menuitem name="Menu 1" id="school_student.menu_1" parent="school_student.menu_root"/>
+    <menuitem name="Menu 2" id="school_student.menu_2" parent="school_student.menu_root"/>
+
+    <!-- actions -->
+
+    <menuitem name="List" id="school_student.menu_1_list" parent="school_student.menu_1"
+              action="school_student.action_window"/>
+    <menuitem name="Server to list" id="school_student" parent="school_student.menu_2"
+              action="school_student.action_server"/>
+
+    <menuitem name="Hobby" id="hobby_student" parent="school_student.menu_2"
+              action="school_student.hobby_action_window"/>
+
+  </data>
+</odoo>
