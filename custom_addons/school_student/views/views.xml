@@ -23,10 +23,9 @@
             <group>
               <field name="name"/>
               <field name="currency_id" />
-              <field name="school_id" string="School"
-                     options="{'no_create':True, 'no_open':True}"
-
-                     domain="[('is_virtual_class','=', True),('school_type','!=',False)]"/>
+              <field name="school_id" string="School"/>
+                     <!--options="{'no_create':True, 'no_open':True}"
+                     domain="[('is_virtual_class','=', True),('school_type','!=',False)]"-->
               <field name="school_address" string="School Address"
                      nolabel="1"/>
               <field name="hobby_list" widget="many2many_checkboxes"
@@ -34,7 +33,9 @@
                      help="Please select at least one hobby for this student."/>
               <field name="student_fees" string="Fees" readonly="0"/>
               <field name="total_fees" widget="monetary"/>
-
+              <field name="active"/>
+              <field name="bdate"/>
+              <field name="student_age" />
             </group>
           </group>
         </form>
