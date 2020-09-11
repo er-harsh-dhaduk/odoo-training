@@ -102,8 +102,14 @@ class school_student(models.Model):
     #     rtn.total_fees = 500
     #     return rtn
 
-
-
+    # def unlink(self):
+    #     print("self statement ",self)
+    #     # for stud in self:
+    #     #     if stud.total_fees > 0:
+    #     #         raise UserError(_("You can't delete this %s student profile"%stud.name))
+    #     rtn = super(school_student, self).unlink()
+    #     print("Return statement ",rtn)
+    #     return rtn
 
 class SchoolProfile(models.Model):
     _inherit = "school.profile"
