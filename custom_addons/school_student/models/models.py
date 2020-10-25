@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import datetime
-
+from lxml import etree
 from odoo import models, fields, api, _
 from odoo.exceptions import  UserError
 
@@ -8,7 +8,7 @@ class school_student(models.Model):
     _name = 'school.student'
     _description = 'school_student.school_student'
 
-    name = fields.Char(default="Sunny Leone")
+    name = fields.Char(default="Sunny Leaone")
     school_id = fields.Many2one("school.profile", string="School Name")
     hobby_list = fields.Many2many("hobby", "school_hobby_rel","student_id",
                                   "hobby_id", string="Hobby List",
@@ -20,8 +20,8 @@ class school_student(models.Model):
                                  help="This is school address.")
     currency_id = fields.Many2one("res.currency", string="Currency")
     student_fees = fields.Monetary(string="Student Fees",
-                                   index=True, default=1900.00)
-    total_fees = fields.Float(string="Total Fees")
+                                   index=True)
+    total_fees = fields.Float(string="Total Fees", default=200)
     ref_id = fields.Reference(selection=[('school.profile', 'School'),
                                ('account.move', 'Invoice')] ,
                               string="Reference Field",
@@ -29,6 +29,55 @@ class school_student(models.Model):
     active = fields.Boolean(string="Active", default=True)
     bdate = fields.Date(string="Date Of Birth", required=True)
     student_age = fields.Char(string="Total Age", compute="_get_age_from_student")
+
+    def custom_method(self):
+        try:
+            self.ensure_one()
+            print(self.name)
+            print(self.bdate)
+            print(self.school_id.name)
+        except ValueError:
+            pass
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+
+        res = super(school_student, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
+
+        if view_type == "form":
+            doc = etree.XML(res['arch'])
+            name_field = doc.xpath("//field[@name='name']")
+            if name_field:
+                # Added one label in form view.
+                name_field[0].addnext(etree.Element('label', {'string':'Hello this is custom label from fields_view_get method'}))
+
+            #override attribute
+            address_field = doc.xpath("//field[@name='school_address']")
+            if address_field:
+                address_field[0].set("string", "Hello This is School Address.")
+                address_field[0].set("nolabel", "0")
+
+            res['arch'] = etree.tostring(doc, encoding='unicode')
+
+        if view_type == 'tree':
+            doc = etree.XML(res['arch'])
+            school_field = doc.xpath("//field[@name='school_id']")
+            if school_field:
+                # Added one field in tree view.
+                school_field[0].addnext(etree.Element('field', {'string':'Total Fees',
+                                                                'name': 'total_fees'}))
+            res['arch'] = etree.tostring(doc, encoding='unicode')
+        return res
+
+
+    @api.model
+    def default_get(self, field_list=[]):
+        print("field_list ",field_list)
+        rtn = super(school_student, self).default_get(field_list)
+        print("Befor Edit ",rtn)
+        rtn['student_fees'] = 4000
+        print("return statement ",rtn)
+        return rtn
 
     @api.depends("bdate")
     def _get_age_from_student(self):
