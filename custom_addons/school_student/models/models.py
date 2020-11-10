@@ -4,9 +4,11 @@ from lxml import etree
 from odoo import models, fields, api, _
 from odoo.exceptions import  UserError
 
+
 class school_student(models.Model):
     _name = 'school.student'
     _description = 'school_student.school_student'
+    _order = "school_id"
 
     name = fields.Char(default="Sunny Leaone")
     school_id = fields.Many2one("school.profile", string="School Name")
@@ -160,6 +162,7 @@ class school_student(models.Model):
     #     print("Return statement ",rtn)
     #     return rtn
 
+
 class SchoolProfile(models.Model):
     _inherit = "school.profile"
 
@@ -167,6 +170,41 @@ class SchoolProfile(models.Model):
                                   string="School List",
 
                                   )
+    school_number = fields.Char("School Code")
+
+    # @api.model
+    # def name_search(self, name, args=None, operator='ilike', limit=100):
+    #     args = args or []
+    #     print("Name ",name)
+    #     print("Args ",args)
+    #     print("operator ",operator)
+    #     print("limit ",limit)
+    #     if name:
+    #         records = self.search(['|','|','|',('name', operator, name), ('email', operator, name),
+    #                                ('school_number', operator, name), ('school_type', operator, name)])
+    #         return records.name_get()
+    #     return super(SchoolProfile, self).name_search(name=name, args=args, operator=operator, limit=limit)
+
+    @api.model
+    def _name_search(self, name, args=None, operator='ilike', limit=100, name_get_uid=None):
+
+        args = args or []
+        domain = []
+        print("Name ",name)
+        print("Args ",args)
+        print("operator ",operator)
+        print("limit ",limit)
+        print("name_get_uid ",name_get_uid)
+        # if not name_get_uid:
+        #     name_get_uid = self.env['res.users'].browse(1)
+        if name:
+            domain = ['|','|','|',('name', operator, name), ('email', operator, name),
+                     ('school_number', operator, name), ('school_type', operator, name)]
+        school_ids = self.with_user(name_get_uid).search(domain+args, limit=limit)
+
+        searchs = self._search(domain+args, limit=limit, access_rights_uid=name_get_uid)
+        print("self...... _search ",searchs)
+        return school_ids.with_user(name_get_uid).name_get()
 
     # @api.model
     # def create(self, vals):

@@ -70,6 +70,7 @@
       <field name="inherit_id" ref="school.school_form_view"/>
       <field name="arch" type="xml">
         <field name="school_description" position="after">
+          <field name="school_number" required="1"/>
           <field name="school_list" string="Students"
                 help="Hello this is student list here management can see list of students for this school">
             <tree editable="top" >
