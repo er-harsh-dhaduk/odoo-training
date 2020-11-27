@@ -19,6 +19,7 @@
       <field name="model">school.student</field>
       <field name="arch" type="xml">
         <form>
+          <button name="custom_button_method" string="Custom Button Click Me!" type="object" />
           <group>
             <group>
               <field name="name"/>

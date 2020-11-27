@@ -1,8 +1,22 @@
 # -*- coding: utf-8 -*-
+import random
 import datetime
 from lxml import etree
 from odoo import models, fields, api, _
 from odoo.exceptions import  UserError
+
+
+class student_test_fees(models.Model):
+    _name = "student.test.fees"
+    _table = "student_fees_testing"
+
+    name = fields.Char("Fees")
+
+
+class student_test(models.Model):
+    _name = "student.test"
+
+    name = fields.Char(string="Test")
 
 
 class school_student(models.Model):
@@ -31,6 +45,14 @@ class school_student(models.Model):
     active = fields.Boolean(string="Active", default=True)
     bdate = fields.Date(string="Date Of Birth", required=True)
     student_age = fields.Char(string="Total Age", compute="_get_age_from_student")
+
+    def custom_button_method(self):
+        print("Hello this is custom_button_method called by you....", self)
+        self.custom_new_method(random.randint(1,1000))
+        self.custom_method()
+
+    def custom_new_method(self, total_fees):
+        self.total_fees = total_fees
 
     def custom_method(self):
         try:
@@ -202,9 +224,14 @@ class SchoolProfile(models.Model):
                      ('school_number', operator, name), ('school_type', operator, name)]
         school_ids = self.with_user(name_get_uid).search(domain+args, limit=limit)
 
-        searchs = self._search(domain+args, limit=limit, access_rights_uid=name_get_uid)
-        print("self...... _search ",searchs)
-        return school_ids.with_user(name_get_uid).name_get()
+        # searchs = self._search(domain+args, limit=limit, access_rights_uid=name_get_uid)
+        # print("self...... _search ",searchs)
+
+        # Below or V13
+        # return school_ids.with_user(name_get_uid).name_get()
+
+        # V14
+        return school_ids.ids
 
     # @api.model
     # def create(self, vals):
