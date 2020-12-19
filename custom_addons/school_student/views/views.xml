@@ -1,12 +1,14 @@
 <odoo>
   <data>
     <!-- explicit list view definition -->
-
     <record model="ir.ui.view" id="school_student.list">
       <field name="name">school_student list</field>
       <field name="model">school.student</field>
       <field name="arch" type="xml">
         <tree>
+          <field name="id" />
+          <field name="create_uid"/>
+          <field name="create_date"/>
           <field name="name"/>
           <field name="school_id"/>
           <field name="is_virtual_school" />
@@ -20,6 +22,8 @@
       <field name="arch" type="xml">
         <form>
           <button name="custom_button_method" string="Custom Button Click Me!" type="object" />
+          <button name="wiz_open" string="Wizard open using custom method" type="object" />
+          <button name="school_student.student_fees_update_action" string="Wizard open using action" type="action" />
           <group>
             <group>
               <field name="name"/>
@@ -35,7 +39,9 @@
               <field name="student_fees" string="Fees" readonly="0"/>
               <field name="total_fees" widget="monetary"/>
               <field name="active"/>
-              <field name="bdate"/>
+              <field name="bdate" attrs = "{'invisible':[('total_fees','=',0)], 'readonly':[('total_fees','=',1)],
+              'required':[('total_fees','=',2)]}"
+                     />
               <field name="student_age" />
             </group>
           </group>
@@ -136,6 +142,7 @@
 
     <menuitem name="Hobby" id="hobby_student" parent="school_student.menu_2"
               action="school_student.hobby_action_window"/>
-
+    <menuitem name="Fees Update" id="menu_student_fees_update" parent="school_student.menu_2"
+              action="school_student.student_fees_update_action"/>
   </data>
 </odoo>

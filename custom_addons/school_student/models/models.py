@@ -2,7 +2,7 @@
 import random
 import datetime
 from lxml import etree
-from odoo import models, fields, api, _
+from odoo import models, fields, api, _, registry, tools as tl
 from odoo.exceptions import  UserError
 
 
@@ -43,13 +43,68 @@ class school_student(models.Model):
                               string="Reference Field",
                               default="school.profile,1")
     active = fields.Boolean(string="Active", default=True)
-    bdate = fields.Date(string="Date Of Birth", required=True)
+    bdate = fields.Date(string="Date Of Birth")
     student_age = fields.Char(string="Total Age", compute="_get_age_from_student")
 
+
+    def wiz_open(self):
+
+        return self.env['ir.actions.act_window']._for_xml_id("school_student.student_fees_update_action")
+
+        # return {'type': 'ir.actions.act_window',
+        #         'res_model': 'student.feees.update.wizard',
+        #         'view_mode': 'form',
+        #         'target': 'new'}
+
     def custom_button_method(self):
-        print("Hello this is custom_button_method called by you....", self)
-        self.custom_new_method(random.randint(1,1000))
-        self.custom_method()
+
+        # self.env.cr.execute("insert into school_student(name, active) values('from button click', True)")
+        # self.env.cr.commit()
+
+        # self._cr.execute("insert into school_student(name, active) values('from button click', True)")
+        # self._cr.commit()
+
+        # print("Envi...... ",self.env)
+        # print("user id...... ",self.env.uid)
+        # print("current user...... ",self.env.user)
+        # print("Super user?...... ",self.env.su)
+        # print("Company...... ",self.env.company)
+        # print("Compaies...... ",self.env.companies)
+        # print("Lang...... ",self.env.lang)
+        # print("Cr...... ",self.env.cr)
+        # print("Hello this is custom_button_method called by you....", self)
+
+        # with_env
+        # with_context
+        # with_user
+        # with_company
+        # sudo
+
+        
+        # self.env['student.test'].sudo().create({'name':'Student Test Demo.....'})
+
+        # new_cr = registry(self.env.cr.dbname).cursor()
+        # partner_id = self.env['res.partner'].with_env(self.env(cr=new_cr)).create({"name":" New Env CR Partner."})
+        # partner_id.env.cr.commit()
+
+        # self.custom_new_method(random.randint(1,1000))
+        # self.custom_method()
+
+        cli_commands = tl.config.options
+        print(cli_commands)
+        print(cli_commands.get("db_name"))
+        print(cli_commands.get("db_user"))
+        print(cli_commands.get("db_password"))
+        print(cli_commands.get("addons_path"))
+        print(cli_commands.get("dbfilter"))
+        print(cli_commands.get("weblearns"))
+        print(cli_commands.get("weblearns_author"))
+        if tl.config.options.get("weblearns") == "'Tutorials'":
+            tl.config.options['weblearns'] = "Odoo Tutorial"
+        # print(cli_commands.get("weblearns"))
+        # print(cli_commands.get("weblearns_author"))
+        print(tl.config.options['weblearns'])
+
 
     def custom_new_method(self, total_fees):
         self.total_fees = total_fees
@@ -245,3 +300,23 @@ class Hobbies(models.Model):
     _name = "hobby"
 
     name = fields.Char("Hobby")
+
+
+class Partner(models.Model):
+    _inherit = "res.partner"
+
+    @api.model
+    def create(self, vals):
+
+        print("User Env ",self.env)
+        print("User Env ",self.env.user)
+        print("User Env ",self.env.company)
+        print("User Env ",self.env.companies)
+        print("User Env ",self.env.context)
+
+        print(" partner values ",vals)
+
+        if 'company_id' not in vals:
+            vals['company_id'] = self.env.company.id
+
+        return super(Partner, self).create(vals)

@@ -1,3 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_school_student_school_student,school.student,model_school_student,base.group_user,1,1,1,1
 access_hobby_student,hobby,model_hobby,base.group_user,1,1,1,1
+access_student_fees_update,student_fees_update,model_student_feees_update_wizard,base.group_user,1,1,1,1
