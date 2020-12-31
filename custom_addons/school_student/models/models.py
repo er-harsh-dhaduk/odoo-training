@@ -19,8 +19,21 @@ class student_test(models.Model):
     name = fields.Char(string="Test")
 
 
+class Address(models.Model):
+    _name = "address"
+    _rec_name = "street"
+
+    street = fields.Char("Street")
+    street_one = fields.Char("Street2")
+    city = fields.Char("City")
+    state = fields.Char("State")
+    country = fields.Char("Country")
+    zip_code = fields.Char("Zip Code")
+
+
 class school_student(models.Model):
     _name = 'school.student'
+    _inherit = "address"
     _description = 'school_student.school_student'
     _order = "school_id"
 
@@ -320,3 +333,24 @@ class Partner(models.Model):
             vals['company_id'] = self.env.company.id
 
         return super(Partner, self).create(vals)
+
+
+class SchoolStudent(models.Model):
+    _inherit = 'school.student'
+
+    parent_name = fields.Char("Parent Name")
+
+
+class Car(models.Model):
+    _name = "car"
+
+    name = fields.Char("Car Name")
+    price = fields.Float("Cost")
+
+
+class CarEngine(models.Model):
+    _name = "car.engine"
+    _inherits = {"car":"car_id"}
+
+    name = fields.Char("Car Engine Name")
+    car_id = fields.Many2one("car", string="Car")

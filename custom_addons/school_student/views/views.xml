@@ -28,6 +28,7 @@
             <group>
               <field name="name"/>
               <field name="currency_id" />
+              <field name="parent_name" />
               <field name="school_id" string="School"/>
                      <!--options="{'no_create':True, 'no_open':True}"
                      domain="[('is_virtual_class','=', True),('school_type','!=',False)]"-->
@@ -43,6 +44,13 @@
               'required':[('total_fees','=',2)]}"
                      />
               <field name="student_age" />
+              <field name="street" />
+              <field name="street_one" />
+              <field name="city" />
+              <field name="state" />
+              <field name="country" />
+              <field name="zip_code" />
+
             </group>
           </group>
         </form>
@@ -144,5 +152,38 @@
               action="school_student.hobby_action_window"/>
     <menuitem name="Fees Update" id="menu_student_fees_update" parent="school_student.menu_2"
               action="school_student.student_fees_update_action"/>
+
+    <record model="ir.ui.view" id="car_engine_form">
+      <field name="name">car.engine</field>
+      <field name="model">car.engine</field>
+      <field name="arch" type="xml">
+        <form>
+          <group>
+            <field name="name" />
+            <field name="car_id" />
+          </group>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="car_engine_list">
+      <field name="name">car.enginelist</field>
+      <field name="model">car.engine</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name" />
+          <field name="car_id" />
+        </tree>
+      </field>
+    </record>
+
+        <record model="ir.actions.act_window" id="car_engine_action_window">
+      <field name="name">Car Engine</field>
+      <field name="res_model">car.engine</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Car Engine" id="menu_car_engine" parent="school_student.menu_2"
+              action="school_student.car_engine_action_window"/>
   </data>
 </odoo>
