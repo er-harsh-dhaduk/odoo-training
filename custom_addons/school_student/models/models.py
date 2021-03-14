@@ -59,6 +59,10 @@ class school_student(models.Model):
     bdate = fields.Date(string="Date Of Birth")
     student_age = fields.Char(string="Total Age", compute="_get_age_from_student")
 
+    _sql_constraints = [
+        ('unique_name', 'unique(name)', 'Please provide other student name, Given name already exists.'),
+        ('total_fees_check', 'check(total_fees>100)', 'minimum 101 amount allow.')
+    ]
 
     def wiz_open(self):
 
