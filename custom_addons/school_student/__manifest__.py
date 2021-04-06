@@ -27,6 +27,7 @@
         'data/hobby.csv',
         'data/school.profile.csv',
         'data/school.student.csv',
+        'data/student_data.xml',
         'security/ir.model.access.csv',
         'wizard/student_fees_udpdate_wizard_view.xml',
         'views/views.xml',
