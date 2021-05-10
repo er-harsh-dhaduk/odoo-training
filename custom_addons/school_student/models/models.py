@@ -37,6 +37,7 @@ class school_student(models.Model):
     _description = 'school_student.school_student'
     _order = "school_id"
 
+    roll_number = fields.Char("Roll Number")
     name = fields.Char(default="Sunny Leaone")
     school_id = fields.Many2one("school.profile", string="School Name")
     hobby_list = fields.Many2many("hobby", "school_hobby_rel","student_id",
@@ -63,6 +64,12 @@ class school_student(models.Model):
         ('unique_name', 'unique(name)', 'Please provide other student name, Given name already exists.'),
         ('total_fees_check', 'check(total_fees>100)', 'minimum 101 amount allow.')
     ]
+
+    @api.model
+    def _change_roll_number(self, add_string):
+        """This method is used to add roll number to the student profile."""
+        for stud in self.search([('roll_number','!=',False)]):
+            stud.roll_number = add_string + "STD20" + str(stud.id)
 
     def wiz_open(self):
 

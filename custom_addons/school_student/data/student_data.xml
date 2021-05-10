@@ -5,6 +5,34 @@
         <field name="name">JethaLal</field>
         <field name="total_fees">6050</field>
         <field name="school_id" ref="school.school_5" />
+        <field name="hobby_list" eval="[(6, 0, [ref('hobby_3'), ref('hobby_17'), ref('hobby_4'),
+        ref('hobby_1')])]"/>
     </record>
+
+    <!-- First way to create One2Many field -->
+    <!--This is the main record as school profile.-->
+
+    <record id="school_10" model="school.profile">
+        <field name="name">Nalanda University</field>
+        <field name="auto_rank">10</field>
+        <field name="email">nalanda.university@test.com</field>
+    </record>
+
+    <record id="student_6" model="school.student">
+        <field name="name">Chanakya</field>
+        <field name="school_id" ref="school_10" />
+        <field name="total_fees">5000</field>
+    </record>
+
+    <record id="school_11" model="school.profile">
+        <field name="name">Vivekananda School</field>
+        <field name="email">vivek@test.com</field>
+        <field name="auto_rank">0</field>
+        <!--<field name="school_list" eval="[(0, 0, {'name':'Vivek Student 1', 'total_fees':400}),
+            (0,0, {'name':'Weblearn-Odoo1', 'total_fees':200})]" />-->
+    </record>
+
+    <function model="school.student" name="_change_roll_number"
+            eval="('WL',)"/>
 
 </odoo>
