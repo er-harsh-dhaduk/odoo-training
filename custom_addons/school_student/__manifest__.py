@@ -32,6 +32,7 @@
         'wizard/student_fees_udpdate_wizard_view.xml',
         'views/views.xml',
         'views/templates.xml',
+        'data/delete_data.xml'
 
     ],
     # only loaded in demonstration mode

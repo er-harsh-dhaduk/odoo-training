@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <delete id="student_5" model="school.student" />
+    <delete id="school.school_5" model="school.profile" />
+    <delete id="school_student.hobby_14" model="hobby" />
+    <delete id="school_student.menu_2" model="ir.ui.menu" />
+</odoo>
