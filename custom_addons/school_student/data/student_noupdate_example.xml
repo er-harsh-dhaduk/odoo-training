@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <record id="student_noupdate_eg" model="school.student">
+        <field name="name">Student No HariOm</field>
+        <field name="total_fees">6050</field>
+        <field name="school_id" ref="school.school_6" />
+        <field name="hobby_list" eval="[(6, 0, [ref('hobby_3'), ref('hobby_4'),
+        ref('hobby_1')])]"/>
+    </record>
+
+</odoo>

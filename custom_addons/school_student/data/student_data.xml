@@ -5,7 +5,7 @@
         <field name="name">JethaLal</field>
         <field name="total_fees">6050</field>
         <field name="school_id" ref="school.school_6" />
-        <field name="hobby_list" eval="[(6, 0, [ref('hobby_3'), ref('hobby_17'), ref('hobby_4'),
+        <field name="hobby_list" eval="[(6, 0, [ref('hobby_17'), ref('hobby_4'),
         ref('hobby_1')])]"/>
     </record>
 
