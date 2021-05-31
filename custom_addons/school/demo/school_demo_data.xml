@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record model="school.profile" id="demo_profile_1">
+        <field name="name">Demo School</field>
+        <field name="auto_rank">10</field>
+    </record>
+
+    <record model="school.profile" id="demo_profile_2">
+        <field name="name">Demo School 1</field>
+        <field name="auto_rank">11</field>
+    </record>
+
+    <record model="school.profile" id="demo_profile_3">
+        <field name="name">Demo School 2nd profile.</field>
+        <field name="auto_rank">12</field>
+    </record>
+
+    <record model="school.profile" id="demo_profile_4">
+        <field name="name">Demo School 3</field>
+        <field name="auto_rank">13</field>
+    </record>
+
+    <record model="school.profile" id="demo_profile_5">
+        <field name="name">Demo School 4</field>
+        <field name="auto_rank">14</field>
+    </record>
+
+    <record model="school.profile" id="demo_profile_6">
+        <field name="name">6th Demo School Profile.</field>
+        <field name="auto_rank">1</field>
+    </record>
+</odoo>

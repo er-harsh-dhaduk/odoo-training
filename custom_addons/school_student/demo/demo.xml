@@ -26,5 +26,23 @@
             <field name="value">40</field>
           </record>
 -->
+        <record id="hobby_20" model="hobby">
+            <field name="name">Demo Gym</field>
+        </record>
+        <record id="hobby_21" model="hobby">
+            <field name="name">Demo Gym 1</field>
+        </record>
+        <record id="hobby_22" model="hobby">
+            <field name="name">Demo Gym 2</field>
+        </record>
+        <record id="hobby_23" model="hobby">
+            <field name="name">Demo Gym 3</field>
+        </record>
+        <record id="hobby_24" model="hobby">
+            <field name="name">Demo Gym 4</field>
+        </record>
+        <record id="hobby_25" model="hobby">
+            <field name="name">Demo Gym 5</field>
+        </record>
     </data>
 </odoo>
