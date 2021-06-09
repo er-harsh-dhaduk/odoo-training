@@ -39,7 +39,20 @@ class school_student(models.Model):
 
     roll_number = fields.Char("Roll Number")
     name = fields.Char(default="Sunny Leaone")
-    school_id = fields.Many2one("school.profile", string="School Name")
+    school_id = fields.Many2one("school.profile", string="School Name",
+                                # Single Multi domain working
+                                # domain="[('school_type','=','public'),"
+                                #        "('is_virtual_class', '=', True)]"
+
+                                # It won't be work due to wrong value.
+                                #domain="[('school_type', '=', 'Public School')]"
+
+                                # Left side sub fields you can access like this way.
+                                # domain="[('currency_id.name', '=', 'EUR')]"
+
+                                # Right side sub fields Odoo doesn't support
+                                # domain = "[('currency_id', '=', currency_id.id)]"
+                                )
     hobby_list = fields.Many2many("hobby", "school_hobby_rel","student_id",
                                   "hobby_id", string="Hobby List",
                                   )
@@ -64,6 +77,14 @@ class school_student(models.Model):
         ('unique_name', 'unique(name)', 'Please provide other student name, Given name already exists.'),
         ('total_fees_check', 'check(total_fees>100)', 'minimum 101 amount allow.')
     ]
+
+    @api.onchange("school_id")
+    def _onchange_school_profile(self):
+        currency_id = 0
+        if self.school_id:
+            currency_id = self.school_id.currency_id.id
+        return {"domain": {'currency_id':[('id', '=', currency_id)]}}
+
 
     @api.model
     def _change_roll_number(self, add_string):
@@ -236,15 +257,17 @@ class school_student(models.Model):
     #     rtn = super(school_student, self).create(values)
     #     return rtn
 
-    # @api.model
-    # def create(self, values):
-    #     rtn = super(school_student, self).create(values)
-    #     return rtn
+    @api.model
+    def create(self, values):
+        print("Student create method vals ", values)
+        rtn = super(school_student, self).create(values)
+        return rtn
 
     #No Decorator
-    # def write(self, values):
-    #     rtn = super(school_student, self).write(values)
-    #     return rtn
+    def write(self, values):
+        print("Student write method vals ", values)
+        rtn = super(school_student, self).write(values)
+        return rtn
 
     # @api.returns('self', lambda value: value.id)
     # def copy(self, default = {}):
@@ -268,9 +291,7 @@ class SchoolProfile(models.Model):
     _inherit = "school.profile"
 
     school_list = fields.One2many("school.student", "school_id",
-                                  string="School List",
-
-                                  )
+                                  string="School List")
     school_number = fields.Char("School Code")
 
     # @api.model
