@@ -136,19 +136,19 @@ class school_student(models.Model):
         # self.custom_method()
 
         cli_commands = tl.config.options
-        print(cli_commands)
-        print(cli_commands.get("db_name"))
-        print(cli_commands.get("db_user"))
-        print(cli_commands.get("db_password"))
-        print(cli_commands.get("addons_path"))
-        print(cli_commands.get("dbfilter"))
-        print(cli_commands.get("weblearns"))
-        print(cli_commands.get("weblearns_author"))
+        # print(cli_commands)
+        # print(cli_commands.get("db_name"))
+        # print(cli_commands.get("db_user"))
+        # print(cli_commands.get("db_password"))
+        # print(cli_commands.get("addons_path"))
+        # print(cli_commands.get("dbfilter"))
+        # print(cli_commands.get("weblearns"))
+        # print(cli_commands.get("weblearns_author"))
         if tl.config.options.get("weblearns") == "'Tutorials'":
             tl.config.options['weblearns'] = "Odoo Tutorial"
         # print(cli_commands.get("weblearns"))
         # print(cli_commands.get("weblearns_author"))
-        print(tl.config.options['weblearns'])
+        # print(tl.config.options['weblearns'])
 
 
     def custom_new_method(self, total_fees):
@@ -157,9 +157,9 @@ class school_student(models.Model):
     def custom_method(self):
         try:
             self.ensure_one()
-            print(self.name)
-            print(self.bdate)
-            print(self.school_id.name)
+            # print(self.name)
+            # print(self.bdate)
+            # print(self.school_id.name)
         except ValueError:
             pass
 
@@ -196,11 +196,11 @@ class school_student(models.Model):
 
     @api.model
     def default_get(self, field_list=[]):
-        print("field_list ",field_list)
+        # print("field_list ",field_list)
         rtn = super(school_student, self).default_get(field_list)
-        print("Befor Edit ",rtn)
+        # print("Befor Edit ",rtn)
         rtn['student_fees'] = 4000
-        print("return statement ",rtn)
+        # print("return statement ",rtn)
         return rtn
 
     @api.depends("bdate")
@@ -223,9 +223,9 @@ class school_student(models.Model):
                 currentDate = datetime.date.today()
 
                 deadlineDate= fields.Datetime.to_datetime(stud.bdate).date()
-                print (deadlineDate)
+                # print (deadlineDate)
                 daysLeft = currentDate - deadlineDate
-                print(daysLeft)
+                # print(daysLeft)
 
                 years = ((daysLeft.total_seconds())/(365.242*24*3600))
                 yearsInt=int(years)
@@ -312,11 +312,11 @@ class SchoolProfile(models.Model):
 
         args = args or []
         domain = []
-        print("Name ",name)
-        print("Args ",args)
-        print("operator ",operator)
-        print("limit ",limit)
-        print("name_get_uid ",name_get_uid)
+        # print("Name ",name)
+        # print("Args ",args)
+        # print("operator ",operator)
+        # print("limit ",limit)
+        # print("name_get_uid ",name_get_uid)
         # if not name_get_uid:
         #     name_get_uid = self.env['res.users'].browse(1)
         if name:
@@ -353,13 +353,13 @@ class Partner(models.Model):
     @api.model
     def create(self, vals):
 
-        print("User Env ",self.env)
-        print("User Env ",self.env.user)
-        print("User Env ",self.env.company)
-        print("User Env ",self.env.companies)
-        print("User Env ",self.env.context)
-
-        print(" partner values ",vals)
+        # print("User Env ",self.env)
+        # print("User Env ",self.env.user)
+        # print("User Env ",self.env.company)
+        # print("User Env ",self.env.companies)
+        # print("User Env ",self.env.context)
+        #
+        # print(" partner values ",vals)
 
         if 'company_id' not in vals:
             vals['company_id'] = self.env.company.id

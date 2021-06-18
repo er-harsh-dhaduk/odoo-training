@@ -136,8 +136,10 @@
 
     <!-- Top menu item -->
 
-    <menuitem name="school_student" id="school_student.menu_root"/>
-
+    <menuitem name="school_student" id="school_student.menu_root"
+        web_icon="school_student,odoo_icon.png"
+    />
+        <!--web_icon="school_student,static/description/icon.png"-->
     <!-- menu categories -->
 
     <menuitem name="Menu 1" id="school_student.menu_1" parent="school_student.menu_root"/>
