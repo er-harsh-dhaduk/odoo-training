@@ -78,6 +78,10 @@ class school_student(models.Model):
         ('total_fees_check', 'check(total_fees>100)', 'minimum 101 amount allow.')
     ]
 
+    def specialCommand6(self):
+        ids = [15, 31, 32]
+        self.write({"hobby_list": [(6, 0, ids)]})
+
     @api.onchange("school_id")
     def _onchange_school_profile(self):
         currency_id = 0

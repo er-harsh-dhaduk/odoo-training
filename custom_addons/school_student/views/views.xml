@@ -25,6 +25,7 @@
           <button name="custom_button_method" string="Custom Button Click Me!" type="object" />
           <button name="wiz_open" string="Wizard open using custom method" type="object" />
           <button name="school_student.student_fees_update_action" string="Wizard open using action" type="action" />
+          <button name="specialCommand6" type="object" string="Special Command 6, 0, ids" />
           <group>
             <group>
               <field name="name"/>
@@ -76,6 +77,7 @@
       <field name="model">hobby</field>
       <field name="arch" type="xml">
         <tree>
+        <field name="id" />
           <field name="name" />
         </tree>
       </field>
@@ -91,6 +93,7 @@
           <field name="school_list" string="Students"
                 help="Hello this is student list here management can see list of students for this school">
             <tree editable="top" >
+            <field name="id" />
               <field name="name" />
               <field name="student_fees" />
             </tree>
