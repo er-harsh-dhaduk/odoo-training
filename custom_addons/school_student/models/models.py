@@ -35,11 +35,18 @@ class school_student(models.Model):
     _name = 'school.student'
     _inherit = "address"
     _description = 'school_student.school_student'
-    _order = "school_id"
+    # _order = "school_id"
+    _order = "student_seq"
 
     roll_number = fields.Char("Roll Number")
-    name = fields.Char(default="Sunny Leaone")
+    name = fields.Char(
+        default="Sunny Leaone",
+        #    required=True
+    )
+
+    student_seq = fields.Integer("Student Sequence")
     school_id = fields.Many2one("school.profile", string="School Name",
+                                required=True,
                                 # Single Multi domain working
                                 # domain="[('school_type','=','public'),"
                                 #        "('is_virtual_class', '=', True)]"

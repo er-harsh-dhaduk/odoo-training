@@ -1,18 +1,34 @@
 <odoo>
   <data>
     <!-- explicit list view definition -->
-    <record model="ir.ui.view" id="school_student.list">
-      <field name="name">school_student list</field>
+<!--    <record model="ir.ui.view" id="school_student.list">-->
+<!--      <field name="name">school_student list</field>-->
+<!--      <field name="model">school.student</field>-->
+<!--      <field name="arch" type="xml">-->
+<!--        <tree>-->
+<!--          <field name="id" />-->
+<!--          <field name="roll_number" />-->
+<!--          <field name="create_uid"/>-->
+<!--          <field name="create_date"/>-->
+<!--          <field name="name"/>-->
+<!--          <field name="school_id"/>-->
+<!--          <field name="is_virtual_school" />-->
+<!--        </tree>-->
+<!--      </field>-->
+<!--    </record>-->
+
+    <record id="student_list_view_demo" model="ir.ui.view">
+      <field name="name">student.list.view.demo.dup</field>
       <field name="model">school.student</field>
       <field name="arch" type="xml">
-        <tree>
+        <tree editable="bottom">
+          <field name="student_seq" widget="handle"/>
           <field name="id" />
-          <field name="roll_number" />
-          <field name="create_uid"/>
           <field name="create_date"/>
-          <field name="name"/>
-          <field name="school_id"/>
-          <field name="is_virtual_school" />
+          <field name="create_uid"/>
+          <field name="roll_number" />
+          <field name="name" />
+          <field name="school_id" />
         </tree>
       </field>
     </record>
@@ -29,6 +45,7 @@
           <group>
             <group>
               <field name="name"/>
+              <field name="student_seq" />
               <field name="roll_number" />
               <field name="currency_id" />
               <field name="parent_name" />
