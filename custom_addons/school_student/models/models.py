@@ -44,6 +44,13 @@ class school_student(models.Model):
         #    required=True
     )
 
+    state = fields.Selection([
+        ('done', 'Done'),
+        ('draft','Draft'),
+        ('paid', 'Paid'),
+                              ('progress','Progress')
+
+                              ], string="State")
     student_seq = fields.Integer("Student Sequence")
     school_id = fields.Many2one("school.profile", string="School Name",
                                 required=True,
@@ -198,14 +205,14 @@ class school_student(models.Model):
 
             res['arch'] = etree.tostring(doc, encoding='unicode')
 
-        if view_type == 'tree':
-            doc = etree.XML(res['arch'])
-            school_field = doc.xpath("//field[@name='school_id']")
-            if school_field:
-                # Added one field in tree view.
-                school_field[0].addnext(etree.Element('field', {'string':'Total Fees',
-                                                                'name': 'total_fees'}))
-            res['arch'] = etree.tostring(doc, encoding='unicode')
+        # if view_type == 'tree':
+        #     doc = etree.XML(res['arch'])
+        #     school_field = doc.xpath("//field[@name='school_id']")
+        #     if school_field:
+        #         # Added one field in tree view.
+        #         school_field[0].addnext(etree.Element('field', {'string':'Total Fees',
+        #                                                         'name': 'total_fees'}))
+        #     res['arch'] = etree.tostring(doc, encoding='unicode')
         return res
 
 

@@ -30,55 +30,104 @@
           <field name="create_uid"  />
           <field name="roll_number" decoration-bf="1" optional="hide"/>
           <field name="name" decoration-bf="1" />
+            <field name="total_fees" avg="Average for this list of students."/>
           <field name="school_id" decoration-it="1" widget="badge"/>
+            <field name="state" />
             <button name="buttonClickEvent" string="Click Me!" type="object" class="fa fa-handshake-o" />
         </tree>
       </field>
     </record>
 
-    <record model="ir.ui.view" id="school_student.form">
-      <field name="name">school_student form</field>
-      <field name="model">school.student</field>
-      <field name="arch" type="xml">
-        <form duplicate="0">
-          <button name="custom_button_method" string="Custom Button Click Me!" type="object" />
-          <button name="wiz_open" string="Wizard open using custom method" type="object" />
-          <button name="school_student.student_fees_update_action" string="Wizard open using action" type="action" />
-          <button name="specialCommand6" type="object" string="Special Command 6, 0, ids" />
-          <group>
-            <group>
-              <field name="name"/>
-              <field name="student_seq" />
-              <field name="roll_number" />
-              <field name="currency_id" />
-              <field name="parent_name" />
-              <field name="school_id" string="School"/>
-                     <!--options="{'no_create':True, 'no_open':True}"
-                     domain="[('is_virtual_class','=', True),('school_type','!=',False)]"-->
-              <field name="school_address" string="School Address"
-                     nolabel="1"/>
-              <field name="hobby_list" widget="many2many_checkboxes"
-                     string="Hobby"
-                     help="Please select at least one hobby for this student."/>
-              <field name="student_fees" string="Fees" readonly="0"/>
-              <field name="total_fees" widget="monetary"/>
-              <field name="active"/>
-              <field name="bdate" attrs = "{'invisible':[('total_fees','=',0)], 'readonly':[('total_fees','=',1)],
-              'required':[('total_fees','=',2)]}"
-                     />
-              <field name="student_age" />
-              <field name="street" />
-              <field name="street_one" />
-              <field name="city" />
-              <field name="state" />
-              <field name="country" />
-              <field name="zip_code" />
+      <record id="student_form_view" model="ir.ui.view">
+          <field name="name">student.form.view</field>
+          <field name="model">school.student</field>
+          <field name="arch" type="xml">
+              <form>
+                  <header>
+                      <button class="btn-primary" name="custom_button_method" string="Custom Button Click Me!" type="object" />
+                      <button name="wiz_open" string="Wizard open using custom method" type="object" />
+                      <button name="school_student.student_fees_update_action" string="Wizard open using action" type="action" />
+                      <button class="oe_highlight" name="specialCommand6" type="object" string="Special Command 6, 0, ids" />
+                      <field name="state" widget="statusbar" statusbar_visible="draft,done,paid" />
+                      <!--                             statusbar_visible="draft,done,paid" /> Using this option you can control options in the statusbar.-->
+                  </header>
+                  <sheet>
+                      <notebook>
+                          <page string="Student Profile">
+                              <group>
+                                <group >
+                                    <field name="name" />
+                                    <field name="roll_number" />
+                                    <field name="school_id" />
+                                </group>
+                                <group>
+                                  <field name="id" />
+                                  <field name="create_date"/>
+                                  <field name="create_uid"/>
+                              </group>
+                              </group>
 
-            </group>
-          </group>
-        </form>
-      </field>
-    </record>
+                          </page>
+                          <page string="Student Technical Info">
+
+                          </page>
+                          <page string="Blank Page">
+
+                          </page>
+                      </notebook>
+
+
+                  </sheet>
+              </form>
+          </field>
+      </record>
+
+
+
+
+<!--    <record model="ir.ui.view" id="school_student.form">-->
+<!--      <field name="name">school_student form</field>-->
+<!--      <field name="model">school.student</field>-->
+<!--      <field name="arch" type="xml">-->
+<!--        <form duplicate="0">-->
+<!--          <button name="custom_button_method" string="Custom Button Click Me!" type="object" />-->
+<!--          <button name="wiz_open" string="Wizard open using custom method" type="object" />-->
+<!--          <button name="school_student.student_fees_update_action" string="Wizard open using action" type="action" />-->
+<!--          <button name="specialCommand6" type="object" string="Special Command 6, 0, ids" />-->
+<!--          <group>-->
+<!--            <group>-->
+<!--              <field name="name"/>-->
+<!--              <field name="student_seq" />-->
+<!--              <field name="roll_number" />-->
+<!--              <field name="currency_id" />-->
+<!--              <field name="parent_name" />-->
+<!--              <field name="school_id" string="School"/>-->
+<!--                     &lt;!&ndash;options="{'no_create':True, 'no_open':True}"-->
+<!--                     domain="[('is_virtual_class','=', True),('school_type','!=',False)]"&ndash;&gt;-->
+<!--              <field name="school_address" string="School Address"-->
+<!--                     nolabel="1"/>-->
+<!--              <field name="hobby_list" widget="many2many_checkboxes"-->
+<!--                     string="Hobby"-->
+<!--                     help="Please select at least one hobby for this student."/>-->
+<!--              <field name="student_fees" string="Fees" readonly="0"/>-->
+<!--              <field name="total_fees" widget="monetary"/>-->
+<!--              <field name="active"/>-->
+<!--              <field name="bdate" attrs = "{'invisible':[('total_fees','=',0)], 'readonly':[('total_fees','=',1)],-->
+<!--              'required':[('total_fees','=',2)]}"-->
+<!--                     />-->
+<!--              <field name="student_age" />-->
+<!--              <field name="street" />-->
+<!--              <field name="street_one" />-->
+<!--              <field name="city" />-->
+<!--              <field name="state" />-->
+<!--              <field name="country" />-->
+<!--              <field name="zip_code" />-->
+
+<!--            </group>-->
+<!--          </group>-->
+<!--        </form>-->
+<!--      </field>-->
+<!--    </record>-->
 
     <record model="ir.ui.view" id="hobby_form">
       <field name="name">hobby form</field>
