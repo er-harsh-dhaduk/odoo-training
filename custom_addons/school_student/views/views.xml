@@ -55,6 +55,11 @@
                       <notebook>
                           <page string="Student Profile">
                               <group>
+                                  <group>
+                                      <field name="student_img" class="oe_avatar" widget="image"/>
+                                  </group>
+                              </group>
+                              <group>
                                 <group >
                                     <field name="name" />
                                     <field name="roll_number" />
@@ -66,24 +71,52 @@
                                   <field name="create_uid"/>
                               </group>
                               </group>
-
                           </page>
                           <page string="Student Technical Info">
-
                           </page>
                           <page string="Blank Page">
-
                           </page>
                       </notebook>
-
-
                   </sheet>
               </form>
           </field>
       </record>
 
-
-
+    <record id="student_kanban_view" model="ir.ui.view">
+        <field name="name">student.kanban.view.demo</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <kanban>
+<!--                    records_draggable="0" to stop drag and drop feature in kanban view.-->
+                <field name="name" />
+                <field name="roll_number" />
+                <field name="school_id" />
+                <field name="id"/>
+                <field name="student_img" />
+                <field name="state" readonly="1"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                            <div class="o_kanban_image d-none d-md-block"
+                                t-attf-style="background-image:url('#{kanban_image('school.student', 'student_img', record.id.raw_value, placeholder)}')">
+<!--                                <img class="o_kanban_image_inner_pic"-->
+<!--                                     t-att-src="kanban_image('school.student', 'student_img', record.id.raw_value)"/>-->
+                            </div>
+                            <div class="oe_kanban_details d-flex flex-column">
+                                <strong>
+                                    <field name="name" />
+                                </strong>
+                                <ul>
+                                    <li>Roll Number:- <field name="roll_number" /></li>
+                                    <li>School:- <field name="school_id" /></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
 
 <!--    <record model="ir.ui.view" id="school_student.form">-->
 <!--      <field name="name">school_student form</field>-->
@@ -128,6 +161,42 @@
 <!--        </form>-->
 <!--      </field>-->
 <!--    </record>-->
+
+      <record id="school_student_calendar_view" model="ir.ui.view">
+          <field name="name">school.student.calendar.view</field>
+          <field name="model">school.student</field>
+          <field name="arch" type="xml">
+            <calendar date_start="create_date" mode="year">
+                <field name="name" />
+            </calendar>
+          </field>
+      </record>
+
+    <record id="school_student_graph_view" model="ir.ui.view">
+        <field name="name">school.student.graph.view</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <graph disable_linking="1" stacked="False" type="pie">
+                <field name="school_id" />
+                <field name="bdate" interval="year" />
+                <field name="total_fees" type="measure" />
+            </graph>
+        </field>
+    </record>
+
+      <record id="school_student_pivot_view" model="ir.ui.view">
+          <field name="name">school.student.pivot.view</field>
+          <field name="model">school.student</field>
+          <field name="arch" type="xml">
+              <pivot>
+                  <field name="total_fees" type="measure"/>
+<!--                  <field name="name" type="row"/>-->
+                  <field name="school_id" type="col"/>
+                  <field name="student_fees" type="col"/>
+                  <field name="bdate" type="row" interval="quarter"/>
+              </pivot>
+          </field>
+      </record>
 
     <record model="ir.ui.view" id="hobby_form">
       <field name="name">hobby form</field>
@@ -176,13 +245,28 @@
       </field>
     </record>
 
+    <record id="student_search_view" model="ir.ui.view">
+        <field name="name">student.search.view</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <group expand="0" string="Group By">
+                        <filter string="Birth Date" name="group_by_bdate" domain="[]" context="{'group_by': 'bdate'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
     <!-- actions opening views on models -->
 
     <record model="ir.actions.act_window" id="school_student.action_window">
       <field name="name">school_student window</field>
       <field name="res_model">school.student</field>
-      <field name="view_mode">tree,form</field>
+<!--        <field name="context">{'search_default_group_by_bdate':1}</field>-->
+      <field name="view_mode">pivot,calendar,kanban,graph,tree,form</field>
     </record>
+
+
 
     <record model="ir.actions.act_window" id="hobby_action_window">
       <field name="name">Hobby</field>

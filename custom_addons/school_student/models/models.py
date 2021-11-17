@@ -37,6 +37,7 @@ class school_student(models.Model):
     _description = 'school_student.school_student'
     # _order = "school_id"
     _order = "student_seq"
+    _rec_name = "name"
 
     roll_number = fields.Char("Roll Number")
     name = fields.Char(
@@ -44,6 +45,7 @@ class school_student(models.Model):
         #    required=True
     )
 
+    student_img = fields.Image("Student Image")
     state = fields.Selection([
         ('done', 'Done'),
         ('draft','Draft'),
@@ -84,7 +86,7 @@ class school_student(models.Model):
                               string="Reference Field",
                               default="school.profile,1")
     active = fields.Boolean(string="Active", default=True)
-    bdate = fields.Date(string="Date Of Birth")
+    bdate = fields.Date(string="Date Of Birth", defualt=fields.Date.today())
     student_age = fields.Char(string="Total Age", compute="_get_age_from_student")
 
     _sql_constraints = [
