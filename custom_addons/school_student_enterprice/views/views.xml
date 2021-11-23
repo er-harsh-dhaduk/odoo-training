@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="student_form_view" model="ir.ui.view">
+          <field name="name">student.form.view</field>
+          <field name="model">school.student</field>
+          <field name="inherit_id" ref="school_student.student_form_view" />
+          <field name="arch" type="xml">
+            <field name="school_id" position="after">
+                <field name="start_date" />
+                <field name="end_date" />
+            </field>
+          </field>
+    </record>
+
+    <record id="student_cohort_view" model="ir.ui.view">
+        <field name="name">sutdent.cohort.view</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <cohort mode="churn" interval="year" measure="total_fees"
+                    date_start="start_date" date_stop="end_date" string="Student" />
+        </field>
+    </record>
+
+    <record id="student_gantt_view" model="ir.ui.view">
+        <field name="name">student.gantt.view</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <gantt color="id" disable_drag_drop="1" plan="0" delete="0" cell_create="0" create="0"
+                    date_start="start_date" edit="0"
+                   date_stop="end_date"
+                   default_scale="week"
+                   scales="week,month"
+                   decoration-danger="state=='draft'"
+                   decoration-info="state=='paid'"
+                   decoration-success="state=='progress'"
+                   decoration-warning="state=='done'"
+                   default_group_by="school_id">
+                <field name="name" />
+                <field name="state" />
+                <field name="total_fees" />
+                <templates>
+                    <div t-name="gantt-popover">
+                        <ul class="pl-1 mb-0 list-unstyled">
+                            <li><strong>Start Date:</strong><t t-esc="start_date"/></li>
+                            <li><strong>End Date:</strong><t t-esc="end_date"/></li>
+                            <li><strong>State:</strong><t t-esc="state"/></li>
+                            <li><strong>Total Fees:</strong><t t-esc="total_fees"/></li>
+                        </ul>
+                    </div>
+                </templates>
+            </gantt>
+        </field>
+    </record>
+
+    <record id="school_student.school_student_action_window" model="ir.actions.act_window">
+        <field name="view_mode">kanban,gantt,calendar,tree,form,pivot,graph,cohort</field>
+    </record>
+
+</odoo>
