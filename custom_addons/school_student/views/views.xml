@@ -52,17 +52,19 @@
                       <!--                             statusbar_visible="draft,done,paid" /> Using this option you can control options in the statusbar.-->
                   </header>
                   <sheet>
+<!--                  For XPath  form->sheet->notebook->page->group[2]->group[2]->field-->
                       <notebook>
-                          <page string="Student Profile">
+                          <page string="Student Profile" id="page1">
                               <group>
-                                  <group>
+                                  <group id="student_profile">
                                       <field name="student_img" class="oe_avatar" widget="image"/>
                                   </group>
+
                               </group>
                               <group>
                                 <group >
-                                    <field name="name" />
-                                    <field name="roll_number" />
+                                    <field name="name"/>
+                                    <field name="roll_number" required="1" />
                                     <field name="school_id" />
                                 </group>
                                 <group>
@@ -72,9 +74,9 @@
                               </group>
                               </group>
                           </page>
-                          <page string="Student Technical Info">
+                          <page id="page2" string="Student Technical Info">
                           </page>
-                          <page string="Blank Page">
+                          <page id="page3" string="Blank Page">
                           </page>
                       </notebook>
                   </sheet>

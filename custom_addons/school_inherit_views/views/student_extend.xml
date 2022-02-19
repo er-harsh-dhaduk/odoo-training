@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+<!--    <record id="student_list_view_extend" model="ir.ui.view">-->
+<!--        <field name="name">student.list.view.extend</field>-->
+<!--        <field name="model">school.student</field>-->
+<!--        <field name="inherit_id" ref="school_student.student_list_view_demo"/>-->
+<!--                                     "module_name.xml_view_id"-->
+<!--        <field name="arch" type="xml">-->
+<!--            <field name="id" position="after">-->
+<!--                <field name="write_date" required="1" invisible="1" attrs="" domain="" attributs=""/>-->
+<!--            </field>-->
+<!--            <startendtag>-->
+
+<!--            </startendtag>-->
+
+<!--            Two tags we can extend any views.-->
+<!--            <field></field>-->
+<!--            <xpath></xpath>-->
+
+<!--                Position level-->
+<!--                -->
+<!--                after-->
+<!--                before-->
+<!--                inside-->
+<!--                replace-->
+<!--                attributes-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="student_form_view_extend" model="ir.ui.view">-->
+<!--        <field name="name">student.form.view.extend</field>-->
+<!--        <field name="model">school.student</field>-->
+<!--        <field name="inherit_id" ref="school_student.student_form_view"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <field name="create_uid" position="after">-->
+<!--                <field name="write_uid" />-->
+<!--                <field name="write_date" />-->
+<!--            </field>-->
+<!--            <field name="create_date" position="before">-->
+<!--                <field name="write_date" />-->
+<!--            </field>-->
+<!--            <field name="id" position="before">-->
+<!--                <h1>Hello</h1>-->
+<!--                <group>-->
+<!--                    <field name="write_uid" />-->
+<!--                </group>-->
+<!--                <field name="write_date" />-->
+<!--            </field>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="student_form_inherit_view" model="ir.ui.view">-->
+<!--        <field name="name">student.form.inherit.view</field>-->
+<!--        <field name="model">school.student</field>-->
+<!--        <field name="inherit_id" ref="school_student.student_form_view"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//form//sheet" position="inside">-->
+<!--                <group id="write_information">-->
+<!--                    <field name="write_uid" />-->
+<!--                    <field name="write_date" />-->
+<!--                </group>-->
+<!--            </xpath>-->
+
+<!--            form->sheet->notebook->page->group[2]->group[2]->field-->
+<!--            <xpath expr="//form//sheet//notebook//page[1]//group[2]//group[2]//field[@name='create_uid']" position="after">-->
+<!--                <field name="write_uid" />-->
+<!--                <field name="write_date" />-->
+<!--            </xpath>-->
+
+<!--            <xpath expr="//page[1]//group[2]//group[2]//field[@name='create_uid']" position="before">-->
+<!--                <field name="write_uid" />-->
+<!--                <field name="write_date" />-->
+<!--            </xpath>-->
+
+<!--            <xpath expr="//field[@name='create_uid']" position="before">-->
+<!--                <field name="write_uid" />-->
+<!--                <field name="write_date" />-->
+<!--            </xpath>-->
+
+<!--            <xpath expr="//page[1]//group[2]//group[1]" position="inside">-->
+<!--                <field name="write_uid"/>-->
+<!--                <field name="write_date" />-->
+<!--            </xpath>-->
+
+<!--            <xpath expr="//notebook" position="inside">-->
+<!--                <page string="Extend Page Example">-->
+<!--                    <group>-->
+<!--                        <field name="write_uid"/>-->
+<!--                        <field name="write_date" />-->
+<!--                    </group>-->
+<!--                </page>-->
+<!--            </xpath>-->
+
+<!--            <xpath expr="//group[@id='student_profile']" position="after">-->
+<!--                <group>-->
+<!--                    <field name="write_uid" />-->
+<!--                    <field name="write_date" />-->
+<!--                </group>-->
+<!--            </xpath>-->
+
+<!--            Below statement is not working as string selector.-->
+<!--            <xpath expr="//page[@string='Student Profile']" position="after">-->
+<!--                <field name="write_uid" />-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="student_extend_inherit_list_view" model="ir.ui.view">-->
+<!--        <field name="name">student.extend.inherit.list.view</field>-->
+<!--        <field name="model">school.student</field>-->
+<!--        <field name="inherit_id" ref="school_student.student_list_view_demo" />-->
+<!--        <field name="arch" type="xml">-->
+<!--            <field name="id" position="after">-->
+<!--                <field name="write_date" />-->
+<!--                <field name="write_uid" />-->
+<!--            </field>-->
+
+<!--            <xpath expr="//field[@name='id']" position="after">-->
+<!--                <field name="write_date" />-->
+<!--            </xpath>-->
+
+<!--            <xpath expr="//field[@name='create_uid']" position="after">-->
+<!--                <field name="write_uid" />-->
+<!--            </xpath>-->
+
+<!--            <xpath expr="//button[@name='buttonClickEvent']" position="after">-->
+<!--                <field name="write_uid" />-->
+<!--                <button name="buttonClickEvent" type="object" string="Button" />-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="student_form_inherit" model="ir.ui.view">-->
+<!--        <field name="name">student.form.inherit</field>-->
+<!--        <field name="model">school.student</field>-->
+<!--        <field name="inherit_id" ref="school_student.student_form_view"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <field name="roll_number" position="before">-->
+<!--                <label for="write_date">Write DATE</label>-->
+<!--                <field name="write_date" />-->
+<!--                <field name="write_uid" />-->
+<!--                <h1>Hello</h1>-->
+<!--            </field>-->
+
+<!--            <xpath expr="//notebook" position="before">-->
+<!--                <group>-->
+<!--                    <field name="write_date" />-->
+<!--                    <field name="write_uid" />-->
+<!--                </group>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="student_form_inherit" model="ir.ui.view">-->
+<!--        <field name="name">student.form.inherit</field>-->
+<!--        <field name="model">school.student</field>-->
+<!--        <field name="inherit_id" ref="school_student.student_form_view"/>-->
+<!--        <field name="arch" type="xml">-->
+
+<!--            <xpath expr="//notebook" position="inside">-->
+<!--                <page string="Extend Position Inside Option">-->
+<!--                    <h1>Inside Option</h1>-->
+<!--                </page>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//page[1]//group[1]" position="inside">-->
+<!--                <group string="Inside">-->
+<!--                    <h1>Inside the first group</h1>-->
+<!--                    <field name="write_date" />-->
+<!--                    <field name="write_uid" />-->
+<!--                </group>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//header" position="inside">-->
+<!--                <button name="wiz_open" string="Inside Button" type="object" />-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="student_view_form_extend" model="ir.ui.view">-->
+<!--        <field name="name">student.view.form.extend</field>-->
+<!--        <field name="model">school.student</field>-->
+<!--        <field name="inherit_id" ref="school_student.student_form_view" />-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//page[@id='page3']" position="replace" />-->
+<!--            <field name="id" position="replace" />-->
+<!--            <xpath expr="//field[@name='id']" position="replace" />-->
+
+<!--            <field name="name" position="replace" >-->
+<!--                <field name="name" required="1"/>-->
+<!--                <field name="write_date" />-->
+<!--                <field name="write_uid" />-->
+<!--            </field>-->
+
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="student_view_extend" model="ir.ui.view">
+        <field name="name">student.view.extend</field>
+        <field name="model">school.student</field>
+        <field name="inherit_id" ref="school_student.student_form_view" />
+        <field name="arch" type="xml">
+            <field name="name" position="attributes">
+                <attribute name="required">1</attribute>
+                <attribute name="readonly">1</attribute>
+            </field>
+
+            <xpath expr="//field[@name='roll_number']" position="attributes">
+                <attribute name="required">0</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
