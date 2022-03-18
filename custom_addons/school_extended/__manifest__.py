@@ -29,4 +29,8 @@
     'demo': [
         'demo/demo.xml',
     ],
+    'pre_init_hook':'your_method_name',
+    'post_init_hook':'your_method_name',
+    'uninstall_hook':'your_method_name',
+    'post_load':'your_method_name',
 }

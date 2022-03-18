@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="dynamic_student_list_view" model="ir.ui.view">
+        <field name="name">dynamic.student.list.view</field>
+        <field name="model">student.school.dynamic.view</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="school_name"/>
+                <field name="school_phone"/>
+                <field name="school_email"/>
+                <field name="school_type"/>
+                <field name="student_name"/>
+                <field name="student_rno"/>
+                <field name="student_fees"/>
+            </tree>
+        </field>
+    </record>
+
+     <record id="action_dynamic_student_view" model="ir.actions.act_window">
+        <field name="name">Dynamic Student View</field>
+        <field name="res_model">student.school.dynamic.view</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem id="dynamic_school_student_profile_menu" name="Dynamic School Student"
+              action="action_dynamic_student_view"
+              parent="school.school_sub_menu"/>
+</odoo>

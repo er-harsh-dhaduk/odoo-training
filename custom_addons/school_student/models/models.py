@@ -6,6 +6,15 @@ from odoo import models, fields, api, _, registry, tools as tl
 from odoo.exceptions import  UserError
 
 
+class Partner(models.Model):
+    _inherit = "res.partner"
+
+    def hello_hook(self):
+        print("hello hook")
+        for contact in self.search([]):
+            print(contact.display_name)
+
+
 class student_test_fees(models.Model):
     _name = "student.test.fees"
     _table = "student_fees_testing"
