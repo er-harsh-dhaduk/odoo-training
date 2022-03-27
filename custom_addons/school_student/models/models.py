@@ -48,7 +48,7 @@ class school_student(models.Model):
     _order = "student_seq"
     _rec_name = "name"
 
-    roll_number = fields.Char("Roll Number")
+    roll_number = fields.Char("Roll Number", groups="school.access_student_admin_level_group")
     name = fields.Char(
         default="Sunny Leaone",
         #    required=True
@@ -135,7 +135,15 @@ class school_student(models.Model):
         #         'target': 'new'}
 
     def custom_button_method(self):
-
+        return {
+            'type':'ir.actions.act_url',
+            # 'url':'/web#id=2&action=310&model=school.student&view_type=form&cids=1&menu_id=72',
+            # 'url':'http://localhost:8069/web#id=2&action=310&model=school.student&view_type=form&cids=1&menu_id=72',
+            # 'url':'contactus',
+            'url':'https://www.google.com',
+            # 'target':'self'
+        }
+        return "https://www.google.com"
         # self.env.cr.execute("insert into school_student(name, active) values('from button click', True)")
         # self.env.cr.commit()
 
@@ -168,7 +176,7 @@ class school_student(models.Model):
         # self.custom_new_method(random.randint(1,1000))
         # self.custom_method()
 
-        cli_commands = tl.config.options
+        # cli_commands = tl.config.options
         # print(cli_commands)
         # print(cli_commands.get("db_name"))
         # print(cli_commands.get("db_user"))
@@ -177,8 +185,8 @@ class school_student(models.Model):
         # print(cli_commands.get("dbfilter"))
         # print(cli_commands.get("weblearns"))
         # print(cli_commands.get("weblearns_author"))
-        if tl.config.options.get("weblearns") == "'Tutorials'":
-            tl.config.options['weblearns'] = "Odoo Tutorial"
+        # if tl.config.options.get("weblearns") == "'Tutorials'":
+        #     tl.config.options['weblearns'] = "Odoo Tutorial"
         # print(cli_commands.get("weblearns"))
         # print(cli_commands.get("weblearns_author"))
         # print(tl.config.options['weblearns'])

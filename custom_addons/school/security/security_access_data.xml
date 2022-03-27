@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="my_group_custom_category" model="ir.module.category">
+        <field name="name">Student Profile</field>
+    </record>
+
+    <record id="access_student_school_profile_group" model="res.groups">
+        <field name="name">Student School Profile</field>
+        <field name="category_id" ref="base.module_category_hidden" />
+    </record>
+
+    <record id="access_student_school_profile_extra_group" model="res.groups">
+        <field name="name">Student School Profile 1</field>
+        <field name="category_id" ref="base.module_category_usability" />
+    </record>
+
+    <record id="access_student_school_profile_extra_second_group" model="res.groups">
+        <field name="name">Student School Profile 2</field>
+        <field name="category_id" ref="base.module_category_accounting" />
+    </record>
+
+    <record id="access_student_extend_account_features" model="res.groups">
+        <field name="name">Student Accounting</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(6,0,[ref('analytic.group_analytic_tags'),ref('school.access_student_school_profile_group')])]" />
+    </record>
+
+<!--    <record id="school_student_profile_end_user_all_permission" model="ir.model.access">-->
+<!--        <field name="name">End user permission</field>-->
+<!--        <field name="model_id" ref="model_school_student_profile_security_example" />-->
+<!--        <field name="group_id" ref="school.access_student_school_profile_group" />-->
+<!--        <field name="perm_read">1</field>-->
+<!--        <field name="perm_create">1</field>-->
+<!--        <field name="perm_write">1</field>-->
+<!--        <field name="perm_unlink">1</field>-->
+<!--    </record>-->
+
+<!--    <record id="accesschool_user" model="ir.model.access">-->
+<!--        <field name="name">Base User</field>-->
+<!--        <field name="model_id" ref="model_school_profile" />-->
+<!--        <field name="group_id" ref="base.group_user" />-->
+<!--        <field name="perm_read">1</field>-->
+<!--        <field name="perm_create">1</field>-->
+<!--        <field name="perm_write">1</field>-->
+<!--        <field name="perm_unlink">1</field>-->
+<!--    </record>-->
+
+    <record id="access_for_student_profile" model="ir.rule">
+        <field name="name">Access Student Profile</field>
+        <field name="model_id" ref="school.model_school_student_profile_security_example" />
+        <field name="domain_force">[('create_uid', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('school.access_student_school_profile_group'))]" />
+    </record>
+
+    <record id="mystudent_category" model="ir.module.category">
+        <field name="name">Student Parent Category</field>
+    </record>
+
+    <record id="mystudent_sub_category" model="ir.module.category">
+        <field name="name">Student Sub Category</field>
+        <field name="parent_id" ref="school.mystudent_category" />
+    </record>
+
+     <record id="access_student_low_level_group" model="res.groups">
+        <field name="name">Student Low Level Group</field>
+         <field name="category_id" ref="school.mystudent_sub_category" />
+    </record>
+
+    <record id="access_student_mid_level_group" model="res.groups">
+        <field name="name">Student Mid Level Group</field>
+        <field name="category_id" ref="school.mystudent_sub_category" />
+        <field name="implied_ids" eval="[(6,0,[ref('school.access_student_low_level_group')])]" />
+    </record>
+
+    <record id="access_student_admin_level_group" model="res.groups">
+        <field name="name">Student Admin Level Group</field>
+        <field name="category_id" ref="school.mystudent_sub_category" />
+        <field name="implied_ids" eval="[(6,0,[ref('school.access_student_mid_level_group')])]" />
+    </record>
+</odoo>

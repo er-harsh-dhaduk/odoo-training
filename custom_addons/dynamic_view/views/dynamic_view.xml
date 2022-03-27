@@ -13,14 +13,38 @@
                 <field name="student_name"/>
                 <field name="student_rno"/>
                 <field name="student_fees"/>
+                <field name="student_seq"/>
             </tree>
         </field>
     </record>
 
+    <record id="school_student_dynamic_view_graph_view" model="ir.ui.view">
+        <field name="name">school.student.dynamic.view.graph.view</field>
+        <field name="model">student.school.dynamic.view</field>
+        <field name="arch" type="xml">
+            <graph>
+                <field name="school_name" />
+                <field name="student_fees" type="measure" />
+            </graph>
+        </field>
+    </record>
+
+     <record id="school_student_dynamic_view_pivot_view" model="ir.ui.view">
+          <field name="name">school.student.dynamic.viewpivot.view</field>
+          <field name="model">student.school.dynamic.view</field>
+          <field name="arch" type="xml">
+              <pivot>
+                  <field name="student_fees" type="measure"/>
+                  <field name="school_name" type="col"/>
+                  <field name="student_name" type="col"/>
+              </pivot>
+          </field>
+      </record>
+
      <record id="action_dynamic_student_view" model="ir.actions.act_window">
         <field name="name">Dynamic Student View</field>
         <field name="res_model">student.school.dynamic.view</field>
-        <field name="view_mode">tree</field>
+        <field name="view_mode">graph,pivot</field>
     </record>
 
     <menuitem id="dynamic_school_student_profile_menu" name="Dynamic School Student"

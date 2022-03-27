@@ -44,7 +44,9 @@
           <field name="arch" type="xml">
               <form>
                   <header>
-                      <button class="btn-primary" name="custom_button_method" string="Custom Button Click Me!" type="object" />
+                      <button class="btn-primary" name="custom_button_method" string="Custom Button Click Me!" type="object"
+                        groups="school.access_student_admin_level_group"
+                      />
                       <button name="wiz_open" string="Wizard open using custom method" type="object" />
                       <button name="school_student.student_fees_update_action" string="Wizard open using action" type="action" />
                       <button class="oe_highlight" name="specialCommand6" type="object" string="Special Command 6, 0, ids" />
@@ -54,7 +56,7 @@
                   <sheet>
 <!--                  For XPath  form->sheet->notebook->page->group[2]->group[2]->field-->
                       <notebook>
-                          <page string="Student Profile" id="page1">
+                          <page string="Student Profile" id="page1" >
                               <group>
                                   <group id="student_profile">
                                       <field name="student_img" class="oe_avatar" widget="image"/>
@@ -67,10 +69,10 @@
                                     <field name="roll_number" required="1" />
                                     <field name="school_id" />
                                 </group>
-                                <group>
+                                <group >
                                   <field name="id" />
-                                  <field name="create_date"/>
-                                  <field name="create_uid"/>
+                                  <field name="create_date" />
+                                  <field name="create_uid" />
                               </group>
                               </group>
                           </page>
@@ -254,7 +256,9 @@
             <search>
                 <field name="name" />
                 <group expand="0" string="Group By">
-                        <filter string="Birth Date" name="group_by_bdate" domain="[]" context="{'group_by': 'bdate'}"/>
+                        <filter string="Birth Date" name="group_by_bdate" domain="[]"
+                                groups="school.access_student_admin_level_group"
+                                context="{'group_by': 'bdate'}"/>
                 </group>
             </search>
         </field>
@@ -264,6 +268,7 @@
     <record model="ir.actions.act_window" id="school_student_action_window">
       <field name="name">Student</field>
       <field name="res_model">school.student</field>
+<!--        <field name="groups_id" eval="[(4,ref('school.access_student_admin_level_group'))]" />-->
 <!--        <field name="context">{'search_default_group_by_bdate':1}</field>-->
       <field name="view_mode">pivot,calendar,kanban,graph,tree,form</field>
     </record>
@@ -292,10 +297,16 @@
     </record>
 
 
+      <record id="urlaction_for_google" model="ir.actions.act_url">
+          <field name="name">Google Redirect Page</field>
+          <field name="url">https://youtube.com</field>
+          <field name="target">self</field>
+      </record>
+
     <!-- Top menu item -->
 
     <menuitem name="school_student" id="school_student.menu_root"
-        web_icon="school_student,odoo_icon.png"
+        web_icon="school_student,odoo_icon.png" groups="school.access_student_admin_level_group"
     />
         <!--web_icon="school_student,static/description/icon.png"-->
     <!-- menu categories -->
@@ -304,6 +315,8 @@
     <menuitem name="Menu 2" id="school_student.menu_2" parent="school_student.menu_root"/>
 
     <!-- actions -->
+    <menuitem name="URL Action" id="my_url_action_custom_url" parent="school_student.menu_1"
+              action="urlaction_for_google"/>
 
     <menuitem name="List" id="school_student.menu_1_list" parent="school_student.menu_1"
               action="school_student_action_window"/>

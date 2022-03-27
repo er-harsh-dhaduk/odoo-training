@@ -16,6 +16,8 @@ class StudentSchoolDynamicView(models.Model):
     student_name = fields.Char("Student Name")
     student_rno = fields.Char("Roll Number")
     student_fees = fields.Float(string="Student Fees")
+    student_seq = fields.Integer("Student Sequence")
+
 
     def init(self):
         tools.drop_view_if_exists(self.env.cr, self._table)
@@ -25,6 +27,7 @@ class StudentSchoolDynamicView(models.Model):
             std.roll_number as student_rno, 
             std.name as student_name, 
             std.student_fees as student_fees,
+            std.student_seq,
              sp.name as school_name,
              sp.email as school_email,
              sp.phone as school_phone,
