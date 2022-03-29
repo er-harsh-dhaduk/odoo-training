@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="school_student_profile_report_template">
+        <t t-call="web.html_container">
+          <t t-foreach="docs" t-as="doc">
+              <t t-call="qweb_pdf_report_example.sub_student_template" />
+          </t>
+        </t>
+    </template>
+
+    <template id="sub_student_template">
+        <t t-call="web.external_layout">
+                  <div class="page">
+<!--                        <p t-att="['style','background-color:red;']">-->
+<!--                            hello bigb...-->
+<!--                          </p>-->
+<!--                      <p t-att="{'style':'background-color:green;', 'href':'www.google.com'}">-->
+<!--                        Hello Big B......-->
+<!--                      </p>-->
+<!--                    <p t-attf-style="background-color:#{doc.roll_number};">-->
+                    <p t-attf-style="background-color:{{doc.roll_number if doc.roll_number else 'red'}};">
+                        Hello this is dynamic color changes....
+                    </p>
+<!--                      <a t-att-href="doc.school_id.email">Google</a>-->
+
+<!--                      its in sub template.-->
+                      <t t-call="qweb_pdf_report_example.sub_dataoutput_related_template" />
+                      <t t-call="qweb_pdf_report_example.sub_conditional_related_template" />
+                      <t t-call="qweb_pdf_report_example.sub_looping_related_template" />
+                      <t t-call="qweb_pdf_report_example.sub_variable_related_template" />
+                  </div>
+              </t>
+    </template>
+
+    <template id="sub_dataoutput_related_template">
+        yo ho this is data output template
+        <!--                      T-field, t-esc and t-out topic-->
+<!--                      <h1>Hello How are you ?</h1>-->
+<!--                      <t t-set="a" t-value="1234567890" />-->
+<!--                      <h1 t-esc="a" />-->
+<!--                      <p t-field="a" />-->
+<!--                      <p t-out="doc.name" /> this tag only works in v15 >= versions-->
+<!--                      <h2 t-esc="doc.name" />-->
+<!--                      <h3 t-esc="doc.name" />-->
+<!--                      <h4 t-esc="doc.name" />-->
+<!--                      <h5 t-esc="doc.name" />-->
+<!--                      <h6 t-esc="doc.name" />-->
+<!--                      <p t-esc="doc.name" />-->
+<!--                      <span t-esc="doc.name" />-->
+    </template>
+
+    <template id="sub_conditional_related_template">
+        yo ho this is conditional template
+        <!--                      conditional statement topic-->
+
+<!--                    <t t-if="doc.name == 'Shitaraman'">-->
+<!--                        <p>Yes this is <span t-esc="doc.name"/> </p>-->
+<!--                    </t>-->
+<!--                      <t t-elif="doc.name == 'JethaLal'">-->
+<!--                          <p>Yes, This is my fab student <span t-field="doc.name"/> </p>-->
+<!--                      </t>-->
+<!--                      <t t-else="">-->
+<!--                         <p> No this is not Shitaraman</p>-->
+<!--                          <p>This is <span t-field="doc.name"/> </p>-->
+<!--                      </t>-->
+
+<!--                      <p t-if="doc.name == 'Shitaraman'">Yes this is <span t-esc="doc.name"/> </p>-->
+<!--                      <p t-elif="doc.name == 'JethaLal'">Yes, This is my fab student <span t-field="doc.name"/> </p>-->
+<!--                      <p  t-else="">-->
+<!--                          No this is not Shitaraman<br/>-->
+<!--                          This is <span t-field="doc.name"/>-->
+<!--                      </p>-->
+    </template>
+
+    <template id="sub_looping_related_template">
+        yo ho this is looping template
+        <!--                      Looping Statement Topic-->
+
+<!--                      <t t-foreach="doc.school_id.school_list" t-as="rct">-->
+<!--                        <h1 t-esc="rct.name" />-->
+<!--                          sequence of foreach loop :- <span t-esc="rct_index" />-->
+<!--                          Is this first index? <span t-esc="rct_first" />-->
+<!--                          Is this last index? <span t-esc="rct_first" />-->
+
+<!--                          <p t-esc="rct" />-->
+<!--                          <p t-esc="rct_value" />-->
+<!--                          <p t-esc="rct_parity"/>-->
+<!--                            <p t-esc="rct_even" />-->
+<!--                            <p t-esc="rct_odd" />-->
+<!--                      </t>-->
+    </template>
+
+    <template id="sub_variable_related_template">
+        yo ho this is variable template
+        <!--                variable tutorial-->
+<!--                    <t t-set="a" t-value="1234"/>-->
+<!--                      <p t-esc="a" />-->
+
+<!--                      <t t-set="a" t-value="'WebLearns'" />-->
+<!--                      <p t-esc="a" />-->
+
+<!--                      <t t-set="a" t-value="doc.name" />-->
+<!--                      <p t-esc="a" />-->
+<!--                      <t t-set="abc" t-value="0" />-->
+<!--                      <t t-foreach="doc.school_id.school_list" t-as="rct">-->
+<!--                        <t t-set="abc" t-value="abc + 1"/>-->
+<!--                      </t>-->
+<!--                      <p t-esc="abc" />-->
+    </template>
+
+    <record id="student_custom_report_paperformat" model="report.paperformat">
+        <field name="name">Student Custom Paper Format</field>
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="margin_top">5</field>
+        <field name="margin_bottom">5</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="margin_top">5</field>
+        <field name="header_spacing">35</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="school_student_profile_report_temp" model="ir.actions.report">
+        <field name="name">Student Card</field>
+        <field name="model">school.student</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">qweb_pdf_report_example.school_student_profile_report_template</field>
+        <field name="report_file">qweb_pdf_report_example.school_student_profile_report_template</field>
+        <field name="print_report_name">'Student-Card'</field>
+        <field name="binding_model_id" ref="school_student.model_school_student"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="qweb_pdf_report_example.student_custom_report_paperformat" />
+    </record>
+</odoo>
