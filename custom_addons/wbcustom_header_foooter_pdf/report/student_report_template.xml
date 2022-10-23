@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="weblearns_layout">
+        <div class="header">
+            <div class="text-center" style="border-bottom: 1px solid black;">
+                <h1>Custom Header</h1>
+            </div>
+        </div>
+        <div class="article o_report_layout_standard">
+            <t t-out="0" />
+        </div>
+        <div class="footer o_standard_footer">
+            <div class="text-center" style="border-top: 1px solid black;">
+                <h1>Custom Footer</h1>
+            </div>
+        </div>
+    </template>
+
+    <template id="school_student_profile_custom_report_template">
+        <t t-call="web.html_container">
+          <t t-foreach="docs" t-as="doc">
+              <t t-call="wbcustom_header_foooter_pdf.weblearns_layout">
+                <h1 t-field="doc.name"/>
+              </t>
+          </t>
+        </t>
+    </template>
+
+    <record id="school_student_profile_report_temp" model="ir.actions.report">
+        <field name="name">Custom Student Card</field>
+        <field name="model">school.student</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">wbcustom_header_foooter_pdf.school_student_profile_custom_report_template</field>
+        <field name="report_file">wbcustom_header_foooter_pdf.school_student_profile_custom_report_template</field>
+        <field name="print_report_name">'Student-Card'</field>
+        <field name="binding_model_id" ref="school_student.model_school_student"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>
