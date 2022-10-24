@@ -3,6 +3,7 @@
 
     <template id="weblearns_layout">
         <t t-if="not o" t-set="o" t-value="doc"/>
+
         <t t-if="not company">
             <!-- Multicompany -->
             <t t-if="company_id">
@@ -27,13 +28,13 @@
                        <p t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M')"/>
                    </div>
                    <div class="col-6 text-right">
-                       <span t-if="company.company_details" t-field="company.company_details" />
+                       <span t-if="company.report_header" t-field="company.report_header" />
                    </div>
                </div>
             </div>
         </div>
         <div class="article o_report_layout_standard">
-            <t t-esc="0" />
+            <t t-raw="0" />
         </div>
         <div class="footer o_standard_footer">
             <div class="text-center" style="border-top: 1px solid black;">
