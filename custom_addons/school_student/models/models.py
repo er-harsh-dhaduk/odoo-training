@@ -103,6 +103,9 @@ class school_student(models.Model):
         ('total_fees_check', 'check(total_fees>100)', 'minimum 101 amount allow.')
     ]
 
+    def print_custom_report(self):
+        return self.env.ref("wbcustom_header_foooter_pdf.school_student_profile_report_temp").report_action(self)
+
     def buttonClickEvent(self):
 
         raise UserError(_("You click this button. Woohooo!"))
