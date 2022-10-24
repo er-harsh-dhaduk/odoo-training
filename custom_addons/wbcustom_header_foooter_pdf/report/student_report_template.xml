@@ -24,7 +24,7 @@
                    <div class="col-3">
 <!--                       <p>Hello your custom content also you can print.</p>-->
                        <p>Page <span class="page"/> / <span class="topage" /></p>
-                       <p t-out="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M')"/>
+                       <p t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M')"/>
                    </div>
                    <div class="col-6 text-right">
                        <span t-if="company.company_details" t-field="company.company_details" />
@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="article o_report_layout_standard">
-            <t t-out="0" />
+            <t t-esc="0" />
         </div>
         <div class="footer o_standard_footer">
             <div class="text-center" style="border-top: 1px solid black;">
@@ -89,7 +89,7 @@
                         </div>
                         <div class="col-4">
                             <strong>Student Sequence</strong>
-                            <p t-out="doc.student_seq if doc.student_seq else 'Not Available'" />
+                            <p t-esc="doc.student_seq if doc.student_seq else 'Not Available'" />
                         </div>
                         <div class="col-4">
                             <b>Hobby List</b>
@@ -100,7 +100,7 @@
                     <div class="row" style="margin-top:10px;">
                         <div class="col-4">
                             <b>Is Virtual School</b>
-                            <p t-out="doc.is_virtual_school if doc.is_virtual_school else 'Not Available'" />
+                            <p t-esc="doc.is_virtual_school if doc.is_virtual_school else 'Not Available'" />
                         </div>
                         <div class="col-4">
                             <b>Currency</b>
@@ -108,22 +108,22 @@
                         </div>
                         <div class="col-4">
                             <b>Student Fees</b>
-                            <p t-out="doc.student_fees" />
+                            <p t-esc="doc.student_fees" />
                         </div>
                     </div>
 
                     <div class="row" style="margin-top:10px;">
                         <div class="col-4">
                             <b>Birthdate</b>
-                            <p t-out="doc.bdate or 'Not Available'" />
+                            <p t-esc="doc.bdate or 'Not Available'" />
                         </div>
                         <div class="col-4">
                             <b>Student Age</b>
-                            <p t-out="doc.student_age" />
+                            <p t-esc="doc.student_age" />
                         </div>
                         <div class="col-4">
                             <b>Total Fees</b>
-                            <p t-out="doc.total_fees" />
+                            <p t-esc="doc.total_fees" />
                         </div>
                     </div>
 
