@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="student_email_template" model="mail.template">
+            <field name="name">First email template for student profile.</field>
+            <field name="model_id" ref="school_student.model_school_student"/>
+            <field name="subject">Email Subject</field>
+            <field name="email_from">${object.school_id.email}</field>
+            <field name="email_to">${object.create_uid.partner_id.id}</field>
+            <field name="report_template" ref="wbcustom_header_foooter_pdf.school_student_profile_report_temp"/>
+            <field name="report_name">${object.name}</field>
+            <field name="body_html"><![CDATA[
+                % set student_age = object.get_custom_values_by_email_template()
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>School</th>
+                        <th>Total Fees</th>
+                    </tr>
+                    <tr>
+                        <td>${object.name}</td>
+                        <td>${object.school_id.name}</td>
+                        <td>${object.total_fees}</td>
+                    </tr>
+                </table>
+                Hobby is :
+                % if object.hobby_list:
+                    % for hobby in object.hobby_list:
+                        ${hobby.name}
+                    % endfor
+                % else:
+                    <b>Not Available</b>
+                % endif
+                <br/>
+                % if object.id == 1:
+                    <p>This student having id 1</p>
+                % elif object.id in [2,3,4,5,6,7,8,9]:
+                    <p>This student having id ${object.id}</p>
+                % else:
+                    <p>This student don't have any id</p>
+                % endif
+                % for stud in object.school_id.school_list:
+                    <p>${stud.name}</p>
+                % endfor
+
+                % if student_age:
+                    <b>${student_age}</b>
+                % else:
+                     <b>Age is not available for this student.</b>
+                % endif
+
+<!--                % set products = object.env['product.product'].search([], order='id')-->
+<!--                <table>-->
+<!--                    <tr>-->
+
+<!--                        <th>Product Name</th>-->
+<!--                        <th>Price</th>-->
+<!--                    </tr>-->
+<!--                    % for prd in products:-->
+<!--                        <tr>-->
+<!--                            <td>${prd.name}</td>-->
+<!--                            <td>-->
+<!--                                <img alt="productimage" src="/web/image/product.product/${prd.id}/image_128" style="height:50px;width:50px;object-fit:contain;"></img>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                    % endfor-->
+                </table>
+            ]]></field>
+        </record>
+    </data>
+</odoo>

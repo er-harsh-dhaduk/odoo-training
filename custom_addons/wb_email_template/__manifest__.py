@@ -1,0 +1,1 @@
+{    'name':'Custom Email Template',    'version': '1.1',    'author': 'Weblearns',    'summary': "Custom Email Template",    'sequence': 1,    'description':"Custom Email Template",    'category':'School',    'website':'https://freeweblearns.blogspot.com',    'depends':['school', 'school_student'],    'data':[        'data/email_template.xml'    ]}
