@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="student_email_template" model="mail.template">
+        <field name="name">Student Email Template</field>
+        <field name="model_id" ref="school_student.model_school_student" />
+        <field name="subject">Student Notification</field>
+        <field name="email_from">{{ object.create_uid.email_formatted or ''}}</field>
+        <field name="email_to">{{ object.school_id.email or ''}}</field>
+        <field name="partner_to">{{ object.write_uid.partner_id.id or False}}</field>
+        <field name="report_template" ref="wbcustom_header_foooter_pdf.school_student_profile_report_temp"/>
+        <field name="report_name">Student_{{ object.name }}_name</field>
+        <field name="body_html" type="html">
+            <div class="text-center">
+                <p>Dear Student <span t-field="object.name" />,</p>
+                <img t-attf-src="data:image/png;base64,{{object.student_img}}"
+                     style="width:65px;height:65px;object-fit:cover;" alt="img"/>
+            </div>
+
+            <t t-set="abc" t-value="100" />
+            <span t-out="abc" />
+            <t t-set="abc" t-value="object" />
+            <span t-out="abc.name" /><br/>
+            <span t-out="abc.return_string_from_backend_to_emailtemplate()" />
+
+            <t t-if="object.bdate">
+                <p>Student Birthday <span t-field="object.bdate"/> </p>
+            </t>
+            <t t-else="">
+                <p>Student birthdate is not available.</p>
+            </t>
+
+            <t t-if="object.id == 1">
+                <p>1</p>
+            </t>
+            <t t-elif="object.id in [2,3,4,5]">
+                <p t-out="object.id" />
+            </t>
+            <t t-else="">
+                <p>id out of index</p>
+            </t>
+
+            <t t-foreach="object.hobby_list" t-as="hobby">
+                <span t-out="hobby_odd" />
+                <span t-out="hobby_even" />
+                <span t-out="hobby_index" /> :- <span t-out="hobby.name"/><br/>
+            </t>
+
+
+
+<!--            <p t-if="object.bdate">Student Birthday <span t-field="object.bdate"/> </p>-->
+            <p>School name is <span t-out="object.school_id.name" /></p>
+            <p>This is temporary email you received from odoo v15 community version.</p>
+            <p>Thank You,</p>
+            <p>Weblearns</p>
+
+
+        </field>
+    </record>
+
+</odoo>

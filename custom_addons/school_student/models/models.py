@@ -103,6 +103,12 @@ class school_student(models.Model):
         ('total_fees_check', 'check(total_fees>100)', 'minimum 101 amount allow.')
     ]
 
+    def send_email_template(self):
+        self.env.ref("wb_email_template.student_email_template").send_mail(self.id, force_send=True)
+
+    def return_string_from_backend_to_emailtemplate(self):
+        return "Weblearns"
+
     def print_custom_report(self):
         return self.env.ref("wbcustom_header_foooter_pdf.school_student_profile_report_temp").report_action(self)
 
