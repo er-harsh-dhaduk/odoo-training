@@ -50,7 +50,7 @@ class school_student(models.Model):
 
     roll_number = fields.Char("Roll Number", groups="school.access_student_admin_level_group")
     name = fields.Char(
-        default="Sunny Leaone",
+        default="Sunny Leaone", translate=True
         #    required=True
     )
 
@@ -223,7 +223,7 @@ class school_student(models.Model):
             name_field = doc.xpath("//field[@name='name']")
             if name_field:
                 # Added one label in form view.
-                name_field[0].addnext(etree.Element('label', {'string':'Hello this is custom label from fields_view_get method'}))
+                name_field[0].addnext(etree.Element('label', {'string': _('Hello this is custom label from fields_view_get method')}))
 
             #override attribute
             address_field = doc.xpath("//field[@name='school_address']")
