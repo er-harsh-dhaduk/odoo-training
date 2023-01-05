@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sale_daily_revenue_report" model="ir.actions.report">
+        <field name="name">Récapitulatif de recettes journalier</field>
+        <field name="model">report.phi_pos_report.report_daily_revenue</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">phi_pos_report.report_daily_revenue</field>
+    </record>
+    <record id="sale_monthly_revenue_report" model="ir.actions.report">
+        <field name="name">Récapitulatif de recettes mensuel</field>
+        <field name="model">report.phi_pos_report.report_monthly_revenue</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">phi_pos_report.report_monthly_revenue</field>
+    </record>
+
+</odoo>

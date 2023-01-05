@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="action_report_pos_daily_revenue" model="ir.actions.act_window">
+            <field name="name">Récapitulatif de recettes journalier</field>
+            <field name="res_model">pos.daily.revenue.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    <record id="action_report_pos_monthly_revenue" model="ir.actions.act_window">
+            <field name="name">Récapitulatif de recettes mensuel</field>
+            <field name="res_model">pos.monthly.revenue.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    <record id="action_report_pos_annual_revenue" model="ir.actions.act_window">
+            <field name="name">Récapitulatif de recettes annuel</field>
+            <field name="res_model">pos.annual.revenue.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    <menuitem action="action_report_pos_daily_revenue" parent="point_of_sale.menu_point_rep"
+              id="pos_report_sub_menu_1"
+              name="Récapitulatif de recettes journalier" sequence="12"/>
+    <menuitem action="action_report_pos_monthly_revenue" parent="point_of_sale.menu_point_rep"
+              id="pos_report_sub_menu_2"
+              name="Récapitulatif de recettes mensuel" sequence="13"/>
+    <menuitem action="action_report_pos_annual_revenue" parent="point_of_sale.menu_point_rep"
+              id="pos_report_sub_menu_3"
+              name="Récapitulatif de recettes annuel" sequence="14"/>
+
+</odoo>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_pos_daily_saledetails">
+        <t t-set="company" t-value="env.company"/>
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <div class="text-center">
+                        <h2>Récapitulation des recettes journalier</h2>
+                        <strong><t t-esc="date_report" t-options="{'widget': 'date'}"/></strong>
+                    </div>
+                    <h3>TICKETS</h3>
+
+                        <br/>
+                        <table  class="table table-sm">
+                            <thead><tr>
+                            <th>TICKETS</th>
+                            <th scope="col" style="background-color:#ED8B16">TOTAL</th>
+                            <th scope="col" style="background-color:#79717A">TOTAL Année précédente</th>
+                            <th scope="col">VARIATION</th>
+                            <th scope="col">% VARIATION</th>
+                        </tr></thead>
+                            <tbody>
+                                    <tr>
+                                        <th scope="row">Quantité d'article</th>
+                                        <td style="background-color:#ED8B16"><t t-esc="sales_today"/></td>
+                                        <td style="background-color:#79717A"><t t-esc="sales_prev_year"/></td>
+                                        <td><t t-esc="variance_sales" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                        <td><t t-esc="perc_variance_sales" t-options="{'widget': 'float', 'precision': 2}"/>%</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Nombre des tickets</th>
+                                        <td style="background-color:#ED8B16"><t t-esc="ticket_this_year"/></td>
+                                        <td style="background-color:#79717A"><t t-esc="ticket_prev_year"/></td>
+                                        <td><t t-esc="variance_ticket"/></td>
+                                        <td><t t-esc="perc_variance_ticket"/>%</td>
+                                    </tr>
+
+                            </tbody>
+                        </table>
+
+
+                        <br/>
+                        <h3>RECETTES</h3>
+                            <table  class="table table-sm">
+                                <thead><tr>
+                                    <th>RECETTES</th>
+                                    <th scope="col">Quantité d'article</th>
+                                    <th scope="col" style="background-color:#ED8B16">Total</th>
+                                    <th scope="col" style="background-color:#79717A">TOTAL Année précédente</th>
+                                    <th scope="col">VARIATION</th>
+                                    <th scope="col">% VARIATION</th>
+                                </tr></thead>
+                                <tbody>
+                                    <t t-foreach="categories" t-as="categ">
+                                        <tr>
+                                            <td><t t-esc="categ['name']"/></td>
+                                            <td><t t-esc="categ['qty']"/></td>
+                                            <td style="background-color:#ED8B16"><t t-esc="categ['amount']" t-options="{'widget': 'float', 'precision': currency_precision}"/></td>
+                                            <td style="background-color:#79717A"><t t-esc="categ['amount_last_year']" t-options="{'widget': 'float', 'precision': currency_precision}"/></td>
+                                            <td><t t-esc="categ['variance']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                            <td><t t-esc="categ['perc_variance']" t-options="{'widget': 'float', 'precision': 2}"/>%</td>
+                                        </tr>
+                                    </t>
+                                    <tr style="background-color: #E7E9EB;">
+                                        <td>Total Recettes</td>
+                                        <td><t t-esc="categories_result['qty']"/></td>
+                                        <td style="background-color:#ED8B16"><t t-esc="categories_result['amount']" t-options="{'widget': 'float', 'precision': currency_precision}"/></td>
+                                        <td style="background-color:#79717A"><t t-esc="categories_result['amount_last_year']" t-options="{'widget': 'float', 'precision': currency_precision}"/></td>
+                                        <td><t t-esc="categories_result['variance']" t-options="{'widget': 'float', 'precision': 2}"/></td>
+                                        <td><t t-esc="categories_result['perc_variance']" t-options="{'widget': 'float', 'precision': 2}"/>%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        <br/>
+                </div>
+            </t>
+        </t>
+    </template>
+    <record id="sale_daily_revenue_report" model="ir.actions.report">
+        <field name="name">Récapitulatif de recettes journalier</field>
+        <field name="model">phi_pos_report.report_pos_daily_saledetails</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">phi_pos_report.report_pos_daily_saledetails</field>
+        <field name="report_file">phi_pos_report.report_pos_daily_saledetails</field>
+    </record>
+</odoo>

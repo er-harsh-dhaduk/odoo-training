@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pos_daily_revenue_wizard,access.pos.daily.revenue.wizard,model_pos_daily_revenue_wizard,base.group_user,1,1,1,1
+access_pos_monthly_revenue_wizard,access.pos.monthly.revenue.wizard,model_pos_monthly_revenue_wizard,base.group_user,1,1,1,1
+access_pos_annual_revenue_wizard,access.pos.annual.revenue.wizard,model_pos_annual_revenue_wizard,base.group_user,1,1,1,1

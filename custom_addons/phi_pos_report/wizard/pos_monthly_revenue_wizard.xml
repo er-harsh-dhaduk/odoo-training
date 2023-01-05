@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_pos_monthly_revenue_wizard" model="ir.ui.view">
+            <field name="name">pos.monthly.revenue.wizard.form</field>
+            <field name="model">pos.monthly.revenue.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Monthly Sales Details">
+                    <group>
+                        <field name="order_month"/>
+                        <field name="order_year" options='{"type":"number", "step": 1}'/>
+                    </group>
+                    <group>
+                        <field name="pos_config_ids" mode="tree" colspan="4" nolabel="1" />
+                    </group>
+                    <footer>
+                        <button name="generate_report" string="IMPRIMER" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="ANNULER" class="btn-secondary" special="cancel" data-hotkey="z" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+</odoo>
