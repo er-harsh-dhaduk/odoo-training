@@ -1,0 +1,92 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* wbcustom_header_foooter_pdf
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-01-05 13:08+0000\n"
+"PO-Revision-Date: 2023-01-05 13:08+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: wbcustom_header_foooter_pdf
+#: model:ir.actions.report,print_report_name:wbcustom_header_foooter_pdf.school_student_profile_report_temp
+msgid "'Student-Card'"
+msgstr "'بطاقة طالب'"
+
+#. module: wbcustom_header_foooter_pdf
+#: model_terms:ir.ui.view,arch_db:wbcustom_header_foooter_pdf.school_student_profile_custom_report_template
+msgid "<b>Birthdate</b>"
+msgstr "<b>تاريخ الميلاد</b>"
+
+#. module: wbcustom_header_foooter_pdf
+#: model_terms:ir.ui.view,arch_db:wbcustom_header_foooter_pdf.school_student_profile_custom_report_template
+msgid "<b>Currency</b>"
+msgstr "<b>العملة</b>"
+
+#. module: wbcustom_header_foooter_pdf
+#: model_terms:ir.ui.view,arch_db:wbcustom_header_foooter_pdf.school_student_profile_custom_report_template
+msgid "<b>Hobby List</b>"
+msgstr "<b>قائمة الهوايات</b>"
+
+#. module: wbcustom_header_foooter_pdf
+#: model_terms:ir.ui.view,arch_db:wbcustom_header_foooter_pdf.school_student_profile_custom_report_template
+msgid "<b>Is Virtual School</b>"
+msgstr "<b>هي مدرسة افتراضية</b>"
+
+#. module: wbcustom_header_foooter_pdf
+#: model_terms:ir.ui.view,arch_db:wbcustom_header_foooter_pdf.school_student_profile_custom_report_template
+msgid "<b>Roll Number</b>"
+msgstr "<b>رقم اللفة</b>"
+
+#. module: wbcustom_header_foooter_pdf
+#: model_terms:ir.ui.view,arch_db:wbcustom_header_foooter_pdf.school_student_profile_custom_report_template
+msgid "<b>School Address</b>"
+msgstr "<b>عنوان المدرسة</b>"
+
+#. module: wbcustom_header_foooter_pdf
+#: model_terms:ir.ui.view,arch_db:wbcustom_header_foooter_pdf.school_student_profile_custom_report_template
+msgid "<b>School Name</b>"
+msgstr "<b>اسم المدرسة</b>"
+
+#. module: wbcustom_header_foooter_pdf
+#: model_terms:ir.ui.view,arch_db:wbcustom_header_foooter_pdf.school_student_profile_custom_report_template
+msgid "<b>Student Age</b>"
+msgstr "<b>عمر الطالب</b>"
+
+#. module: wbcustom_header_foooter_pdf
+#: model_terms:ir.ui.view,arch_db:wbcustom_header_foooter_pdf.school_student_profile_custom_report_template
+msgid "<b>Student Fees</b>"
+msgstr "<b>رسوم الطالب</b>"
+
+#. module: wbcustom_header_foooter_pdf
+#: model_terms:ir.ui.view,arch_db:wbcustom_header_foooter_pdf.school_student_profile_custom_report_template
+msgid "<b>Total Fees</b>"
+msgstr "<b>إجمالي الرسوم</b>"
+
+#. module: wbcustom_header_foooter_pdf
+#: model_terms:ir.ui.view,arch_db:wbcustom_header_foooter_pdf.school_student_profile_custom_report_template
+msgid "<strong>Student Sequence</strong>"
+msgstr "<strong>تسلسل الطالب</strong>"
+
+#. module: wbcustom_header_foooter_pdf
+#: model:ir.actions.report,name:wbcustom_header_foooter_pdf.school_student_profile_report_temp
+msgid "Custom Student Card"
+msgstr "بطاقة الطالب المخصصة"
+
+#. module: wbcustom_header_foooter_pdf
+#: model_terms:ir.ui.view,arch_db:wbcustom_header_foooter_pdf.weblearns_layout
+msgid "Page <span class=\"page\"/> / <span class=\"topage\"/>"
+msgstr "صفحة <span class=\"page\"/> / <span class=\"topage\"/>"
+
+#. module: wbcustom_header_foooter_pdf
+#: model_terms:ir.ui.view,arch_db:wbcustom_header_foooter_pdf.school_student_profile_custom_report_template
+#: model_terms:ir.ui.view,arch_db:wbcustom_header_foooter_pdf.weblearns_layout
+msgid "img"
+msgstr "صورة"
