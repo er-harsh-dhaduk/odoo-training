@@ -50,7 +50,7 @@ class school_student(models.Model):
 
     roll_number = fields.Char("Roll Number", groups="school.access_student_admin_level_group")
     name = fields.Char(
-        default="Sunny Leaone",
+        default="Sunny Leaone", translate=True
         #    required=True
     )
 
@@ -103,8 +103,14 @@ class school_student(models.Model):
         ('total_fees_check', 'check(total_fees>100)', 'minimum 101 amount allow.')
     ]
 
+    def send_email_template(self):
+        self.env.ref("wb_email_template.student_email_template").send_mail(self.id, force_send=True)
+
+    def return_string_from_backend_to_emailtemplate(self):
+        return "Weblearns"
+
     def print_custom_report(self):
-        return self.env.ref("wbcustom_header_foooter_pdf.school_student_profile_report_temp").report_action(self)
+        return self.env.ref("wbcustom_header_foooter_pdf.school_student_profile_report_temp_second").report_action(self)
 
     def buttonClickEvent(self):
 
@@ -217,7 +223,7 @@ class school_student(models.Model):
             name_field = doc.xpath("//field[@name='name']")
             if name_field:
                 # Added one label in form view.
-                name_field[0].addnext(etree.Element('label', {'string':'Hello this is custom label from fields_view_get method'}))
+                name_field[0].addnext(etree.Element('label', {'string': _('Hello this is custom label from fields_view_get method')}))
 
             #override attribute
             address_field = doc.xpath("//field[@name='school_address']")

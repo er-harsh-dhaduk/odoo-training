@@ -44,6 +44,7 @@
           <field name="arch" type="xml">
               <form>
                   <header>
+                      <button name="send_email_template" type="object" string="Send Mail" />
                       <button name="print_custom_report" type="object" string="Print Custom Report" />
                       <button class="btn-primary" name="custom_button_method" string="Custom Button Click Me!" type="object"
                         groups="school.access_student_admin_level_group"
