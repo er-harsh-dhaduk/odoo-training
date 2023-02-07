@@ -1,2 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-accesschool_student_school_dynamic_view_user,Dynamic Model,model_student_school_dynamic_view,base.group_user,1,1,1,1
