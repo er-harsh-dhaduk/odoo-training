@@ -10,6 +10,7 @@
         <field name="partner_to">{{ object.write_uid.partner_id.id or False}}</field>
         <field name="report_template" ref="wbcustom_header_foooter_pdf.school_student_profile_report_temp"/>
         <field name="report_name">Student_{{ object.name }}_name</field>
+        <field name="lang">{{ object.create_uid.lang }}</field>
         <field name="body_html" type="html">
             <div class="text-center">
                 <p>Dear Student <span t-field="object.name" />,</p>
