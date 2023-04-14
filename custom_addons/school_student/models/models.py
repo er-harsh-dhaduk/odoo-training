@@ -32,7 +32,7 @@ class Address(models.Model):
     _name = "address"
     _rec_name = "street"
 
-    street = fields.Char("Street")
+    street = fields.Char("Street", tracking=True)
     street_one = fields.Char("Street2")
     city = fields.Char("City")
     state = fields.Char("State")
@@ -42,15 +42,16 @@ class Address(models.Model):
 
 class school_student(models.Model):
     _name = 'school.student'
-    _inherit = "address"
+    _inherit = ["address", "mail.thread"]
+
     _description = 'school_student.school_student'
     # _order = "school_id"
     _order = "student_seq"
     _rec_name = "name"
 
-    roll_number = fields.Char("Roll Number", groups="school.access_student_admin_level_group")
+    roll_number = fields.Char("Roll Number")
     name = fields.Char(
-        default="Sunny Leaone", translate=True
+        default="Sunny Leaone", translate=True, tracking=True
         #    required=True
     )
 
@@ -64,7 +65,7 @@ class school_student(models.Model):
                               ], string="State")
     student_seq = fields.Integer("Student Sequence")
     school_id = fields.Many2one("school.profile", string="School Name",
-                                required=True,
+                                required=True, tracking=True
                                 # Single Multi domain working
                                 # domain="[('school_type','=','public'),"
                                 #        "('is_virtual_class', '=', True)]"
@@ -103,6 +104,15 @@ class school_student(models.Model):
         ('total_fees_check', 'check(total_fees>100)', 'minimum 101 amount allow.')
     ]
 
+    def customLogs(self):
+        # Simple message
+        # self.message_post(body="Hello this is custom log from button click event.")
+
+        # HTML content
+        # self.message_post(body="<h1>Hello Weblearns Community,</h1><p>How are you?</p>")
+
+        self.message_post(body="<a href='https://youtube.com/@Weblearns'>Weblearns</a> Youtube channel for Odoo development.")
+
     def send_email_template(self):
         self.env.ref("wb_email_template.student_email_template").send_mail(self.id, force_send=True)
 
@@ -111,6 +121,10 @@ class school_student(models.Model):
 
     def print_custom_report(self):
         return self.env.ref("wbcustom_header_foooter_pdf.school_student_profile_report_temp").report_action(self)
+
+    def _get_report_base_filename(self):
+        # return self.name # Dynamic Report Name
+        return "StudentReport" # Static Report Name
 
     def buttonClickEvent(self):
 
@@ -394,7 +408,11 @@ class SchoolProfile(models.Model):
 class Hobbies(models.Model):
     _name = "hobby"
 
-    name = fields.Char("Hobby")
+    name = fields.Char("Hobby", tracking=True)
+
+    def postMsg(self):
+        # This method will raise error due to message_post method is not available.
+        self.message_post("Hello test")
 
 
 class Partner(models.Model):

@@ -46,12 +46,12 @@
 <!--        <field name="perm_unlink">1</field>-->
 <!--    </record>-->
 
-    <record id="access_for_student_profile" model="ir.rule">
-        <field name="name">Access Student Profile</field>
-        <field name="model_id" ref="school.model_school_student_profile_security_example" />
-        <field name="domain_force">[('create_uid', '=', user.id)]</field>
-        <field name="groups" eval="[(4, ref('school.access_student_school_profile_group'))]" />
-    </record>
+<!--    <record id="access_for_student_profile" model="ir.rule">-->
+<!--        <field name="name">Access Student Profile</field>-->
+<!--        <field name="model_id" ref="school.model_school_student_profile_security_example" />-->
+<!--        <field name="domain_force">[('create_uid', '=', user.id)]</field>-->
+<!--        <field name="groups" eval="[(4, ref('school.access_student_school_profile_group'))]" />-->
+<!--    </record>-->
 
     <record id="mystudent_category" model="ir.module.category">
         <field name="name">Student Parent Category</field>

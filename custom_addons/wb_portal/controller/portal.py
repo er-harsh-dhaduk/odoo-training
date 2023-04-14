@@ -60,3 +60,10 @@ class WeblearnsPortal(CustomerPortal):
         if student_index < len(student_ids) - 1 and student_ids[student_index+1]:
             vals['next_record'] = '/my/student/{}'.format(student_ids[student_index+1])
         return request.render("wb_portal.wb_students_form_view_portal", vals)
+
+    @http.route("/my/student/print/<model('school.student'):student_id>", auth="user", type="http", website=True)
+    def weblearnsStudentReportPrint(self, student_id, **kw):
+        print("Hello this is called ",student_id)
+        return self._show_report(model=student_id, report_type='pdf',
+                                 report_ref='wbcustom_header_foooter_pdf.school_student_profile_report_temp',
+                                 download=False)

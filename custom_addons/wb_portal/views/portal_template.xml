@@ -15,7 +15,7 @@
         <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
             <li t-if="page_name == 'students_list_view'" class="breadcrumb-item">Students</li>
             <li t-if="page_name == 'students_form_view'" class="breadcrumb-item">
-                <a href="/my/students">Students</a>
+                <a href="/my/students">Students</a> / <span t-out="student.name" />
             </li>
         </xpath>
     </template>
@@ -91,6 +91,7 @@
                                 <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
                                     class="rounded-circle img-fluid" style="width: 150px;" />
                               </t>
+                              <a t-attf-href="/my/student/print/{{student.id}}" class="fa fa-download">Download</a>
                             <h5 class="my-3"><t t-out="student.name"/></h5>
                             <p class="text-muted mb-1"><t t-out="student.school_id.name"/></p>
                             <p class="text-muted mb-4"><t t-out="student.school_id.address"/></p>
@@ -149,6 +150,12 @@
                       </div>
                     </div>
                   </div>
+                    <div class="container py-5">
+                        <h1>Chatter Feature</h1>
+                        <t t-call="portal.message_thread">
+                            <t t-set="object" t-value="student" />
+                        </t>
+                    </div>
                 </section>
             </t>
         </xpath>

@@ -6,5 +6,5 @@
 <!--    <delete id="school_student.hobby_14" model="hobby" />-->
 <!--    <delete id="school_student.menu_2" model="ir.ui.menu" />-->
 
-    <delete model="hobby" search="[('name','ilike','Hobby')]" />
+<!--    <delete model="hobby" search="[('name','ilike','Hobby')]" />-->
 </odoo>
