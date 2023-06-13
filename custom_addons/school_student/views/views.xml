@@ -39,6 +39,22 @@
       </field>
     </record>
 
+      <record id="student_list_view_demo1" model="ir.ui.view">
+      <field name="name">student.list.view.demo.dup1</field>
+      <field name="model">school.student</field>
+          <field name="priority">100</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="id" optional="show"/>
+          <field name="create_date"/>
+          <field name="create_uid"  />
+          <field name="roll_number" decoration-bf="1" optional="hide"/>
+          <field name="name" decoration-bf="1" />
+            <field name="country_id" />
+        </tree>
+      </field>
+    </record>
+
       <record id="student_form_view" model="ir.ui.view">
           <field name="name">student.form.view</field>
           <field name="model">school.student</field>
@@ -69,14 +85,17 @@
                               </group>
                               <group>
                                 <group >
+                                    <field name="address_id" context="{'show_address':1}" options="{'always_reload':True}"/>
                                     <field name="name"/>
                                     <field name="roll_number" required="1" />
-                                    <field name="school_id" />
+                                    <field name="school_id" context="{'active_test':True}" />
+                                    <field name="total_fees" />
                                 </group>
                                 <group >
                                   <field name="id" />
                                   <field name="create_date" />
                                   <field name="create_uid" />
+                                    <field name="country_id"/>
                               </group>
                               </group>
                           </page>
@@ -92,6 +111,42 @@
               </form>
           </field>
       </record>
+
+      <record id="student_form_view1" model="ir.ui.view">
+          <field name="name">student.form.view1</field>
+          <field name="model">school.student</field>
+          <field name="priority">100</field>
+          <field name="arch" type="xml">
+              <form>
+                  <sheet>
+                      <notebook>
+                          <page string="Student Profile" id="page1" >
+                              <group>
+                                  <group id="student_profile">
+                                      <field name="student_img" class="oe_avatar" widget="image"/>
+                                  </group>
+
+                              </group>
+                              <group>
+                                <group >
+                                    <field name="name"/>
+                                    <field name="roll_number" required="1" />
+                                    <field name="school_id" context="{'active_test':True}" />
+                                </group>
+                                <group >
+                                  <field name="id" />
+                                  <field name="create_date" />
+                                  <field name="create_uid" />
+                              </group>
+                              </group>
+                          </page>
+                      </notebook>
+                  </sheet>
+              </form>
+          </field>
+      </record>
+
+
 
     <record id="student_kanban_view" model="ir.ui.view">
         <field name="name">student.kanban.view.demo</field>
@@ -240,18 +295,21 @@
       <field name="arch" type="xml">
         <field name="school_description" position="after">
           <field name="school_number" required="1"/>
-          <field name="school_list" string="Students"
-                help="Hello this is student list here management can see list of students for this school">
-            <tree editable="top" >
-            <field name="id" />
-              <field name="name" />
-              <field name="student_fees" />
-            </tree>
-            <form>
-              <group>
-                <field name="name" />
-              </group>
-            </form>
+          <field name="school_list" string="Students" editable="bottom">
+<!--                help="Hello this is student list here management can see list of students for this school"-->
+<!--                context="{'tree_view_ref':'school_student.student_list_view_demo1','form_view_ref':'school_student.student_form_view1'}"-->
+<!--          />-->
+                <tree editable="top" >
+                    <field name="id" />
+                      <field name="name" />
+                      <field name="student_fees" />
+                    <field name="country_id" context="{'students': parent.school_list}"/>
+                </tree>
+<!--            <form>-->
+<!--              <group>-->
+<!--                <field name="name" />-->
+<!--              </group>-->
+<!--            </form>-->
           </field>
         </field>
       </field>
@@ -263,7 +321,14 @@
         <field name="arch" type="xml">
             <search>
                 <field name="name" />
+                <filter name="total_fees_more_then_hundred"
+                        string="> 100 Fees"
+                        domain="[('total_fees','>',100)]" />
                 <group expand="0" string="Group By">
+                    <filter string="country_id"
+                            name="group_by_country_id"
+                            context="{'group_by':'country_id'}"
+                    />
                         <filter string="Birth Date" name="group_by_bdate" domain="[]"
                                 groups="school.access_student_admin_level_group"
                                 context="{'group_by': 'bdate'}"/>
@@ -276,6 +341,7 @@
     <record model="ir.actions.act_window" id="school_student_action_window">
       <field name="name">Student</field>
       <field name="res_model">school.student</field>
+        <field name="context">{'default_name':'Sunny Leaone', 'search_default_group_by_country_id':1, 'search_default_total_fees_more_then_hundred':1}</field>
 <!--        <field name="groups_id" eval="[(4,ref('school.access_student_admin_level_group'))]" />-->
 <!--        <field name="context">{'search_default_group_by_bdate':1}</field>-->
       <field name="view_mode">pivot,calendar,kanban,graph,tree,form</field>

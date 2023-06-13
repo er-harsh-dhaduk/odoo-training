@@ -6,6 +6,44 @@ from odoo import models, fields, api, _, registry, tools as tl
 from odoo.exceptions import  UserError
 
 
+class Country(models.Model):
+    _inherit = "res.country"
+
+    @api.model
+    def name_search(self, name="", args=None, operator="ilike", limit=100):
+        rtn = super().name_search(name=name, args=args, operator=operator, limit=limit)
+        ctx = self.env.context
+        std_ctx = ctx.get("students",[])
+        print(ctx)
+        print(std_ctx)
+
+        country_list = []
+        std_obj = self.env['school.student']
+        for std in std_ctx:
+            if std[0] == 4:
+                std_id = std_obj.search([('id','=', std[1]), ('country_id','!=', False)])
+                if std_id:
+                    country_list.append(std_id.country_id.id)
+            if std[0] == 0:
+                country_id = std[2].get("country_id")
+                if country_id:
+                    country_list.append(country_id)
+            if std[0] == 1:
+                country_id = std[2].get("country_id")
+                if country_id:
+                    country_list.append(country_id)
+
+        print("selected countries ..... ", country_list)
+        print(rtn)
+        if country_list:
+            new_rtn_list = []
+            for country in rtn:
+                if country[0] not in country_list:
+                    new_rtn_list.append(country)
+            return new_rtn_list
+        return rtn
+
+
 class Partner(models.Model):
     _inherit = "res.partner"
 
@@ -36,7 +74,8 @@ class Address(models.Model):
     street_one = fields.Char("Street2")
     city = fields.Char("City")
     state = fields.Char("State")
-    country = fields.Char("Country")
+    # country = fields.Char("Country")
+    country_id = fields.Many2one("res.country")
     zip_code = fields.Char("Zip Code")
 
 
@@ -49,9 +88,11 @@ class school_student(models.Model):
     _order = "student_seq"
     _rec_name = "name"
 
+    address_id = fields.Many2one("res.partner", "Address")
     roll_number = fields.Char("Roll Number")
     name = fields.Char(
-        default="Sunny Leaone", translate=True, tracking=True
+        # default="Sunny Leaone",
+        translate=True, tracking=True
         #    required=True
     )
 
@@ -101,7 +142,7 @@ class school_student(models.Model):
 
     _sql_constraints = [
         ('unique_name', 'unique(name)', 'Please provide other student name, Given name already exists.'),
-        ('total_fees_check', 'check(total_fees>100)', 'minimum 101 amount allow.')
+        ('total_fees_check', 'check(total_fees>90)', 'minimum 91 amount allow.')
     ]
 
     def customLogs(self):
