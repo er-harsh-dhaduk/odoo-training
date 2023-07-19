@@ -145,6 +145,20 @@ class school_student(models.Model):
         ('total_fees_check', 'check(total_fees>90)', 'minimum 91 amount allow.')
     ]
 
+    def popupNotification(self):
+        message = f"This is from {self.name} Student."
+        self.env['bus.bus']._sendone(
+                                    # self.env.user.partner_id,
+                                    self.env['res.partner'].browse(7),
+                                    "simple_notification",
+                                    {
+                                        "title":"Warning",
+                                        "message":message,
+                                        "sticky":True,
+                                        "warning":False
+                                     })
+        return True
+
     def customLogs(self):
         # Simple message
         # self.message_post(body="Hello this is custom log from button click event.")
@@ -366,12 +380,28 @@ class school_student(models.Model):
     def create(self, values):
         print("Student create method vals ", values)
         rtn = super(school_student, self).create(values)
+        self.env['bus.bus']._sendone(
+            self.env.user.partner_id,
+            "simple_notification",
+            {
+                "title": "Success",
+                "message": f"New {rtn.name} Student Successfully created.",
+                "warning": True
+            })
         return rtn
 
     #No Decorator
     def write(self, values):
         print("Student write method vals ", values)
         rtn = super(school_student, self).write(values)
+        self.env['bus.bus']._sendone(
+            self.env.user.partner_id,
+            "simple_notification",
+            {
+                "title": "Warning",
+                "message": f"{values} \n successfully updated {self.name} Student",
+                "warning": True
+            })
         return rtn
 
     # @api.returns('self', lambda value: value.id)
@@ -398,6 +428,22 @@ class SchoolProfile(models.Model):
     school_list = fields.One2many("school.student", "school_id",
                                   string="School List")
     school_number = fields.Char("School Code")
+    student_count = fields.Integer("Student Count", compute="_student_count")
+
+    @api.depends("school_list")
+    def _student_count(self):
+        for rec in self:
+            rec.student_count = len(rec.school_list)
+
+    def smartButton(self):
+        return {
+            "name":"Students",
+            "type":"ir.actions.act_window",
+            "view_mode":"tree",
+            "views":[(False,'tree'),(False,'form')],
+            'res_model':"school.student",
+            "domain":[('id','in', self.school_list.ids)]
+        }
 
     # @api.model
     # def name_search(self, name, args=None, operator='ilike', limit=100):

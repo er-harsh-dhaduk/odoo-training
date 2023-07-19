@@ -4,6 +4,10 @@
     <template id="portal_my_home" inherit_id="portal.portal_my_home">
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <t t-call="portal.portal_docs_entry">
+                <t t-set="url">/new/student</t>
+                <t t-set="title">Register Student</t>
+            </t>
+            <t t-call="portal.portal_docs_entry">
                 <t t-set="url">/my/students</t>
                 <t t-set="title">Students</t>
                 <t t-set="placeholder_count" t-value="'student_counts'" />
@@ -14,10 +18,59 @@
     <template id="portal_breadcrumbs" inherit_id="portal.portal_breadcrumbs">
         <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
             <li t-if="page_name == 'students_list_view'" class="breadcrumb-item">Students</li>
+            <li t-if="page_name == 'register_student'" class="breadcrumb-item">Register Student</li>
             <li t-if="page_name == 'students_form_view'" class="breadcrumb-item">
                 <a href="/my/students">Students</a> / <span t-out="student.name" />
             </li>
         </xpath>
+    </template>
+
+    <template id="new_student_form_view_portal">
+        <t t-call="portal.portal_layout">
+            <t t-call="portal.portal_table">
+                <div class="alert alert-success" role="alert" t-if="success_msg">
+                  <t t-out="success_msg" />
+                </div>
+                <t t-foreach="error_list" t-as="error">
+                    <div class="alert alert-danger" role="alert">
+                      <t t-out="error" />
+                    </div>
+                </t>
+                <div class="alert alert-warning" id="student_client_side_validation_message" role="alert" style="display:none;">
+                  Hi this is warning message.....
+                </div>
+                <div id="new_student_creation">
+                    <form method="post">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="name">Name</label>
+                            <div class="col-sm-10">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                <input type="char" name="name" id="name" class="form-control" placeholder="Enter Student Name"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="school">School</label>
+                            <div class="col-sm-10">
+                                <select name="school" id="school" class="form-control">
+                                    <option value="">Selection School</option>
+                                    <t t-foreach="schools" t-as="school">
+                                        <option t-att-value="school.id">
+                                            <t t-out="school.name" />
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-primary">Create Student Profile</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </t>
+        </t>
+
     </template>
 
     <template id="wb_students_list_view_portal">
@@ -27,18 +80,32 @@
                 <t t-set="title">Students333</t>
             </t>
             <t t-call="portal.portal_table">
-                <thead>
-                    <tr class="active">
-                        <th class="text-center">ID</th>
-                        <th class="text-center">Photo</th>
-                        <th class="text-center">Name</th>
-                        <th class="text-center">School</th>
-                        <th class="text-center">Roll Number</th>
-                        <th class="text-center">Fees</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <t t-foreach="students" t-as="student">
+                <t t-foreach="group_students" t-as="students" >
+                    <thead>
+                        <tr t-if="groupby in ('school_id', 'country_id')">
+                            <th class="text-center" t-if="groupby == 'school_id'" colspan="6">
+                                <h1>School : <em class="font-weight-normal text-muted" t-out="students['school_id'].name" />
+                                ( <t t-out="len(students['students'])"/> )
+                                </h1>
+                            </th>
+                            <th class="text-center" t-if="groupby == 'country_id'" colspan="6">
+                                <h1>Country : <em class="font-weight-normal text-muted" t-out="students['country_id'].name"/>
+                                    ( <t t-out="len(students['students'])"/> )
+                                </h1>
+                            </th>
+                        </tr>
+                        <tr class="active">
+                            <th class="text-center">ID</th>
+                            <th class="text-center">Photo</th>
+                            <th class="text-center">Name</th>
+                            <th class="text-center" t-if="groupby != 'school_id'">School</th>
+                            <th class="text-center" t-if="groupby != 'country_id'">Country</th>
+                            <th class="text-center">Roll Number</th>
+                            <th class="text-center">Fees</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <t t-foreach="students['students']" t-as="student">
                         <tr>
                             <td class="text-center">
                                 <a t-attf-href="/my/student/#{student.id}">
@@ -59,8 +126,11 @@
                                     <t t-out="student.name" />
                                 </a>
                             </td>
-                            <td class="text-center">
+                            <td class="text-center" t-if="groupby != 'school_id'">
                                 <t t-out="student.school_id.name" />
+                            </td>
+                            <td class="text-center" t-if="groupby != 'country_id'">
+                                <t t-out="student.country_id.name" />
                             </td>
                             <td class="text-center">
                                 <t t-out="student.roll_number" />
@@ -71,6 +141,7 @@
                         </tr>
                     </t>
                 </tbody>
+                </t>
             </t>
         </t>
     </template>

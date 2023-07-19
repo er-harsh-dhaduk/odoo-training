@@ -61,6 +61,7 @@
           <field name="arch" type="xml">
               <form>
                   <header>
+                      <button name="popupNotification" type="object" string="Bus Notification" />
                       <button name="customLogs" string="Custom Logs" type="object" />
                       <button name="send_email_template" type="object" string="Send Mail" />
                       <button name="print_custom_report" type="object" string="Print Custom Report" />
@@ -77,7 +78,7 @@
 <!--                  For XPath  form->sheet->notebook->page->group[2]->group[2]->field-->
                       <notebook>
                           <page string="Student Profile" id="page1" >
-                              <group>
+                              <group groups="base.group_no_one">
                                   <group id="student_profile">
                                       <field name="student_img" class="oe_avatar" widget="image"/>
                                   </group>
@@ -92,9 +93,9 @@
                                     <field name="total_fees" />
                                 </group>
                                 <group >
-                                  <field name="id" />
-                                  <field name="create_date" />
-                                  <field name="create_uid" />
+                                  <field name="id" groups="base.group_no_one"/>
+                                  <field name="create_date" groups="base.group_no_one"/>
+                                  <field name="create_uid" groups="base.group_no_one"/>
                                     <field name="country_id"/>
                               </group>
                               </group>
@@ -293,8 +294,18 @@
       <field name="model">school.profile</field>
       <field name="inherit_id" ref="school.school_form_view"/>
       <field name="arch" type="xml">
+
+          <xpath expr="//button[@name='specialCommand']" position="before">
+              <button name="smartButton" type="object"
+                      icon="fa-address-book-o" class="oe_stat_button">
+                        <span class="o_stat_text">Students:</span>
+                      <field class="o_stat_text" name="student_count" />
+              </button>
+          </xpath>
+
         <field name="school_description" position="after">
-          <field name="school_number" required="1"/>
+<!--          <field name="student_count" />-->
+            <field name="school_number" required="1"/>
           <field name="school_list" string="Students" editable="bottom">
 <!--                help="Hello this is student list here management can see list of students for this school"-->
 <!--                context="{'tree_view_ref':'school_student.student_list_view_demo1','form_view_ref':'school_student.student_form_view1'}"-->
@@ -436,7 +447,7 @@
               action="school_student.car_engine_action_window"
               />
 
-     <menuitem name="Student Profile" id="menu_of_student_profile" sequence="1"
+     <menuitem name="Student Profile" id="menu_of_student_profile" sequence="1" groups="base.group_no_one"
       web_icon="school_student,static/description/icon.png"
       />
      <!--Parent menu in Odoo-->
