@@ -1,1 +1,35 @@
-{    'name':'School',    'version': '1.1',    'author': 'Weblearns',    'summary': "School Management System",    'sequence': 1,    'description':"This is school management system software suppored in "                  "Odoo v13",    'category':'School',    'website':'https://freeweblearns.blogspot.com',    'depends':['base','mail'],    'data':[        "data/school_data.xml",        "security/security_access_data.xml",        "security/ir.model.access.csv",        "views/school_view.xml",        # 'demo/school_demo_data.xml'    ],    'demo': ['demo/school_demo_data.xml']}
+# -*- coding: utf-8 -*-
+{
+    'name': "school",
+
+    'summary': """
+        Short (1 phrase/line) summary of the module's purpose, used as
+        subtitle on modules listing or apps.openerp.com""",
+
+    'description': """
+        Long description of module's purpose
+    """,
+
+    'author': "My Company",
+    'website': "https://www.yourcompany.com",
+
+    # Categories can be used to filter modules in modules listing
+    # Check https://github.com/odoo/odoo/blob/16.0/odoo/addons/base/data/ir_module_category_data.xml
+    # for the full list
+    'category': 'Uncategorized',
+    'version': '0.1',
+
+    # any module necessary for this one to work correctly
+    'depends': ['base'],
+
+    # always loaded
+    'data': [
+        # 'security/ir.model.access.csv',
+        'views/views.xml',
+        'views/templates.xml',
+    ],
+    # only loaded in demonstration mode
+    'demo': [
+        'demo/demo.xml',
+    ],
+}

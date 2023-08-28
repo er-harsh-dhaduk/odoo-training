@@ -1,7 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_school_student_school_student,school.student,model_school_student,,1,1,1,1
-access_hobby_student,hobby,model_hobby,,1,1,1,1
-access_student_fees_update,student_fees_update,model_student_feees_update_wizard,,1,1,1,1
-access_address_basic,address,model_address,,1,1,1,1
-access_car_engine,car_engine,model_car_engine,,1,1,1,1
-access_car,car,model_car,base.group_user,1,1,1,1

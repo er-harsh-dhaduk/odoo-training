@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="student_search" model="ir.ui.view">
+        <field name="name">student.search</field>
+        <field name="model">wb.student</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <filter name="fix_search"
+                        string="Fix Search"
+                        domain="[('name','=','web')]" />
+                <filter name="optinal_search"
+                        string="Optional Search"
+                        domain="[('name','ilike','web')]" />
+                <group expand="1" string="Group by">
+                    <filter string="Name"
+                            name="name_group_bu"
+                            context="{'group_by':'name'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="student_list" model="ir.ui.view">
+        <field name="name">student.list</field>
+        <field name="model">wb.student</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id" />
+                <field name="name"/>
+                <field name="school_id" />
+                <field name="fees" sum="Total Sum"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="student_form" model="ir.ui.view">
+        <field name="name">student.form</field>
+        <field name="model">wb.student</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <button name="weblearns"
+                            type="object"
+                            string="Click Me" />
+                    <group>
+                        <field name="name" />
+                        <field name="fees" />
+                        <field name="school_id"
+                        attrs="{'invisible':[('name','=',False)]}"/>
+                    </group>
+                    <group>
+                        <field name="stud_tag_list"
+                               widget="many2many_tags" />
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="student_action" model="ir.actions.act_window">
+        <field name="name">Student</field>
+        <field name="res_model">wb.student</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="student.student_search" />
+    </record>
+
+    <record id="school_list" model="ir.ui.view">
+        <field name="name">school.list</field>
+        <field name="model">wb.school</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="school_form" model="ir.ui.view">
+        <field name="name">school.form</field>
+        <field name="model">wb.school</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </group>
+                <field name="student_list" />
+            </form>
+        </field>
+    </record>
+
+    <record id="school_action" model="ir.actions.act_window">
+        <field name="name">Student</field>
+        <field name="res_model">wb.school</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="student_root"
+              name="Student"
+    web_icon="student,static/description/menu_icon.png">
+        <menuitem id="student_subroot" name="Profile">
+            <menuitem id="student_sub"
+                  name="Student"
+                  action="student_action"/>
+            <menuitem id="school_sub"
+                      name="School"
+                      action="school_action"/>
+        </menuitem>
+    </menuitem>
+
+
+</odoo>

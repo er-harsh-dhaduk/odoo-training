@@ -1,1 +1,0 @@
-from . import dynamic_view

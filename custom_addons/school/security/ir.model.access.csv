@@ -1,6 +1,2 @@
-id,name,model_id:id,group_id:id,perm_write,perm_create,perm_unlink,perm_read
-"school_student_profile_security_user_id","school student profile security user id","school.model_school_student_profile_security_example","",1,0,1,1
-accesschool_user,Base User,model_school_profile,base.group_user,0,0,0,0
-accesschool_lw_level_user,Base Low User,model_school_profile,school.access_student_low_level_group,0,0,0,1
-accesschool_mid_level_user,Base Mid User,model_school_profile,school.access_student_mid_level_group,1,1,0,1
-accesschool_admin_level_useruser,Base Admin User,model_school_profile,school.access_student_admin_level_group,1,1,1,1
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_school_school,school.school,model_school_school,base.group_user,1,1,1,1
