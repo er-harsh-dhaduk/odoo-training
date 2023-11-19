@@ -6,17 +6,17 @@
         <field name="model">wb.student</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name" />
+                <field name="name"/>
                 <filter name="fix_search"
                         string="Fix Search"
-                        domain="[('name','=','web')]" />
+                        domain="[('name','=','web')]"/>
                 <filter name="optinal_search"
                         string="Optional Search"
-                        domain="[('name','ilike','web')]" />
+                        domain="[('name','ilike','web')]"/>
                 <group expand="1" string="Group by">
                     <filter string="Name"
                             name="name_group_bu"
-                            context="{'group_by':'name'}" />
+                            context="{'group_by':'name'}"/>
                 </group>
             </search>
         </field>
@@ -27,9 +27,12 @@
         <field name="model">wb.student</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="id" />
+                <header>
+                    <button name="header_open_wiz" string="Set School" type="object"/>
+                </header>
+                <field name="id"/>
                 <field name="name"/>
-                <field name="school_id" />
+                <field name="school_id"/>
                 <field name="fees" sum="Total Sum"/>
             </tree>
         </field>
@@ -43,16 +46,16 @@
                 <group>
                     <button name="weblearns"
                             type="object"
-                            string="Click Me" />
+                            string="Click Me"/>
                     <group>
-                        <field name="name" />
-                        <field name="fees" />
+                        <field name="name"/>
+                        <field name="fees"/>
                         <field name="school_id"
-                        attrs="{'invisible':[('name','=',False)]}"/>
+                               attrs="{'invisible':[('name','=',False)]}"/>
                     </group>
                     <group>
                         <field name="stud_tag_list"
-                               widget="many2many_tags" />
+                               widget="many2many_tags"/>
                     </group>
                 </group>
             </form>
@@ -63,7 +66,7 @@
         <field name="name">Student</field>
         <field name="res_model">wb.student</field>
         <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="student.student_search" />
+        <field name="search_view_id" ref="student.student_search"/>
     </record>
 
     <record id="school_list" model="ir.ui.view">
@@ -83,10 +86,11 @@
             <form>
                 <group>
                     <group>
-                        <field name="name" />
+                        <field name="name"/>
+                        <field name="password" password="1"/>
                     </group>
                 </group>
-                <field name="student_list" />
+                <field name="student_list"/>
             </form>
         </field>
     </record>
@@ -99,11 +103,11 @@
 
     <menuitem id="student_root"
               name="Student"
-    web_icon="student,static/description/menu_icon.png">
+              web_icon="student,static/description/menu_icon.png">
         <menuitem id="student_subroot" name="Profile">
             <menuitem id="student_sub"
-                  name="Student"
-                  action="student_action"/>
+                      name="Student"
+                      action="student_action"/>
             <menuitem id="school_sub"
                       name="School"
                       action="school_action"/>

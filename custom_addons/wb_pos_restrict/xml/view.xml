@@ -4,7 +4,7 @@
     <record id="pos_config_form_view" model="ir.ui.view">
         <field name="name">pos.config.form.view</field>
         <field name="model">pos.config</field>
-        <field name="inherit_id" ref="point_of_sale.pos_config_view_form" />
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@id='title']" position="after">
                 <div class="row mt16 o_settings_container">
@@ -20,7 +20,6 @@
             </xpath>
         </field>
     </record>
-
 
 
 </odoo>

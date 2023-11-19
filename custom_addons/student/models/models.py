@@ -7,8 +7,9 @@ class School(models.Model):
     # _rec_name = "id"
 
     name = fields.Char("School Name")
-    student_list = fields.One2many("wb.student","school_id",
+    student_list = fields.One2many("wb.student", "school_id",
                                    string="Student List")
+    password = fields.Char("Password")
 
 
 class Student(models.Model):
@@ -28,5 +29,38 @@ class Student(models.Model):
         "Student Tags"
     )
 
+    def header_open_wiz(self):
+        return {
+            "name": "Set Default School",
+            "res_model": "set.default.school.wiz",
+            "view_mode": "form",
+            "target": "new",
+            "context": {"default_student_ids": self.env.context.get("active_ids")},
+            "type": "ir.actions.act_window"
+        }
+
     def weblearns(self):
-        print("Hello Weblearns")
+        # print("Hello Weblearns")
+        data = []
+        school_detail = self.env['wb.school'].search_read([])
+        student_detail = self.search_read([])
+        # print(school_detail)
+        # print(student_detail)
+
+        data.append({"school_detail": school_detail,
+                     "student_detail": student_detail})
+        print(data)
+        return data
+        # self.sql_select_query("select * from wb_student")
+        # return True
+
+    def sql_select_query(self, qry):
+        self.env.cr.execute(qry)
+        data = self.env.cr.fetchall()
+        print(data)
+        return data
+
+    def sql_crud_query(self, qry):
+        self.env.cr.execute(qry)
+        self.env.cr.commit()
+        return True
