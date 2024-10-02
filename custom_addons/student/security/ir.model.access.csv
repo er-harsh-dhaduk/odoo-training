@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_student_user,access.student,model_wb_student,,1,1,1,1
-access_school_user,access.school,model_wb_school,,1,1,1,1
-access_set_default_school_wiz_user,access.set_default_school_wiz,model_set_default_school_wiz,,1,1,1,1

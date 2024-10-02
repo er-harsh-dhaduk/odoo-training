@@ -1,0 +1,63 @@
+<odoo>
+
+
+    <record id="wb_school_tree_view" model="ir.ui.view">
+      <field name="name">wb.school.tree.view</field>
+      <field name="model">wb.school</field>
+      <field name="arch" type="xml">
+        <tree string="School">
+            <field name="id" />
+          <field name="name" />
+            <field name="amount" />
+            <field name="my_currency_id" invisible="1"/>
+        </tree>
+      </field>
+    </record>
+
+   <record id="wb_school_form_view" model="ir.ui.view">
+      <field name="name">wb.school.form.view</field>
+      <field name="model">wb.school</field>
+      <field name="arch" type="xml">
+        <form string="School">
+            <header>
+                <button name="custom_method" type="object" string="Custom Method." />
+            </header>
+            <group>
+                <group>
+                    <field name="name" />
+                    <field name="my_currency_id" placeholder="Please select currency!" />
+                    <field name="amount" />
+                    <field name="ref_field_id" />
+                    <field name="invoice_id" />
+                    <field name="invoice_user_id" />
+                    <field name="invoice_date" />
+                    <field name="binary_fields" widget="many2many_binary" />
+                    <field name="binary_field"  filename="binary_file_name" />
+                    <field name="binary_file_name" invisible="1"/>
+<!--                    <field name="student_list" string="Student List (Current Xyz)"/>-->
+                </group>
+                <group>
+<!--                    <field name="school_image" widget="image" class="oe_avatar" nolabel="1"/>-->
+                    <field name="school_image"  nolabel="1" />
+                </group>
+            </group>
+        </form>
+      </field>
+    </record>
+
+  <record id="wb_school_action" model="ir.actions.act_window">
+    <field name="name">School</field>
+    <field name="res_model">wb.school</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+    
+  <menuitem id="wb_school_menu"
+            action="wb_school_action"
+            name="School List"
+            parent="wb_student_sub_root_menu"
+  />
+
+
+
+
+</odoo>
