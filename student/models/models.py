@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models
 from odoo.exceptions import UserError
+from lxml import etree
 
 
 class School(models.Model):
@@ -26,62 +27,336 @@ class School(models.Model):
     binary_fields = fields.Many2many("ir.attachment", string="Multi Files Upload")
     my_currency_id = fields.Many2one("res.currency", string="(My Currency)", help="Please select the currency!")
     # currency_id = fields.Many2one("res.currency", "Currency")
-    amount = fields.Monetary("Amount", currency_field="my_currency_id")
+    amount = fields.Monetary("Amount", currency_field="my_currency_id", default=0)
+    student_id = fields.Many2one("wb.student")
 
-    def unlink(self):
-        print("unlink method call!")
-        print(self)
-        rtn = super(School, self).unlink()
+    # @api.model
+    # def get_view(self, view_id=None, view_type="form", **options):
+    #     rtn = super(School, self).get_view(view_id=view_id, view_type=view_type, **options)
+    #     if view_type == "form" and "arch" in rtn:
+    #         print(self, view_id, view_type, options)
+    #         doc = etree.fromstring(rtn["arch"])
+    #
+    #         # school_field = etree.Element("field", {"name":"student_id"})
+    #         # targetd_field = doc.xpath("//field[@name='name']")
+    #         # if targetd_field:
+    #         #     targetd_field[0].addprevious(school_field)
+    #
+    #         targetd_field = doc.xpath("//field[@name='name']")
+    #         if targetd_field:
+    #             targetd_field[0].set("string","School Name!")
+    #             targetd_field[0].set("invisible","1")
+    #         rtn['arch'] = etree.tostring(doc, encoding="unicode")
+    #         print(rtn)
+    #     return rtn
+
+    @api.model
+    def default_get(self, fields_list):
+        print("Default Get Method ",self, fields_list )
+        rtn = super(School, self).default_get(fields_list)
+        rtn['name'] = "Sunny Leone"
+        rtn['amount'] = 20000
+        rtn['my_currency_id'] = 1
+        # {"name":"Sunny Leone", amount=20000}
         print(rtn)
-        print("unlink method logic finish!")
         return rtn
 
-    # def create(self, vals):
+    # def unlink(self):
+    #     print("unlink method call!")
     #     print(self)
+    #     rtn = super(School, self).unlink()
+    #     print(rtn)
+    #     print("unlink method logic finish!")
+    #     return rtn
+
+    # def create(self, vals):
+    #     print("Main Create Method",self)
     #     print(vals)
     #     rtn = super(School, self).create(vals)
     #     print(rtn)
     #     return rtn
 
     # @api.model
-    @api.model_create_multi
-    # @api.model_create_single
-    def create(self, vals):
+    # @api.model_create_multi
+    # # @api.model_create_single
+    # def create(self, vals):
+    #     print("Main Create Method",self)
+    #     print(vals)
+    #     # rtn = super(School, self).create(vals)
+    #     rtn = super().create(vals)
+    #     print(rtn)
+    #     return rtn
+
+    # @api.model
+    # def name_create(self, name):
+    #     print("Name Create Method ", self, name)
+    #     # rtn = super(School, self).name_create(name)
+    #     # print(rtn)
+    #     rtn = self.create({"name":name})
+    #     return rtn.id, rtn.display_name
+
+    def sub_custom_method(self):
+        print("Sub custom method!!!!!")
+        # Blank or More then one recordset found it will throws ValueError
+        # It's only accept single recordset.
+        self.ensure_one()
         print(self)
-        print(vals)
-        # rtn = super(School, self).create(vals)
-        rtn = super().create(vals)
-        print(rtn)
-        return rtn
+        print(self.name)
 
     def custom_method(self):
-        # print("Custom method clicked!")
-        # print(self)
+        print("Custom method clicked!")
+        print(self)
+
+        # student_obj = self.env['wb.student']
+        # student_ids = student_obj.search([])
+        # print(student_ids)
+
+        # student_fees = []
+        # for student in student_ids:
+        #     student_fees.append(student.student_fees)
+
+        student_fees = self.env['wb.student'].search([]).mapped("school_id").mapped("name")
+
+        print(student_fees)
+        print(sum(student_fees))
+
+        # stud_obj = self.env["wb.student"]
+        # students = stud_obj.search([])
+        # print(students)
+        #
+        # student_filtered = stud_obj.search([("name","ilike","ddd")])
+        # print(student_filtered)
+        #
+        # student_filtered = stud_obj.search([("id","in",students.ids),("name", "ilike", "ddd")])
+        # print(student_filtered)
+        #
+        # # stud_obj = self.env["wb.student"]
+        # for stud in students:
+        #     if "ddd" in str(stud.name):
+        #         stud_obj += stud
+        # print(stud_obj)
+        #
+        # stud_obj = students.filtered(lambda stud: "ddd" in str(stud.name))
+        # print(stud_obj)
+
+
+
+        # search returns list of ids
+        # browse convert ids to recordset
+
+        # for school in self.search([]):
+        #     school.sub_custom_method()
+        #
+        # self.search([("id","=",0)]).sub_custom_method()
+
+
+
+        # select * from student where school_id=1;
+        # search_read(
+        #     domain,
+        #     fields [id, name, student_id],
+        #     offset=101,
+        #     limit=100,
+        #     order="",
+        #     load=None
+        # )
+
+        # recordset => json use this method => read
+        # search_read => json
+
+
+        # stud_obj = self.env["wb.student"]
+        # stud_list = stud_obj.search_read([("school_id",">",5)],["id","name","school_id"], limit=4, order="school_id desc")
+        # print(stud_list)
+        # stud_list = stud_obj.search_read([("school_id",">",5)],["id","name","school_id"], limit=4, order="school_id desc", load=None)
+        # print(stud_list)
+
+
+        # self.read_group(domain,
+        #                 fields,
+        #                 group by,
+        #                 offset=
+        #                 limit =
+        #                 order by = ""
+        #                 lazy = True, False
+        # )
+
+        # student_group_by_school = self.env["wb.student"].read_group([],
+        #                                   ["school_id", "gender"],
+        #                                   ["school_id","gender"], lazy=False)
+        # for stud in student_group_by_school:
+        #     print(stud)
+        # sale_obj = self.env['sale.order.line']
+        # total_sales_based_on_state = sale_obj.read_group([("order_id.state","=","sale")],
+        #                                                  ["product_id","product_uom_qty:avg"],
+        #                                                  ["product_id"])
+        # for sale in total_sales_based_on_state:
+        #     print(sale)
+
+
+        # sum, avg, day, month, count
+        # print(self.read())
+        # abc = self.env["wb.student"].search([])
+        # print(abc.read(fields=["name","school_id"], load=None))
+        # print(abc)
+        # Its return integer value.
+        # print(self.env['wb.student'].search([]))
+        # len(self.env['wb.student'].search([]))
+        # total_records = self.env['wb.student'].search_count([])
+        # print(total_records)
+        # select id,name from student where id > 100
+
 
         # search(domain, limit, offset, order)
         # [condition, more conditions]
 
         # print(self.search([]))
         # print(self.search([], order="id desc"))
-
-        abc = self.env["stock.location"].search([("location_id","child_of",7)])
-        print(abc)
-        abc = self.env["stock.location"].search([("location_id","parent_of",35)])
-        print(abc)
-
-        # abc = self.env["res.partner"].search([("child_ids", "child_of", 26)])
-        # print(abc)
-        # abc = self.env["res.partner"].search([("child_ids", "parent_of", 26)])
-        # print(abc)
-
+        #
         # print(self.search([], limit=5, offset=0))
         # print(self.search([], limit=5, offset=1))
         # print(self.search([], limit=5, offset=5))
         # print(self.env["wb.student"].search([]))
         # print(self.search())
 
-        # print(self.search([("name","ilike","web")]))
+        # [('1','2','3')]
+        # [
+        #     ('field name', 'condition', 'field value'),
+        #     ('field name', 'condition', 'field value'),
+        #     ('field name', 'condition', 'field value')
+        #  ]
 
+        # select * from school where amount > 1000;
+
+        # =
+        #select * from school where amount = 1000;
+
+        # records = self.search([("amount","=",100)])
+        # self.print_table(records)
+        # records = self.search([("name","=","Web")])
+        # self.print_table(records)
+        # records = self.search([("name","=","web")])
+        # self.print_table(records)
+
+        # records = self.search([("amount", "=", False)])
+        # self.print_table(records)
+
+        # False / None mark as True :- 100 Specific value = 100
+        # records = self.search([("amount", "=?", False)])
+        # self.print_table(records)
+
+        # >
+        # records = self.search([("amount", ">", -1)])
+        # self.print_table(records)
+
+        # >=
+        # records = self.search([("amount", ">=", -1)])
+        # self.print_table(records)
+
+        # <
+        # records = self.search([("amount", "<", 100)])
+        # self.print_table(records)
+
+        # <=
+        # records = self.search([("amount", "<=", 100)])
+        # self.print_table(records)
+
+        # !=
+        # records = self.search([("amount", "!=", 100)])
+        # records = self.search([("name", "!=", "Web")])
+        # self.print_table(records)
+
+        # in
+        # ("a","b","c","d"), (1,2,3,4,5,6)
+        # records = self.search([("name", "=", "Web"),
+        #                        ("name", "=","web"),
+        #                         ("name", "=","xyz school")])
+        # records = self.search([("name", "in", ("Web","web","xyz school"))])
+        # self.print_table(records)
+
+        # not in
+
+        # records = self.search([("name", "!=", "Web"),
+        #                        ("name", "!=","web"),
+        #                         ("name", "!=","xyz school")])
+        # records = self.search([("amount", "not in", (False, 0))])
+        # self.print_table(records)
+
+        # like
+        # records = self.search([("name", "like", "Web")])
+        # self.print_table(records)
+
+        # not like
+        # records = self.search([("name", "not like", "web")])
+        # self.print_table(records)
+
+        # =like
+        # records = self.search([("name", "=like", "%Web%")])
+        # self.print_table(records)
+
+        # ilike
+        # records = self.search([("name", "ilike", "web")])
+        # self.print_table(records)
+
+        # not like
+        # records = self.search([("name", "not ilike", "web")])
+        # self.print_table(records)
+
+        # =ilike
+        # records = self.search([("name", "=ilike", "%Web%")])
+        # self.print_table(records)
+
+        # child_of
+        # records = self.env["stock.location"].search([("location_id", "child_of", 7)])
+        # self.print_locations(records)
+
+        # A 1           Child of top to bottom
+        # -> B 6
+        # -> C 8
+        #     -> D 9
+        #         -F 10  Parent Of bottom to top
+
+        # parent_of
+        # records = self.env["stock.location"].search([("location_id", "parent_of", 22)])
+        # self.print_locations(records)
+
+
+        # Join Query
+        # any
+        # amount = 0 or name ilike 'web'
+        # records = self.env["wb.student"].search([("school_id", "any", ['|',('amount','=',0),('name','ilike','web')])])
+        # self.print_table(records)
+
+        # not any
+        # amount = 0 or name ilike 'web'
+        # records = self.env["wb.student"].search(
+        #     [("school_id", "not any", [('name', 'ilike', 'web')])])
+        # self.print_table(records)
+
+        # records = self.search([("name", "ilike", 'web')])
+        # self.print_school_table(records)
+        #
+        # records = self.env["wb.student"].search([("school_id.amount", ">=", -1),("school_id.name", "ilike", 'web')])
+        # self.print_table(records)
+
+        # (name = web or phone = 12390 or mobile = 1234)
+        # (name != web or phone = 101010)
+        # (name = weblearns and phone = 10101010)
+
+        # Logical Operator
+
+        # And condition
+        # records = self.env['res.partner'].search(['!',("name", "=", 'Azure Interior'),
+        #                                           ("mobile",'=',False)])
+        # self.print_table(records)
+
+        # [name is set and (phone is not set or mobile is not set)]
+
+        # records = self.env['res.partner'].search(['&','!',
+        #                                           ("email", "!=", False),
+        #                                           ("phone", 'ilike', '+1'),
+        #                                           ("mobile", '=', False)])
+        # self.print_table(records)
 
         # self.name = "Single Update"
         # self.amount = 50
@@ -101,6 +376,30 @@ class School(models.Model):
 
         pass
 
+    def print_table(self, records):
+        print(f"Total Record Found :- {len(records)}")
+        print("ID           Name                        phone                    mobile                 email")
+        for rec in records:
+            print(f"{rec.id}        {rec.name}                          {rec.phone}                  {rec.mobile}                   {rec.email}")
+        print("")
+        print("")
+
+    def print_school_table(self, records):
+        print(f"Total Record Found :- {len(records)}")
+        print("ID           Name                        Amount")
+        for rec in records:
+            print(f"{rec.id}        {rec.name}                          {rec.amount}")
+        print("")
+        print("")
+
+    def print_locations(self, records):
+        print(f"Total Record Found :- {len(records)}")
+        print("ID           Name                        Parent")
+        for rec in records:
+            print(f"{rec.id}        {rec.name}                          {rec.location_id.name} / {rec.location_id.id}")
+        print("")
+        print("")
+
     def write(self, vals):
         print("Write method called!")
         print(self)
@@ -109,9 +408,19 @@ class School(models.Model):
         print(rtn)
         return rtn
 
+
 class Student(models.Model):
     _name = "wb.student"
     _description = "This is student profile."
+
+    @api.model
+    def _name_search(self, name, domain=None, operator='ilike', limit=None, order=None):
+        print("_name_search")
+        print(name, domain, operator, limit, order)
+        domain = ["|", ("name",operator, name), ("gender", operator, name)]
+        rtn = self._search(domain, limit=limit, order=order)
+        print(rtn)
+        return rtn
 
     def delete_records(self):
         print(self)

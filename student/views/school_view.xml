@@ -25,6 +25,7 @@
             <group>
                 <group>
                     <field name="name" />
+<!--                    <field name="student_id" />-->
                     <field name="my_currency_id" placeholder="Please select currency!" />
                     <field name="amount" />
                     <field name="ref_field_id" />
