@@ -1,0 +1,12 @@
+<odoo>
+
+    <record id="wb_school_sunny" model="wb.school">
+      <field name="name">Original Sunny Leone School</field>
+    </record>
+
+    <record id="wb_student_sunny" model="wb.student">
+        <field name="name">Original Sunny Leone Student</field>
+        <field name="school_id" ref="student.wb_school_sunny" />
+    </record>
+
+</odoo>

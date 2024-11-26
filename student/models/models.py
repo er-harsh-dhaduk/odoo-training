@@ -107,18 +107,58 @@ class School(models.Model):
         print("Custom method clicked!")
         print(self)
 
+        print(self.get_metadata())
+        for stud in self.env['wb.student'].search([]):
+            print(stud,"   ",stud.name,"   ",stud.get_metadata())
+        # stud_obj = self.env["wb.student"]
+        # print(stud_obj.fields_get(allfields=["id","name","school_id"], attributes=["name","string"]))
+
+        # fields_get(field_list, attributes)
+
+
+        # student_list = self.env["wb.student"].search([])
+        # print(student_list)
+        #
+        # student_group_list = student_list.grouped(key="gender")
+        # print(student_group_list)
+        # for ky in student_group_list:
+        #     print(ky.name)
+        #     for stud in student_group_list[ky]:
+        #         print(f"     {stud.name}")
+        #
+        # for ky in student_group_list:
+        #     print(ky)
+        #     for stud in student_group_list[ky]:
+        #         print(f"     {stud.name}")
+
+
+
+        # stud = self.env['wb.student'].search([])
+        # print(stud)
+        # stud = self.env['wb.student'].search([], order="school_id")
+        # print(stud)
+        # stud = self.env['wb.student'].search([], order="school_id desc")
+        # print(stud)
+
+        # stud_list = stud.sorted(key= lambda stud: stud.school_id.id)
+        # print(stud_list)
+        # stud_list = stud.sorted(key=lambda stud: stud.school_id.id,reverse=True)
+        # print(stud_list)
+        # stud_list = stud.sorted(key=lambda stud: stud.id, reverse=True)
+        # print(stud_list)
+
         # student_obj = self.env['wb.student']
         # student_ids = student_obj.search([])
         # print(student_ids)
-
+        #
         # student_fees = []
         # for student in student_ids:
         #     student_fees.append(student.student_fees)
-
-        student_fees = self.env['wb.student'].search([]).mapped("school_id").mapped("name")
-
-        print(student_fees)
-        print(sum(student_fees))
+        #
+        # student_fees = self.env['wb.student'].search([]).mapped("school_id").mapped("name")
+        #
+        # print(student_fees)
+        # print(sum(student_fees))
 
         # stud_obj = self.env["wb.student"]
         # students = stud_obj.search([])
