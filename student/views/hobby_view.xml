@@ -2,13 +2,13 @@
 
 
     <record id="wb_hobby_tree_view" model="ir.ui.view">
-      <field name="name">wb.hobby.tree.view</field>
+      <field name="name">wb.hobby.list.view</field>
       <field name="model">wb.hobby</field>
       <field name="arch" type="xml">
-        <tree string="Hobby">
+        <list string="Hobby">
           <field name="name" />
 
-        </tree>
+        </list>
       </field>
     </record>
 
@@ -30,7 +30,7 @@
   <record id="wb_hobby_action" model="ir.actions.act_window">
     <field name="name">Hobby</field>
     <field name="res_model">wb.hobby</field>
-    <field name="view_mode">tree,form</field>
+    <field name="view_mode">list,form</field>
   </record>
     
   <menuitem id="wb_hobby_menu"
