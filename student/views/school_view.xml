@@ -10,6 +10,7 @@
           <field name="name" />
             <field name="amount" />
             <field name="my_currency_id" invisible="1"/>
+            <field name="active" />
         </list>
       </field>
     </record>
@@ -24,10 +25,30 @@
             </header>
             <group>
                 <group>
+                    <field name="active" />
                     <field name="name" />
 <!--                    <field name="student_id" />-->
                     <field name="my_currency_id" placeholder="Please select currency!" />
-                    <field name="amount" />
+
+<!--                    This is for readonly attribute example-->
+<!--                    <field name="ref_field_id" attrs="{'readonly':[('amount','=',0)]}"/>-->
+<!--                    <field name="ref_field_id" readonly="amount == 0"/>-->
+<!--                    <field name="ref_field_id" readonly="1"/>-->
+<!--                    <field name="ref_field_id" readonly="amount == 0 or name == 'weblearns'"/>-->
+
+<!--                    This is for invisible attribute example-->
+<!--                    <field name="ref_field_id" attrs="{'invisible':[('amount', '=', 0)]}"/>-->
+<!--                    <field name="ref_field_id" invisible = "amount == 0"/>-->
+<!--                    <field name="ref_field_id" invisible = "1"/>-->
+<!--                    <field name="ref_field_id" invisible = "amount == 0 or name == 'Weblearns'"/>-->
+
+
+                    <field name="amount"  />
+
+<!--                    <field name="ref_field_id" attrs="{'required':[('amount','=',0)]}" />-->
+<!--                    <field name="ref_field_id" required="1" />-->
+<!--                    <field name="ref_field_id" required="amount == 0" />-->
+<!--                    <field name="ref_field_id" required="amount == 0 or name == 'weblearns'" />-->
                     <field name="ref_field_id" />
                     <field name="invoice_id" />
                     <field name="invoice_user_id" />

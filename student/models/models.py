@@ -1,13 +1,91 @@
 # -*- coding: utf-8 -*-
+from odoo.fields import Command
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 from lxml import etree
+import logging
+_logger = logging.getLogger("Weblearns :- ")
+
+
+class partner(models.Model):
+    _inherit = "res.partner"
+
+    @api.model_create_multi
+    def create(self, vals):
+        print("self ", self, vals)
+        print("selfenv ", self.env)
+        print("self cr ", self.env.cr)
+        print("self user ", self.env.user)
+        print("self uid ", self.env.uid)
+        print("self su ", self.env.su)
+        print("self is admin ", self.env.is_admin())
+        print("self company ", self.env.company)
+        print("self multi company ", self.env.companies)
+        print("selfcontext  ", self.env.context)
+        return super(partner, self).create(vals)
+
+    def write(self, vals):
+        print(self, vals)
+        return super(partner, self).write(vals)
+
+
+class sale(models.Model):
+    _inherit = "sale.order"
+
+    # @api.model_create_multi
+    # def create(self, vals):
+    #     return super(sale, self).create(vals)
+
+    # def write(self, vals):
+    #     print(self, vals)
+    #     return super(sale, self).write(vals)
+
+class saleline(models.Model):
+    _inherit = "sale.order.line"
+
+    # def unlink(self):
+    #     print(self)
+    #     return super(saleline, self).unlink()
+
+    # @api.model_create_multi
+    # def create(self, vals):
+    #     print(self, vals)
+    #     return super(saleline, self).create(vals)
+
+    # def write(self, vals):
+    #     print(self, vals)
+    #     return super(saleline, self).write(vals)
+
+# class DummyStudentClass(models.Model):
+#     _name = "dummy.student.model"
+#     _table = "my_abc_student"
+#     _description = "This is demo student profile."
+#
+#
+# class DummyStudentClass1(models.Model):
+#     _name = "dummy.model.table"
+#     _table = "dummy_abc_test_table"
+#     _description = "This is demo student profile."
+#
+#
+# class DummyStudent(models.Model):
+#     _name = "dummy.student"
+#     _table = "my_dummy_student"
+#     _description = "This is demo student profile."
+
+
+class DemoSchool(models.Model):
+    _name = "demo.school"
+    _description = "This is demo school profile."
+
+    name = fields.Char("School Name")
 
 
 class School(models.Model):
     _name = "wb.school"
     _description = "This is school profile."
 
+    active = fields.Boolean("Archive / Soft Remove / Remove from filter", default=True)
     school_image = fields.Image("School Image", max_width=128, max_height=128)
     name = fields.Char("Name")
     invoice_id = fields.Many2one("account.move")
@@ -52,13 +130,13 @@ class School(models.Model):
 
     @api.model
     def default_get(self, fields_list):
-        print("Default Get Method ",self, fields_list )
+        # print("Default Get Method ",self, fields_list )
         rtn = super(School, self).default_get(fields_list)
         rtn['name'] = "Sunny Leone"
         rtn['amount'] = 20000
         rtn['my_currency_id'] = 1
         # {"name":"Sunny Leone", amount=20000}
-        print(rtn)
+        # print(rtn)
         return rtn
 
     # def unlink(self):
@@ -104,12 +182,191 @@ class School(models.Model):
         print(self.name)
 
     def custom_method(self):
-        print("Custom method clicked!")
-        print(self)
+        print("self ", self)
+        print("selfenv ",self.env)
+        print("self cr ",self.env.cr)
+        print("self user ",self.env.user)
+        print("self uid ",self.env.uid)
+        print("self su ",self.env.su)
+        print("self is admin ",self.env.is_admin())
+        print("self company ",self.env.company)
+        print("self multi company ",self.env.companies)
+        print("selfcontext  ",self.env.context)
+        print("_context ",self._context)
 
-        print(self.get_metadata())
-        for stud in self.env['wb.student'].search([]):
-            print(stud,"   ",stud.name,"   ",stud.get_metadata())
+        self.env['demo.school'].sudo().create({"name":"Record2"})
+
+        for abc in self.env['demo.school'].sudo().search([]):
+            print(abc, abc.name)
+        # with self.pool.cursor() as new_cr:
+        #     self.env['res.partner'].with_env(self.env(cr=new_cr)).create({"name":"Hello new user env."})
+
+        # with_context
+        # with_user
+        # with_company
+        # with_env
+        # sudo()
+
+
+        # partner = self.env['res.partner'].browse(15)
+        # print(partner, self)
+
+        # partner.write({"category_id":[Command.set([3,4])]})
+        # partner.write({"category_id":[Command.set([1])]})
+        # partner.write({"category_id":[Command.set([4])]})
+        # partner.write({"category_id":[Command.set([40])]})
+
+        # partner.write({"category_id":[[6, 0, [3,4]]]})
+        # partner.write({"category_id":[[6, 0, [1]]]})
+
+
+
+        # partner.write({'category_id':[[5]]})
+        # partner.write({'category_id':[Command.clear()]})
+        # partner.write({'category_id':[fields.Command.clear()]})
+
+        # partner.write({"category_id":[
+        #     [4, 1], [4, 4]
+        # ]})
+
+        # partner.write({"category_id": [
+        #     Command.link(1),
+        #     fields.Command.link(2)
+        # ]})
+
+        # partner.write({"category_id":[
+        #     [3, 2],
+        #     [3, 5],
+        #     [3, 1],
+        # ]})
+
+        # partner.write({"category_id": [
+        #     Command.delete(200),
+        #     Command.unlink(5),
+        #     Command.unlink(1),
+        # ]})
+
+
+        # sale = self.env['sale.order'].browse(31)
+        # print(sale, sale.name)
+
+        # sale.write({"order_line":[
+        #                             (2, 63),
+        #                             (2, 62)
+        #                         ]
+        #             })
+
+        # sale.write({"order_line": [
+        #     Command.delete(65),
+        #     Command.delete(300),
+        # ]
+        # })
+
+
+
+        # sale.write({"order_line":[
+        #     [1, 58,{"price_unit":100}],
+        #     [1, 59, {"price_unit":80}]
+        # ]})
+
+        # sale.write({"order_line": [
+        #     Command.update(58, {"price_unit":110}),
+        #     Command.update(59, {"price_unit":50})
+        # ]})
+
+
+
+
+
+
+
+        # [[0,0,{record1}], [0,0,{record2}], [0,0,{record3}]]
+        # [Command.create({record1})]
+        # sale_order_vals = [{'locked': False, 'partner_id': 10, 'sale_order_template_id': False, 'validity_date': '2025-01-20',
+        #   'date_order': '2024-12-21 10:30:42', 'show_update_pricelist': False, 'company_id': 1, 'pricelist_id': False,
+        #   'payment_term_id': 4, 'order_line': [
+        #          Command.create({'sequence': 10, 'display_type': False, 'is_downpayment': False,
+        #                                                'product_id': 48, 'product_template_id': 37,
+        #                                                'product_custom_attribute_value_ids': [],
+        #                                                'product_no_variant_attribute_value_ids': [],
+        #                                                'linked_line_id': False, 'virtual_id': False,
+        #                                                'linked_virtual_id': False, 'selected_combo_items': False,
+        #                                                'combo_item_id': False,
+        #                                                'name': '[FURN_5555] Cable Management Box', 'product_uom_qty': 1,
+        #                                                'move_ids': [], 'product_uom': 1, 'customer_lead': 0,
+        #                                                'price_unit': 100, 'technical_price_unit': 100,
+        #                                                'tax_id': [[4, 1]], 'product_document_ids': [],
+        #                                                'invoice_lines': []
+        #                 }),
+        #
+        #         Command.create({'sequence': 10, 'display_type': False, 'is_downpayment': False,
+        #                         'product_id': 48, 'product_template_id': 37,
+        #                         'product_custom_attribute_value_ids': [],
+        #                         'product_no_variant_attribute_value_ids': [],
+        #                         'linked_line_id': False, 'virtual_id': False,
+        #                         'linked_virtual_id': False, 'selected_combo_items': False,
+        #                         'combo_item_id': False,
+        #                         'name': '[FURN_5555] Cable Management Box', 'product_uom_qty': 1,
+        #                         'move_ids': [], 'product_uom': 1, 'customer_lead': 0,
+        #                         'price_unit': 100, 'technical_price_unit': 100,
+        #                         'tax_id': [[4, 1]], 'product_document_ids': [],
+        #                         'invoice_lines': []
+        #                         }),
+        #
+        #         Command.create({'sequence': 10, 'display_type': False, 'is_downpayment': False,
+        #                         'product_id': 48, 'product_template_id': 37,
+        #                         'product_custom_attribute_value_ids': [],
+        #                         'product_no_variant_attribute_value_ids': [],
+        #                         'linked_line_id': False, 'virtual_id': False,
+        #                         'linked_virtual_id': False, 'selected_combo_items': False,
+        #                         'combo_item_id': False,
+        #                         'name': '[FURN_5555] Cable Management Box', 'product_uom_qty': 1,
+        #                         'move_ids': [], 'product_uom': 1, 'customer_lead': 0,
+        #                         'price_unit': 100, 'technical_price_unit': 100,
+        #                         'tax_id': [[4, 1]], 'product_document_ids': [],
+        #                         'invoice_lines': []
+        #                         })
+        #
+        #
+        #     ], 'note': False,
+        #   'sale_order_option_ids': [], 'quotation_document_ids': [], 'customizable_pdf_form_fields': False,
+        #   'user_id': 2, 'team_id': 1, 'require_signature': True, 'require_payment': True, 'prepayment_percent': 1,
+        #   'client_order_ref': False, 'tag_ids': [], 'show_update_fpos': False, 'fiscal_position_id': False,
+        #   'partner_invoice_id': 10, 'project_id': False, 'journal_id': False, 'warehouse_id': 1, 'incoterm': False,
+        #   'incoterm_location': False, 'picking_policy': 'direct', 'commitment_date': False, 'origin': False,
+        #   'campaign_id': False, 'medium_id': False, 'source_id': False, 'signed_by': False, 'signed_on': False,
+        #   'signature': False}]
+        # so = self.env['sale.order'].create(sale_order_vals)
+        #
+        # print(so, so.name)
+
+
+        # print(self.env["dummy.student"].search([]))
+
+        # schools = self.search([('active','=',False)])
+        # print(schools, len(schools))
+
+        # _logger.info("This is Info Log!")
+        # _logger.debug("This is Debug Log!")
+        # _logger.error("This is Error Log!")
+        # _logger.critical("This is Critical Log!")
+        # _logger.warning("This is Warning Log!")
+
+        # print("Custom method clicked!")
+        # print(self)
+
+        # search_fetch(domain, fields_list, offset, limit, order)
+        # Recordset
+
+        # stud_obj = self.search_fetch([], ["id","name"])
+        # print(stud_obj)
+        #
+        # for school in stud_obj:
+        #     print(school.name, school.id, school.student_id)
+
+        # print(self.get_metadata())
+        # for stud in self.env['wb.student'].search([]):
+        #     print(stud,"   ",stud.name,"   ",stud.get_metadata())
         # stud_obj = self.env["wb.student"]
         # print(stud_obj.fields_get(allfields=["id","name","school_id"], attributes=["name","string"]))
 
