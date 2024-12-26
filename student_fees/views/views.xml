@@ -1,0 +1,59 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="custom_addons_student_fees_list">
+      <field name="name">custom.addons.student.fees</field>
+      <field name="model">custom.addons.student.fees</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </list>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="custom_addons_student_fees_action_window">
+      <field name="name">custom_addons_student_fees window</field>
+      <field name="res_model">custom.addons.student.fees</field>
+      <field name="view_mode">list,form</field>
+    </record>
+
+
+    <!-- server action to the one above -->
+
+<!--    <record model="ir.actions.server" id="custom_addons_student_fees_action_server">-->
+<!--      <field name="name">custom_addons_student_fees server</field>-->
+<!--      <field name="model_id" ref="student_fees.custom_addons_student_fees"/>-->
+<!--      <field name="state">code</field>-->
+<!--      <field name="code">-->
+<!--        action = {-->
+<!--          "type": "ir.actions.act_window",-->
+<!--          "view_mode": "list,form",-->
+<!--          "res_model": model._name,-->
+<!--        }-->
+<!--      </field>-->
+<!--    </record>-->
+
+
+    <!-- Top menu item -->
+
+    <menuitem name="custom_addons_student_fees" id="custom_addons_student_fees_menu_root"/>
+    <!-- menu categories -->
+
+    <menuitem name="Menu 1" id="custom_addons_student_fees_menu_1" parent="custom_addons_student_fees_menu_root"/>
+    <menuitem name="Menu 2" id="custom_addons_student_fees_menu_2" parent="custom_addons_student_fees_menu_root"/>
+
+    <!-- actions -->
+
+    <menuitem name="List" id="custom_addons_student_fees_menu_1_list" parent="custom_addons_student_fees_menu_1"
+              action="custom_addons_student_fees_action_window"/>
+<!--    <menuitem name="Server to list" id="custom_addons_student_fees" parent="custom_addons_student_fees_menu_2"-->
+<!--              action="custom_addons_student_fees_action_server"/>-->
+
+  </data>
+</odoo>

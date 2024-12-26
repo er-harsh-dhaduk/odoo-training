@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="wb_student_list_view" model="ir.ui.view">
+        <field name="name">wb.student.list.view</field>
+        <field name="model">wb.student</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="fees" />
+                <field name="gander" />
+            </list>
+        </field>
+    </record>
+
+    <record id="wb_student_form_view" model="ir.ui.view">
+        <field name="name">wb.student.form.view</field>
+        <field name="model">wb.student</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="name" />
+                    <field name="fees" />
+                    <field name="gander" />
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="wb_student_action" model="ir.actions.act_window">
+        <field name="name">Student</field>
+        <field name="res_model">wb.student</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="wb_student_menu" name="Student1" />
+    <menuitem id="wb_student_child" name="Student2" parent="wb_student_menu" action="wb_student_action" />
+
+
+
+</odoo>

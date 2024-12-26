@@ -2,7 +2,9 @@
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 from lxml import etree
+import logging
 
+_logger = logging.getLogger("Weblearns Custom Logger :-")
 
 class School(models.Model):
     _name = "wb.school"
@@ -52,13 +54,13 @@ class School(models.Model):
 
     @api.model
     def default_get(self, fields_list):
-        print("Default Get Method ",self, fields_list )
+        # print("Default Get Method ",self, fields_list )
         rtn = super(School, self).default_get(fields_list)
         rtn['name'] = "Sunny Leone"
         rtn['amount'] = 20000
         rtn['my_currency_id'] = 1
         # {"name":"Sunny Leone", amount=20000}
-        print(rtn)
+        # print(rtn)
         return rtn
 
     # def unlink(self):
@@ -104,12 +106,27 @@ class School(models.Model):
         print(self.name)
 
     def custom_method(self):
-        print("Custom method clicked!")
-        print(self)
+        _logger.info("This is Info Log!")
+        _logger.debug("This is Debug Log!")
+        _logger.error("This is Error Log!")
+        _logger.critical("This is Critical Log!")
+        _logger.warning("This is Warning Log!")
 
-        print(self.get_metadata())
-        for stud in self.env['wb.student'].search([]):
-            print(stud,"   ",stud.name,"   ",stud.get_metadata())
+        print("Custom method clicked!")
+        # print(self)
+
+        # search_fetch(domain, fields_list, offset, limit, order)
+        # # Recordset
+        #
+        # stud_obj = self.search_fetch([], ["id","name"])
+        # print(stud_obj)
+        #
+        # for school in stud_obj:
+        #     print(school.name, school.id, school.student_id)
+
+        # print(self.get_metadata())
+        # for stud in self.env['wb.student'].search([]):
+        #     print(stud,"   ",stud.name,"   ",stud.get_metadata())
         # stud_obj = self.env["wb.student"]
         # print(stud_obj.fields_get(allfields=["id","name","school_id"], attributes=["name","string"]))
 
