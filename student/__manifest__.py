@@ -22,6 +22,12 @@ Long description of module's purpose
 
     # always loaded
     'data': [
+        "data/wb.school.csv",
+        "data/wb.student.csv",
+        # "data/res.partner.csv",
+        "data/res.partner.category.csv",
+        "data/partner_data.xml",
+        "data/res_partner_data.xml",
         "data/student_school_record.xml",
         "security/ir.model.access.csv",
         "views/student_view.xml",

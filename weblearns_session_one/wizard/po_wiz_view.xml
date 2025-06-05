@@ -1,0 +1,35 @@
+<odoo>
+
+    <record id="view_po_filter_wiz_form" model="ir.ui.view">
+        <field name="name">po.filter.wiz.form.view</field>
+        <field name="model">po.filter.wiz</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="name" widget="many2many_tags" />
+                    </group>
+                </group>
+                <footer>
+                    <button name="show_po_orders" type="object"
+                            class="btn-primary" string="Show Orders"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="procurement_manager_action" model="ir.actions.act_window">
+    <field name="name">Procurement Manager Report</field>
+    <field name="res_model">po.filter.wiz</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+  </record>
+
+  <menuitem id="procurement_manager_action_menu"
+            action="procurement_manager_action"
+            name="Procurement Manager Report"
+            parent="purchase.purchase_report_main"
+  />
+
+</odoo>

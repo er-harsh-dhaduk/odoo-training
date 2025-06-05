@@ -1,16 +1,48 @@
 <odoo>
 
+    <record id="school_status_tree_view" model="ir.ui.view">
+      <field name="name">school.status.list.view</field>
+      <field name="model">school.status</field>
+      <field name="arch" type="xml">
+        <list string="Status" editable="top">
+            <field name="sequence" widget="handle" />
+            <field name="id" />
+            <field name="name" />
+        </list>
+      </field>
+    </record>
+
+    <record id="wb_school_status_action" model="ir.actions.act_window">
+        <field name="name">School Status</field>
+        <field name="res_model">school.status</field>
+        <field name="view_mode">list</field>
+      </record>
+
+  <menuitem id="wb_school_status_menu"
+            action="wb_school_status_action"
+            name="School Status"
+            parent="wb_student_sub_root_menu"
+  />
+
 
     <record id="wb_school_tree_view" model="ir.ui.view">
       <field name="name">wb.school.list.view</field>
       <field name="model">wb.school</field>
       <field name="arch" type="xml">
         <list string="School">
+            <header>
+                <button name="abc_test" type="object" string="Click Me!" display="always" />
+                <button name="abc_test" type="object" string="Duplicate Click Me!" />
+            </header>
             <field name="id" />
-          <field name="name" />
+            <field name="name" />
             <field name="amount" />
             <field name="my_currency_id" invisible="1"/>
             <field name="active" />
+<!--            <field name="status" />-->
+            <field name="status_id" />
+            <field name="start_date" />
+            <field name="end_date" />
         </list>
       </field>
     </record>
@@ -22,47 +54,117 @@
         <form string="School">
             <header>
                 <button name="custom_method" type="object" string="Custom Method." />
+                <field name="status_id" widget="statusbar" options="{'clickable':1}" />
+<!--                <field name="status" widget="statusbar" options="{'clickable':1}"/>-->
             </header>
-            <group>
+            <sheet>
+                <div class="oe_button_box" name="button_box">
+                    <button name="custom_method" type="object" string="Custom Method." icon="fa-bars">
+                        <div class="o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="amount" />
+                            </span>
+                            <span class="o_stat_text">
+                                School Fees
+                            </span>
+                        </div>
+                    </button>
+                    <button name="custom_method" type="object" string="Custom Method." icon="fa-users">
+                        <div class="o_stat_info">
+                            <span class="o_stat_value">
+                                $8900
+<!--                                <field name="amount" />-->
+                            </span>
+                            <span class="o_stat_text">
+                                Taxes
+                            </span>
+                        </div>
+                    </button>
+                    <button name="custom_method" type="object" string="Custom Method." icon="fa-list-ul">
+                        <div class="o_stat_info">
+                            <span class="o_stat_value">
+<!--                                <field name="amount" />-->
+                                50
+                            </span>
+                            <span class="o_stat_text">
+                                No.of Students
+                            </span>
+                        </div>
+                    </button>
+                    <button name="custom_method" type="object" string="Custom Method." icon="fa-book">
+                        <div class="o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="amount" />
+                            </span>
+                            <span class="o_stat_text">
+                                No.of faculty
+                            </span>
+                        </div>
+                    </button>
+                    <button name="custom_method" type="object" string="Custom Method." icon="fa-star">
+                        <div class="o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="amount" />
+                            </span>
+                            <span class="o_stat_text">
+                                Subjects
+                            </span>
+                        </div>
+                    </button>
+                    <button name="custom_method" type="object" string="Custom Method." icon="fa-home">
+                        <div class="o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="amount" />
+                            </span>
+                            <span class="o_stat_text">
+                                Subjects
+                            </span>
+                        </div>
+                    </button>
+                </div>
                 <group>
-                    <field name="active" />
-                    <field name="name" />
-<!--                    <field name="student_id" />-->
-                    <field name="my_currency_id" placeholder="Please select currency!" />
+                    <group>
+                        <field name="start_date" />
+                        <field name="end_date" />
+                        <field name="active" />
+                        <field name="name" />
+    <!--                    <field name="student_id" />-->
+                        <field name="my_currency_id" placeholder="Please select currency!" />
 
-<!--                    This is for readonly attribute example-->
-<!--                    <field name="ref_field_id" attrs="{'readonly':[('amount','=',0)]}"/>-->
-<!--                    <field name="ref_field_id" readonly="amount == 0"/>-->
-<!--                    <field name="ref_field_id" readonly="1"/>-->
-<!--                    <field name="ref_field_id" readonly="amount == 0 or name == 'weblearns'"/>-->
+    <!--                    This is for readonly attribute example-->
+    <!--                    <field name="ref_field_id" attrs="{'readonly':[('amount','=',0)]}"/>-->
+    <!--                    <field name="ref_field_id" readonly="amount == 0"/>-->
+    <!--                    <field name="ref_field_id" readonly="1"/>-->
+    <!--                    <field name="ref_field_id" readonly="amount == 0 or name == 'weblearns'"/>-->
 
-<!--                    This is for invisible attribute example-->
-<!--                    <field name="ref_field_id" attrs="{'invisible':[('amount', '=', 0)]}"/>-->
-<!--                    <field name="ref_field_id" invisible = "amount == 0"/>-->
-<!--                    <field name="ref_field_id" invisible = "1"/>-->
-<!--                    <field name="ref_field_id" invisible = "amount == 0 or name == 'Weblearns'"/>-->
+    <!--                    This is for invisible attribute example-->
+    <!--                    <field name="ref_field_id" attrs="{'invisible':[('amount', '=', 0)]}"/>-->
+    <!--                    <field name="ref_field_id" invisible = "amount == 0"/>-->
+    <!--                    <field name="ref_field_id" invisible = "1"/>-->
+    <!--                    <field name="ref_field_id" invisible = "amount == 0 or name == 'Weblearns'"/>-->
 
 
-                    <field name="amount"  />
+                        <field name="amount"  />
 
-<!--                    <field name="ref_field_id" attrs="{'required':[('amount','=',0)]}" />-->
-<!--                    <field name="ref_field_id" required="1" />-->
-<!--                    <field name="ref_field_id" required="amount == 0" />-->
-<!--                    <field name="ref_field_id" required="amount == 0 or name == 'weblearns'" />-->
-                    <field name="ref_field_id" />
-                    <field name="invoice_id" />
-                    <field name="invoice_user_id" />
-                    <field name="invoice_date" />
-                    <field name="binary_fields" widget="many2many_binary" />
-                    <field name="binary_field"  filename="binary_file_name" />
-                    <field name="binary_file_name" invisible="1"/>
-<!--                    <field name="student_list" string="Student List (Current Xyz)"/>-->
+    <!--                    <field name="ref_field_id" attrs="{'required':[('amount','=',0)]}" />-->
+    <!--                    <field name="ref_field_id" required="1" />-->
+    <!--                    <field name="ref_field_id" required="amount == 0" />-->
+    <!--                    <field name="ref_field_id" required="amount == 0 or name == 'weblearns'" />-->
+                        <field name="ref_field_id" />
+                        <field name="invoice_id" />
+                        <field name="invoice_user_id" />
+                        <field name="invoice_date" />
+                        <field name="binary_fields" widget="many2many_binary" />
+                        <field name="binary_field"  filename="binary_file_name" />
+                        <field name="binary_file_name" invisible="1"/>
+                        <field name="student_list" string="Student List (Current Xyz)"/>
+                    </group>
+                    <group>
+    <!--                    <field name="school_image" widget="image" class="oe_avatar" nolabel="1"/>-->
+                        <field name="school_image"  nolabel="1" />
+                    </group>
                 </group>
-                <group>
-<!--                    <field name="school_image" widget="image" class="oe_avatar" nolabel="1"/>-->
-                    <field name="school_image"  nolabel="1" />
-                </group>
-            </group>
+            </sheet>
         </form>
       </field>
     </record>

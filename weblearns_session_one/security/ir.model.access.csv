@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+equipment_category_user,equipment.category,weblearns_session_one.model_equipment_category,base.group_user,1,0,0,0
+equipment_category_inventory_manager,equipment.category,weblearns_session_one.model_equipment_category,stock.group_stock_manager,1,0,1,0
+equipment_category_admin,equipment.category,weblearns_session_one.model_equipment_category,base.group_system,1,1,1,1
+po_filter_wiz_admin,po_filter_wiz,weblearns_session_one.model_po_filter_wiz,stock.group_stock_manager,1,1,1,1

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_cohort_school" model="ir.ui.view">
+        <field name="name">school.cohort.view</field>
+        <field name="model">wb.school</field>
+        <field name="arch" type="xml">
+            <cohort string="School Cohort View...."
+                    mode="churn"
+                    disable_linking="1"
+                    interval="week"
+                    measure="amount"
+                    date_start="start_date" date_stop="end_date"/>
+        </field>
+    </record>
+
+    <record id="school_view_gantt" model="ir.ui.view">
+        <field name="name">chool.gantt</field>
+        <field name="model">wb.school</field>
+        <field name="arch" type="xml">
+            <gantt date_start="start_date"
+                date_stop="end_date"
+                color="status_id"
+                   default_group_by="status_id"
+                   disable_drag_drop="0"
+            >
+                <field name="name"/>
+            </gantt>
+        </field>
+    </record>
+
+    <record id="student.wb_school_action" model="ir.actions.act_window">
+        <field name="view_mode">list,gantt,cohort,form</field>
+    </record>
+</odoo>

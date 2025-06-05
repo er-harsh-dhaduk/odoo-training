@@ -1,0 +1,13 @@
+select name,email,phone from res_partner where supplier_rank >0 and active=True;
+
+select po.name as purchase_order_reference, po.amount_total, po.date_order from purchase_order po join res_partner rp on po.partner_id = rp.id where po.date_order >= (CURRENT_DATE - INTERVAL '30 days') order by po.date_order desc;
+
+select rp.name as vendor_name, po.name as purchase_order_reference, po.amount_total, po.date_order from purchase_order po join res_partner rp on po.partner_id = rp.id where po.date_order >= (CURRENT_DATE - INTERVAL '30 days') order by po.date_order desc;
+
+select pt.name as product_name, pt.default_code, sum(sol.product_uom_qty) as total_quantity_sold from sale_order_line sol join product_product pp on sol.product_id= pp.id join product_template pt on pp.product_tmpl_id = pt.id join sale_order so on sol.order_id = so.id where so.state in ('sale','done') group by pt.id, pt.name, pt.default_code order by total_quantity_sold desc limit 5;
+
+select rp.name as customer_name, count(so.id) as order_count from res_partner rp join sale_order so on rp.id = so.partner_id where so.amount_total > (select avg(amount_total) from sale_order where state in ('sale','done')) and so.state in ('sale','done')  group by rp.id, rp.name order by order_count desc;
+
+select count(id) from purchase_order where state='draft' and date_order < (current_date - interval '7 days');
+
+update purchase_order set state='cancel' where state='draft' and date_order < (current_date - interval '7 days');

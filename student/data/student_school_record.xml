@@ -2,11 +2,16 @@
 
     <record id="wb_school_sunny" model="wb.school">
       <field name="name">Original Sunny Leone School</field>
+        <field name="binary_field" file="student/static/description/iron-man.png" type="base64" />
+        <field name="binary_file_name">iron-man.png</field>
     </record>
 
     <record id="wb_student_sunny" model="wb.student">
         <field name="name">Original Sunny Leone Student</field>
         <field name="school_id" ref="student.wb_school_sunny" />
+        <field name="gender">male</field>
     </record>
+
+
 
 </odoo>

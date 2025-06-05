@@ -1,31 +1,32 @@
 <odoo>
 
-
-    <record id="wb_hobby_tree_view" model="ir.ui.view">
-      <field name="name">wb.hobby.list.view</field>
-      <field name="model">wb.hobby</field>
-      <field name="arch" type="xml">
-        <list string="Hobby">
-          <field name="name" />
-
-        </list>
-      </field>
+    <record id="wb_hobby_list_view" model="ir.ui.view">
+        <field name="name">wb.hobby.list.view</field>
+        <field name="model">wb.hobby</field>
+        <field name="arch" type="xml">
+            <list>
+<!--            <list default_order="name, create_date desc" limit="10" editable="bottom" multi_edit="1" open_form_view="True">-->
+                <field name="id" optional="show" nolabel="1"/>
+                <field name="create_uid" optional="hide" width="120px"/>
+                <field name="create_date" optional="hide"/>
+                <field name="name" width="500px"/>
+            </list>
+        </field>
     </record>
 
-   <record id="wb_hobby_form_view" model="ir.ui.view">
-      <field name="name">wb.hobby.form.view</field>
-      <field name="model">wb.hobby</field>
-      <field name="arch" type="xml">
-        <form string="Hobby">
-            <group>
+    <record id="wb_hobby_form_view" model="ir.ui.view">
+        <field name="name">wb.hobby.form.view</field>
+        <field name="model">wb.hobby</field>
+        <field name="arch" type="xml">
+            <form>
                 <group>
                     <field name="name" />
                 </group>
-            </group>
 
-        </form>
-      </field>
+            </form>
+        </field>
     </record>
+
 
   <record id="wb_hobby_action" model="ir.actions.act_window">
     <field name="name">Hobby</field>

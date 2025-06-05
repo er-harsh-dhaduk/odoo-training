@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="student_0001" model="wb.student">
+        <field name="name">Weblearns0</field>
+        <field name="vip_gender">c</field>
+        <field name="roll_number">1</field>
+        <field name="student_fees">10000</field>
+        <field name="combobox">male</field>
+        <field name="final_fees" eval="12000.90" />
+        <field name="gender">1</field>
+        <field name="is_default_demo" eval="True"/>
+        <field name="joining_date" eval="DateTime.today() + relativedelta(months=-1)"/>
+    </record>
+
+    <record id="student_0002" model="wb.student">
+        <field name="name">Weblearns1</field>
+        <field name="vip_gender">c</field>
+        <field name="roll_number">1</field>
+        <field name="student_fees">10000</field>
+        <field name="combobox">male</field>
+        <field name="final_fees">12000</field>
+        <field name="gender">1</field>
+    </record>
+
+    <record id="student_0003" model="wb.student">
+        <field name="name">Weblearns2</field>
+        <field name="vip_gender">c</field>
+        <field name="roll_number">1</field>
+        <field name="student_fees">10000</field>
+        <field name="combobox">male</field>
+        <field name="final_fees">12000</field>
+        <field name="gender">1</field>
+    </record>
+
+    <record id="student_0004" model="wb.student">
+        <field name="name">Weblearns3</field>
+        <field name="vip_gender">c</field>
+        <field name="roll_number">1</field>
+        <field name="student_fees">10000</field>
+        <field name="combobox">male</field>
+        <field name="final_fees">12000</field>
+        <field name="gender">1</field>
+    </record>
+
+    <record id="student_0005" model="wb.student">
+        <field name="name">Weblearns4</field>
+        <field name="vip_gender">c</field>
+        <field name="roll_number">1</field>
+        <field name="student_fees">10000</field>
+        <field name="combobox">male</field>
+        <field name="final_fees">12000</field>
+        <field name="gender">1</field>
+    </record>
+
+</odoo>

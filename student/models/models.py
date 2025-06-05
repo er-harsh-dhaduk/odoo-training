@@ -4,29 +4,42 @@ from odoo import api, fields, models
 from odoo.exceptions import UserError
 from lxml import etree
 import logging
+import base64
+import os
+from dateutil.relativedelta import relativedelta
 _logger = logging.getLogger("Weblearns :- ")
 
 
-class partner(models.Model):
-    _inherit = "res.partner"
+# class partner(models.Model):
+#     _inherit = "res.partner"
 
-    @api.model_create_multi
-    def create(self, vals):
-        print("self ", self, vals)
-        print("selfenv ", self.env)
-        print("self cr ", self.env.cr)
-        print("self user ", self.env.user)
-        print("self uid ", self.env.uid)
-        print("self su ", self.env.su)
-        print("self is admin ", self.env.is_admin())
-        print("self company ", self.env.company)
-        print("self multi company ", self.env.companies)
-        print("selfcontext  ", self.env.context)
-        return super(partner, self).create(vals)
+    # @api.model_create_multi
+    # def create(self, vals):
+        # print("self ", self, vals)
+        # print("selfenv ", self.env)
+        # print("self cr ", self.env.cr)
+        # print("self user ", self.env.user)
+        # print("self uid ", self.env.uid)
+        # print("self su ", self.env.su)
+        # print("self is admin ", self.env.is_admin())
+        # print("self company ", self.env.company)
+        # print("self multi company ", self.env.companies)
+        # print("selfcontext  ", self.env.context)
 
-    def write(self, vals):
-        print(self, vals)
-        return super(partner, self).write(vals)
+        # for val in vals:
+        #     current_file_path = os.path.abspath(__file__)
+        #     current_dir = os.path.dirname(current_file_path)
+        #     module_dir = os.path.dirname(current_dir)
+        #     if "image_1920" in val:
+        #         image_path = val.pop("image_1920")
+        #         if os.path.isfile(module_dir+image_path):
+        #             with open(module_dir+image_path, "rb") as img:
+        #                 val['image_1920'] = base64.b64encode(img.read()).decode("utf-8")
+        # return super(partner, self).create(vals)
+
+    # def write(self, vals):
+    #     print(self, vals)
+    #     return super(partner, self).write(vals)
 
 
 class sale(models.Model):
@@ -81,10 +94,25 @@ class DemoSchool(models.Model):
     name = fields.Char("School Name")
 
 
+class StatusBarSchool(models.Model):
+    _name = "school.status"
+    _order = "sequence"
+    _description = "This is status of school profile."
+
+    sequence = fields.Integer("Sequence", default=10)
+    name = fields.Char("Status")
+
+
+
+
 class School(models.Model):
     _name = "wb.school"
     _description = "This is school profile."
 
+    status_id = fields.Many2one("school.status", "School Status")
+    status = fields.Selection([("New","New"),
+                               ("Active","Active"),
+                               ("Closed","Closed")], default="New")
     active = fields.Boolean("Archive / Soft Remove / Remove from filter", default=True)
     school_image = fields.Image("School Image", max_width=128, max_height=128)
     name = fields.Char("Name")
@@ -107,6 +135,12 @@ class School(models.Model):
     # currency_id = fields.Many2one("res.currency", "Currency")
     amount = fields.Monetary("Amount", currency_field="my_currency_id", default=0)
     student_id = fields.Many2one("wb.student")
+    start_date = fields.Date("Start Date", default=fields.Date.today())
+    end_date = fields.Date("End Date", default=fields.Date.today() + relativedelta(months=+1))
+
+
+    def abc_test(self):
+        print("abc_test------>", self)
 
     # @api.model
     # def get_view(self, view_id=None, view_type="form", **options):
@@ -709,6 +743,7 @@ class School(models.Model):
 class Student(models.Model):
     _name = "wb.student"
     _description = "This is student profile."
+    _order = "sequence"
 
     @api.model
     def _name_search(self, name, domain=None, operator='ilike', limit=None, order=None):
@@ -744,6 +779,11 @@ class Student(models.Model):
         print(rtn)
         return rtn
 
+    def abc_test(self):
+        print("abc_test------>", self)
+
+    sequence = fields.Integer("Sequence", default=10)
+    student_image = fields.Image("Student Image")
     hobby_list = fields.Many2many("wb.hobby","student_hobby_list_relation","student_id","hobby_id")
     hobby_list_ids = fields.Many2many("wb.hobby", string="Hobbies", help="Select hobby list for this student!",
                                       )
@@ -755,9 +795,6 @@ class Student(models.Model):
     joining_date = fields.Datetime("Join Date!", copy=False)
                                    # default=fields.Datetime.now, help="Please select here jointing date of students.")
     # joining_date = fields.Datetime("Join Date!", copy=False, default=fields.Datetime.now())
-
-
-
     # joining_date = fields.Date("Date", default='2024-12-01')
     # joining_date = fields.Date("Date", default=fields.Date.today())
     # joining_date = fields.Date("Date", default=fields.Date.today)
@@ -770,6 +807,15 @@ class Student(models.Model):
     # end_date = fields.Date(default= time.strftime("%Y-12-31"))
 
     school_data = fields.Json()
+    status = fields.Selection([("Draft","Draft"),
+                               ("In Progress", "In Progress"),
+                               ("Finish", "Finish"),
+                               ], default="Draft", group_expand="_read_group_stage_ids")
+
+    @api.model
+    def _read_group_stage_ids(self, stages, domain):
+        return [ key for key, _ in self._fields['status'].selection]
+
 
     @api.model
     def _get_vip_list(self):

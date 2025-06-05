@@ -1,0 +1,29 @@
+<odoo>
+
+    <record id="equipment_category_list_view" model="ir.ui.view">
+        <field name="name">equipment.category.list.view</field>
+        <field name="model">equipment.category</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="name" />
+                <field name="reference" />
+            </list>
+        </field>
+    </record>
+
+  <record id="equipment_category_action" model="ir.actions.act_window">
+    <field name="name">Equipment Category</field>
+    <field name="res_model">equipment.category</field>
+    <field name="view_mode">list</field>
+  </record>
+    
+  <menuitem id="equipment_category_menu"
+            action="equipment_category_action"
+            name="Equipment Category"
+            parent="stock.menu_stock_config_settings"
+  />
+
+
+
+
+</odoo>

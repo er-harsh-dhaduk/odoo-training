@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="iron_man_partner" model="res.partner">
+        <field name="name">IronMan</field>
+        <field name="image_1920" file="student/static/description/iron-man.png" type="base64"/>
+        <field name="title" eval="6" />
+        <field name="category_id" eval="[(6,0, [ref('base.res_partner_category_0'),ref('base.res_partner_category_2')])]" />
+    </record>
+
+    <record id="jerry_partner" model="res.partner">
+        <field name="name">Jerry</field>
+        <field name="image_1920" file="student/static/description/jerry.png" type="base64"/>
+        <field name="country_id" ref="base.ae"/>
+        <field name="title" eval="6" />
+        <field name="category_id" eval="[(6,0, [ref('base.res_partner_category_0'),ref('base.res_partner_category_2')])]" />
+    </record>
+
+    <record id="popeye_partner" model="res.partner">
+        <field name="name">Popeye</field>
+        <field name="image_1920" file="student/static/description/popeye.png" type="base64"/>
+        <field name="country_id" ref="base.ae"/>
+        <field name="title" eval="6" />
+        <field name="category_id" eval="[(4, ref('base.res_partner_category_3'))]" />
+    </record>
+
+    <record id="tom_partner" model="res.partner">
+        <field name="name">Tom</field>
+        <field name="image_1920" file="student/static/description/tom.png" type="base64"/>
+        <field name="country_id" ref="base.ae"/>
+        <field name="title" eval="6" />
+        <field name="category_id" eval="[(6,0, [ref('base.res_partner_category_0'),ref('base.res_partner_category_2')])]" />
+    </record>
+
+</odoo>
