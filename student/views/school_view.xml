@@ -8,6 +8,7 @@
             <field name="sequence" widget="handle" />
             <field name="id" />
             <field name="name" />
+            <field name="img" widget='image' class="oe_avatar" />
         </list>
       </field>
     </record>
@@ -130,7 +131,8 @@
                         <field name="name" />
     <!--                    <field name="student_id" />-->
                         <field name="my_currency_id" placeholder="Please select currency!" />
-
+                        <field name="child_school_ids" widget="many2many_tags" />
+                        <field name="parent_school_ids" widget="many2many_tags" />
     <!--                    This is for readonly attribute example-->
     <!--                    <field name="ref_field_id" attrs="{'readonly':[('amount','=',0)]}"/>-->
     <!--                    <field name="ref_field_id" readonly="amount == 0"/>-->

@@ -123,6 +123,7 @@
                     </page>
                     <page string="School Detail">
                         <group >
+                            <field name="school_ids" widget="many2many_tags"/>
                             <field name="hobby_list_ids" widget="many2many_tags"/>
                             <field name="school_id" string="School" placeholder="Please select school"/>
                             <field name="joining_date" string="Joining Date Student" required="1" placeholder="Please enter student joining date."/>

@@ -22,6 +22,8 @@ Long description of module's purpose
 
     # always loaded
     'data': [
+        "security/security_group.xml",
+        "security/ir.model.access.csv",
         "views/school_view.xml"
     ]
 }

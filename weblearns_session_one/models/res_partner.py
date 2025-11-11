@@ -6,7 +6,7 @@ from odoo.exceptions import ValidationError
 class Partner(models.Model):
     _inherit = "res.partner"
 
-    is_filter_po_products_category = fields.Boolean("Filter Products In PO Based On Category", defalut=False)
+    is_filter_po_products_category = fields.Boolean("Filter Products In PO Based On Category", default=False)
     prd_list_ids = fields.Many2many("product.product")
     vendor_priority = fields.Selection([("low","Low"),
                                         ("medium", "medium"),

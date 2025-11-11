@@ -14,17 +14,42 @@
         </field>
     </record>
 
-    <record id="school_view_gantt" model="ir.ui.view">
-        <field name="name">chool.gantt</field>
+    <record id="gantt_school_view" model="ir.ui.view">
+        <field name="name">gantt.school.view</field>
         <field name="model">wb.school</field>
         <field name="arch" type="xml">
-            <gantt date_start="start_date"
-                date_stop="end_date"
-                color="status_id"
-                   default_group_by="status_id"
-                   disable_drag_drop="0"
+            <gantt date_start="start_date" date_stop="end_date" string="School Gantt View"
+                default_group_by="status_id"
+                   decoration-info="status_id[0] == 1"
+                   decoration-warning="status_id[0] == 2"
+                   decoration-secondary="status_id[0] == 3"
+                   decoration-danger="status_id[0] == 4"
+                   decoration-success="status_id[0] == 5"
+                   color="status_id"
+                   default_scale="day"
+                   scales="day,week,month"
+                   disable_drag_drop="True"
+                   create="0"
+                   edit="0"
+                   delete="0"
+                   total_row="True"
+                   dependency_field="child_school_ids"
+                   dependency_inverted_field="parent_school_ids"
+
             >
-                <field name="name"/>
+                <templates>
+                    <div t-name="gantt-popover">
+                        <b>Name: </b><t t-out="name" /> <br/>
+                        <b>Start Date </b><t t-out="start_date.toFormat('f ')" /><br/>
+                        <b>End Date </b><t t-out="end_date.toFormat(' f')" /><br/>
+                        <b>Status ID </b><t t-out="status_id[0]" /><br/>
+                        <b>Status Name </b><t t-out="status_id[1]" /><br/>
+                        <b>Fees </b><t t-out="amount" /><br/>
+                    </div>
+                </templates>
+                <field name="name" />
+                <field name="amount" />
+
             </gantt>
         </field>
     </record>

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+customer_representative_product_id,Customer Representative Product,product.model_product_template,student_enterprise.customer_representative,1,0,0,0
+customer_representative_contact_id,Customer Representative Customer,base.model_res_partner,student_enterprise.customer_representative,1,1,0,0
+customer_representative_base_ir_config_parameter,Customer Representative System Paramter,base.model_ir_config_parameter,student_enterprise.customer_representative,1,0,0,0
+customer_representative_base_ir_model,Customer Representative ir model,base.model_ir_model,student_enterprise.customer_representative,1,0,0,0

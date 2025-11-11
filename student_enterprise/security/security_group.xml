@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="customer_representative" model="res.groups">
+            <field name="name">Customer Service Representative 1</field>
+        </record>
+
+    </data>
+</odoo>

@@ -101,6 +101,7 @@ class StatusBarSchool(models.Model):
 
     sequence = fields.Integer("Sequence", default=10)
     name = fields.Char("Status")
+    img = fields.Image("Image")
 
 
 

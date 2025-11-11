@@ -14,7 +14,7 @@ This is weblearns first exersice.
 
     # any module necessary for this one to work correctly
     'depends': ['stock', 'purchase', 'account'],
-    'auto_install':True,
+    'auto_install':False,
     # always loaded
     'data': [
         'security/ir.model.access.csv',
