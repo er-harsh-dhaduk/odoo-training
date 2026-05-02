@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <data noupdate="1">
+
+
+
+<!--        <record id="access_wb_student" model="ir.model.access">-->
+<!--            <field name="name">wb.student.from.xml</field>-->
+<!--            <field name="model_id" ref="student.model_wb_student"/>-->
+<!--            <field name="group_id" ref="base.group_user"/>-->
+<!--            <field name="perm_read" eval="1"/>-->
+<!--            <field name="perm_write" eval="1"/>-->
+<!--            <field name="perm_create" eval="1"/>-->
+<!--            <field name="perm_unlink" eval="1"/>-->
+<!--        </record>-->
+
+<!--        <record id="access_wb_school" model="ir.model.access">-->
+<!--            <field name="name">wb.school.from.xml</field>-->
+<!--            <field name="model_id" ref="student.model_wb_school"/>-->
+<!--            <field name="group_id" ref="base.group_user"/>-->
+<!--            <field name="perm_read" eval="1"/>-->
+<!--            <field name="perm_write" eval="1"/>-->
+<!--            <field name="perm_create" eval="1"/>-->
+<!--            <field name="perm_unlink" eval="1"/>-->
+<!--        </record>-->
+
+<!--        <record id="access_wb_hobby" model="ir.model.access">-->
+<!--            <field name="name">wb.hobby.from.xml</field>-->
+<!--            <field name="model_id" ref="student.model_wb_hobby"/>-->
+<!--            <field name="group_id" ref="base.group_user"/>-->
+<!--            <field name="perm_read" eval="1"/>-->
+<!--            <field name="perm_write" eval="1"/>-->
+<!--            <field name="perm_create" eval="1"/>-->
+<!--            <field name="perm_unlink" eval="1"/>-->
+<!--        </record>-->
+
+<!--        <record id="access_demo_school" model="ir.model.access">-->
+<!--            <field name="name">demo_school.from.xml</field>-->
+<!--            <field name="model_id" ref="student.model_demo_school"/>-->
+<!--            <field name="group_id" ref="base.group_user"/>-->
+<!--            <field name="perm_read" eval="1"/>-->
+<!--            <field name="perm_write" eval="1"/>-->
+<!--            <field name="perm_create" eval="1"/>-->
+<!--            <field name="perm_unlink" eval="1"/>-->
+<!--        </record>-->
+
+<!--        <record id="access_model_school_status" model="ir.model.access">-->
+<!--            <field name="name">school.status.from.xml</field>-->
+<!--            <field name="model_id" ref="student.model_school_status"/>-->
+<!--            <field name="group_id" ref="base.group_user"/>-->
+<!--            <field name="perm_read" eval="1"/>-->
+<!--            <field name="perm_write" eval="1"/>-->
+<!--            <field name="perm_create" eval="1"/>-->
+<!--            <field name="perm_unlink" eval="1"/>-->
+<!--        </record>-->
+
+
+<!--        Model ir.module.category-->
+<!--            Useful Fields-->
+<!--                name :- name of the category-->
+<!--                description :- you can add description and Odoo will convert into tooltip-->
+<!--                sequence :- You can define priority of category e.g top to bottom or bottom to top display the category.-->
+<!--                parent_id :- You can create parent child categories.-->
+
+        <record id="student_categ" model="ir.module.category">
+            <field name="name">Student</field>
+        </record>
+
+        <record id="student_profile" model="res.groups.privilege">
+            <field name="name">Student Profile</field>
+            <field name="category_id" ref="student.student_categ"/>
+        </record>
+
+        <record id="student_second_profile" model="res.groups.privilege">
+            <field name="name">Student Second Profile</field>
+            <field name="category_id" ref="student.student_categ"/>
+        </record>
+
+        <record id="student_third_profile" model="res.groups.privilege">
+            <field name="name">Student Third Profile</field>
+            <field name="category_id" ref="student.student_categ"/>
+            <field name="sequence">10</field>
+            <field name="description">Using this group you can allow user to access below rights.
+                1) Readonly Access
+                2) All documents access.
+                3) Administrator
+            </field>
+        </record>
+
+        <record id="student_forth_profile" model="res.groups.privilege">
+            <field name="name">Student Forth Profile</field>
+            <field name="category_id" ref="student.student_categ"/>
+            <field name="description">Using this group you can allow user to access below rights.
+                1) Readonly Access
+                2) All documents access.
+                3) Administrator
+            </field>
+            <field name="sequence">15</field>
+        </record>
+
+        <record id="student_5_profile" model="res.groups.privilege">
+            <field name="name">Student 5 Profile</field>
+            <field name="category_id" ref="student.student_categ"/>
+            <field name="description">Using this group you can allow user to access below rights.
+                1) Readonly Access
+                2) All documents access.
+                3) Administrator
+            </field>
+            <field name="sequence">15</field>
+        </record>
+
+
+        <record id="student_sub_module_category" model="res.groups.privilege">
+            <field name="name">Access Rights</field>
+            <field name="category_id" ref="student.student_categ"/>
+            <field name="description">Using this group you can allow user to access below rights.
+                1) Student :- Only its own profile access.
+                2) Teacher :- All students accessed by assigned under student profile.
+                3) Administrator :- All students can see + Remove feature.
+            </field>
+            <field name="sequence">15</field>
+        </record>
+
+        <record model="res.groups.privilege" id="res_groups_privilege_employees">
+            <field name="name">Employees</field>
+            <field name="sequence">9</field>
+            <field name="category_id" ref="student.student_categ"/>
+        </record>
+
+        <record id="student_group" model="res.groups">
+            <field name="name">Student Group</field>
+        </record>
+
+        <record id="student_group_second" model="res.groups">
+            <field name="name">Student Second Group</field>
+            <field name="privilege_id" ref="student.student_profile" />
+        </record>
+
+        <record id="student_group_third" model="res.groups">
+            <field name="name">Student Third Group</field>
+            <field name="privilege_id" ref="student.student_third_profile" />
+        </record>
+
+
+
+        <record id="student_group_7" model="res.groups">
+            <field name="name">User</field>
+            <field name="privilege_id" ref="student.student_forth_profile" />
+        </record>
+
+        <record id="student_group_8" model="res.groups">
+            <field name="name">Manger</field>
+            <field name="privilege_id" ref="student.student_forth_profile" />
+            <field name="implied_ids" eval="[(4, ref('student.student_group_7'))]" />
+        </record>
+
+        <record id="student_group_9" model="res.groups">
+            <field name="name">Admin</field>
+            <field name="privilege_id" ref="student.student_forth_profile" />
+            <field name="implied_ids" eval="[(4, ref('student.student_group_8'))]" />
+        </record>
+
+
+
+        <record id="student_group_10" model="res.groups">
+            <field name="name">Diff Admin</field>
+            <field name="privilege_id" ref="student.student_5_profile" />
+        </record>
+
+        <record id="student_group_forth" model="res.groups">
+            <field name="name">Student User</field>
+<!--            <field name="category_id" ref="student.student_forth_profile" />-->
+            <field name="privilege_id" ref="base.module_category_hidden" />
+        </record>
+
+        <record id="student_group_fifth" model="res.groups">
+            <field name="name">Student Manager</field>
+            <field name="privilege_id" ref="base.module_category_hidden" />
+            <field name="implied_ids" eval="[(4, ref('student.student_group_forth'))]" />
+        </record>
+
+        <record id="student_group_sixth" model="res.groups">
+            <field name="name">Student Administrator</field>
+            <field name="privilege_id" ref="base.module_category_hidden" />
+            <field name="implied_ids" eval="[(4, ref('student.student_group_fifth'))]" />
+        </record>
+
+
+<!--        <record id="student_rule_id" model="ir.rule">-->
+<!--            <field name="name">Student: Own Records Only</field>-->
+<!--            <field name="model_id" ref="model_wb_student" />-->
+<!--            <field name="domain_force">[('create_uid','=',user.id)]</field>-->
+<!--            <field name="groups" eval="[(4, ref('base.group_user'))]" />-->
+<!--            <field name="perm_read" eval="True" />-->
+<!--            <field name="perm_write" eval="True" />-->
+<!--            <field name="perm_create" eval="True" />-->
+<!--            <field name="perm_unlink" eval="False" />-->
+<!--        </record>-->
+
+
+
+        <record id="student_own_record_group" model="res.groups">
+            <field name="name">Student</field>
+            <field name="privilege_id" ref="student.student_sub_module_category" />
+        </record>
+
+        <record id="student_teacher_group" model="res.groups">
+            <field name="name">Teacher</field>
+            <field name="privilege_id" ref="student.student_sub_module_category" />
+            <field name="implied_ids" eval="[(4, ref('student.student_own_record_group'))]" />
+        </record>
+
+        <record id="student_admin_group" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="privilege_id" ref="student.student_sub_module_category" />
+            <field name="implied_ids" eval="[(4, ref('student.student_teacher_group'))]" />
+        </record>
+
+        <record id="student_rule_id" model="ir.rule">
+            <field name="name">Student: Own Records Only</field>
+            <field name="model_id" ref="model_wb_student" />
+            <field name="domain_force">[('student_user_id','=',user.id)]</field>
+            <field name="groups" eval="[(4, ref('student.student_own_record_group'))]" />
+            <field name="perm_read" eval="True" />
+            <field name="perm_write" eval="False" />
+            <field name="perm_create" eval="False" />
+            <field name="perm_unlink" eval="False" />
+        </record>
+
+        <record id="teacher_rule_id" model="ir.rule">
+            <field name="name">Teacher: Assigned Students Records Only</field>
+            <field name="model_id" ref="model_wb_student" />
+            <field name="domain_force">[('teacher_user_id','=',user.id),'|',('company_id','=', user.company_id.id), ('company_id','in', user.company_ids.ids)]</field>
+            <field name="groups" eval="[(4, ref('student.student_teacher_group'))]" />
+            <field name="perm_read" eval="True" />
+            <field name="perm_write" eval="False" />
+            <field name="perm_create" eval="False" />
+            <field name="perm_unlink" eval="False" />
+        </record>
+
+        <record id="admin_rule_id" model="ir.rule">
+            <field name="name">Student: Own Records Only</field>
+            <field name="model_id" ref="model_wb_student" />
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4, ref('student.student_admin_group'))]" />
+            <field name="perm_read" eval="True" />
+            <field name="perm_write" eval="True" />
+            <field name="perm_create" eval="True" />
+            <field name="perm_unlink" eval="True" />
+        </record>
+
+    </data>
+
+</odoo>
+
+<!--[(fieldname, operator name, value)]-->
+
+<!--1. Equality:-->
+
+<!--[('field', '=', value)]        # Equal to-->
+<!--[('field', '!=', value)]       # Not equal to-->
+
+<!--2. Comparisons:-->
+
+<!--[('field', '>', value)]        # Greater than-->
+<!--[('field', '>=', value)]       # Greater or equal-->
+<!--[('field', '<', value)]        # Less than-->
+<!--[('field', '<=', value)]       # Less or equal-->
+
+<!--3. List operations:-->
+
+<!--[('field', 'in', [1, 2, 3])]   # In list-->
+<!--[('field', 'not in', [1, 2])]  # Not in list-->
+
+<!--4. Text matching:-->
+
+<!--[('field', 'like', 'text')]    # Contains (case-sensitive)-->
+<!--[('field', 'ilike', 'text')]   # Contains (case-insensitive)-->
+
+
+<!--5. Boolean:-->
+
+<!--[('field', '=', True)]         # Is True-->
+<!--[('field', '=', False)]        # Is False or not set-->
+
+<!--6. Logical operators:-->
+
+<!--# AND (default)-->
+<!--[('field1', '=', val1), ('field2', '=', val2)]-->
+
+<!--# OR-->
+<!--['|', ('field1', '=', val1), ('field2', '=', val2)]-->
+
+<!--# Complex: (field1 = val1) OR (field2 = val2 AND field3 = val3) -->
+<!--        -->
+<!--['|', ('field1', '=', val1), '&', ('field2', '=', val2), ('field3', '=', val3)]-->

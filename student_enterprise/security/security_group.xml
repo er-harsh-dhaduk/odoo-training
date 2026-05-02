@@ -3,7 +3,7 @@
     <data noupdate="1">
 
         <record id="customer_representative" model="res.groups">
-            <field name="name">Customer Service Representative 1</field>
+            <field name="name">Customer Service Representative</field>
         </record>
 
     </data>

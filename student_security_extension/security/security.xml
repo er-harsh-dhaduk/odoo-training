@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="student.student_sub_module_category" model="ir.module.category">
+        <field name="name">Extended Access Rights</field>
+    </record>
+
+    <record id="student_senior_teacher_group" model="res.groups">
+        <field name="name">Senior Teacher</field>
+        <field name="category_id" ref="student.student_sub_module_category" />
+        <field name="implied_ids" eval="[(4, ref('student.student_teacher_group'))]" />
+    </record>
+
+    <record id="student.student_admin_group" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('student_security_extension.student_senior_teacher_group'))]" />
+    </record>
+</odoo>
