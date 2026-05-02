@@ -55,7 +55,8 @@
       <field name="name">wb.student.list.view</field>
       <field name="model">wb.student</field>
       <field name="arch" type="xml">
-          <list string="Student" delete="0" create="0" edit="0" import="0" export_xlsx="0">
+<!--          <list string="Student" delete="0" create="0" edit="0" import="0" export_xlsx="0">-->
+          <list string="Student">
 <!--        <list string="Student"-->
 <!--            decoration-bf="id == 1" decoration-it="id == 2"-->
 <!--            decoration-info="id == 1"-->
@@ -110,6 +111,9 @@
                     <page string="Student Detail">
 <!--                        <group>-->
                             <group>
+                                <field name="student_user_id" />
+                                <field name="teacher_user_id" />
+                                <field name="company_id" />
                                 <field name="is_default_demo" />
                                 <field name="name1" />
                                 <field name="name2" invisible="1"/>
@@ -262,6 +266,16 @@
             parent="wb_student_sub_root_menu"
   />
 
+<!--    <record id="user_form_view" model="ir.ui.view">-->
+<!--      <field name="name">res.users.form.view</field>-->
+<!--      <field name="model">res.users</field>-->
+<!--        <field name="inherit_id" ref="base.view_users_form" />-->
+<!--      <field name="arch" type="xml">-->
+<!--          <field name="partner_id" position="after">-->
+<!--              <field name="student_id" />-->
+<!--          </field>-->
+<!--      </field>-->
+<!--    </record>-->
 
 
 

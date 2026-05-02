@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_wb_student_for_student_senior_teacher_group,wb.student.teacher,student.model_wb_student,student_security_extension.student_senior_teacher_group,1,1,0,0
+student.access_wb_student_for_student_user,wb.student.extend,student.model_wb_student,student.student_own_record_group,1,1,0,0

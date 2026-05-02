@@ -41,6 +41,11 @@ _logger = logging.getLogger("Weblearns :- ")
     #     print(self, vals)
     #     return super(partner, self).write(vals)
 
+# class User(modles.Model):
+#     _inherit = "res.users"
+#
+#     student_id = fields.Many2one("wb.student", string="Student")
+
 
 class sale(models.Model):
     _inherit = "sale.order"
@@ -138,7 +143,12 @@ class School(models.Model):
     student_id = fields.Many2one("wb.student")
     start_date = fields.Date("Start Date", default=fields.Date.today())
     end_date = fields.Date("End Date", default=fields.Date.today() + relativedelta(months=+1))
-
+    child_school_ids = fields.Many2many("wb.school", "wb_child_school_ids_rel", "id",
+                                   "child_id")
+    parent_school_ids = fields.Many2many("wb.school", "wb_parent_school_ids_rel", "id",
+                                        "parent_id")
+    student_ids = fields.Many2many("wb.student", "wb_school_student_ids_rel", "school_id",
+                                   "student_id")
 
     def abc_test(self):
         print("abc_test------>", self)
@@ -783,6 +793,10 @@ class Student(models.Model):
     def abc_test(self):
         print("abc_test------>", self)
 
+    student_user_id = fields.Many2one("res.users", string="Student Users")
+    teacher_user_id = fields.Many2one("res.users", string="Teacher Users")
+    company_id = fields.Many2one("res.company", string="Company")
+
     sequence = fields.Integer("Sequence", default=10)
     student_image = fields.Image("Student Image")
     hobby_list = fields.Many2many("wb.hobby","student_hobby_list_relation","student_id","hobby_id")
@@ -791,6 +805,8 @@ class Student(models.Model):
     school_id = fields.Many2one(comodel_name="wb.school", string="Select School",
                                 default=7, index=True,
                                 help="Please select the school profile.")
+    school_ids = fields.Many2many("wb.school", "wb_student_school_ids_rel", "student_id",
+                                   "school_id")
 
     # joining_date = fields.Datetime("Join Date!", copy=False, default="2024-01-01 05:00:00")
     joining_date = fields.Datetime("Join Date!", copy=False)
