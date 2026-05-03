@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Odoo 19 – res.groups.privilege | Weblearns</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0d14;
+    --surface: #111520;
+    --card: #161b28;
+    --border: #1e2638;
+    --odoo: #714b67;
+    --orange: #f97316;
+    --orange-soft: #fb923c;
+    --cyan: #22d3ee;
+    --green: #4ade80;
+    --red: #f87171;
+    --yellow: #fbbf24;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --dim: #94a3b8;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+    background: rgba(10,13,20,.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 32px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .nav-logo {
+    font-size: 13px; font-weight: 700; letter-spacing: .1em; color: var(--orange);
+    text-transform: uppercase;
+  }
+  .nav-sep { flex: 1; }
+  .nav-dots {
+    display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end;
+  }
+  .nav-dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--border); cursor: pointer;
+    transition: background .2s;
+  }
+  .nav-dot:hover, .nav-dot.active { background: var(--orange); }
+
+  /* ── SLIDE BASE ── */
+  .slide {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 100px 80px 80px;
+    position: relative; overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .slide-num {
+    position: absolute; top: 80px; right: 80px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: .2em;
+    color: var(--muted); text-transform: uppercase;
+  }
+
+  /* ── GRID PATTERN ── */
+  .grid-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: .25;
+  }
+
+  .slide > * { position: relative; z-index: 1; }
+
+  /* ── TAGS ── */
+  .tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 12px; border-radius: 4px;
+    font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+  }
+  .tag-orange { background: rgba(249,115,22,.12); color: var(--orange); border: 1px solid rgba(249,115,22,.3); }
+  .tag-cyan { background: rgba(34,211,238,.1); color: var(--cyan); border: 1px solid rgba(34,211,238,.25); }
+  .tag-green { background: rgba(74,222,128,.1); color: var(--green); border: 1px solid rgba(74,222,128,.25); }
+  .tag-red { background: rgba(248,113,113,.1); color: var(--red); border: 1px solid rgba(248,113,113,.25); }
+  .tag-odoo { background: rgba(113,75,103,.2); color: #c084a8; border: 1px solid rgba(113,75,103,.5); }
+
+  /* ── HEADINGS ── */
+  h1 { font-size: clamp(36px, 5vw, 60px); font-weight: 800; line-height: 1.05; }
+  h2 { font-size: clamp(26px, 3.5vw, 44px); font-weight: 800; line-height: 1.1; margin-bottom: 8px; }
+  h3 { font-size: clamp(16px, 2vw, 22px); font-weight: 700; margin-bottom: 6px; }
+  .accent { color: var(--orange); }
+  .accent-cyan { color: var(--cyan); }
+  .accent-green { color: var(--green); }
+
+  p { color: var(--dim); line-height: 1.7; font-size: 15px; }
+
+  /* ── CODE ── */
+  pre, code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+  pre {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    overflow-x: auto;
+    line-height: 1.65;
+  }
+  .kw { color: #ff7b72; }
+  .attr { color: #79c0ff; }
+  .str { color: #a5d6ff; }
+  .com { color: #8b949e; font-style: italic; }
+  .tag-xml { color: #7ee787; }
+  .val { color: #ffa657; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+  }
+  .card-glow-orange { border-color: rgba(249,115,22,.4); box-shadow: 0 0 30px rgba(249,115,22,.07); }
+  .card-glow-cyan { border-color: rgba(34,211,238,.3); box-shadow: 0 0 30px rgba(34,211,238,.06); }
+
+  /* ── ARROW ── */
+  .arrow-row {
+    display: flex; align-items: center; gap: 0;
+    flex-wrap: wrap;
+  }
+  .arrow-box {
+    padding: 14px 22px; border-radius: 10px;
+    font-weight: 700; font-size: 14px; text-align: center;
+    min-width: 140px;
+  }
+  .arrow-sep {
+    font-size: 28px; color: var(--muted); padding: 0 10px;
+    flex-shrink: 0;
+  }
+
+  /* ── SLIDE 1: HERO ── */
+  #s1 {
+    background: radial-gradient(ellipse 80% 60% at 60% 50%, rgba(113,75,103,.18) 0%, transparent 70%),
+                var(--bg);
+  }
+  .hero-eyebrow { display: flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+  .hero-title { margin-bottom: 20px; }
+  .hero-sub { font-size: 18px; color: var(--dim); max-width: 680px; line-height: 1.6; margin-bottom: 36px; }
+  .channel-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(249,115,22,.08);
+    border: 1px solid rgba(249,115,22,.2);
+    border-radius: 100px; padding: 8px 18px;
+    font-size: 13px; font-weight: 700; color: var(--orange);
+  }
+  .channel-badge span { color: var(--dim); font-weight: 400; }
+  .yt-icon { width: 20px; height: 20px; }
+
+  .hero-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    margin-top: 48px; max-width: 800px;
+  }
+  .hero-stat {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 20px 24px;
+  }
+  .hero-stat-num { font-size: 32px; font-weight: 800; color: var(--orange); line-height: 1; }
+  .hero-stat-label { font-size: 12px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: .08em; }
+
+  /* ── SLIDE 2: WHAT IS ── */
+  #s2 { background: var(--surface); }
+  .what-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px;
+  }
+  .what-item {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 28px;
+  }
+  .what-icon { font-size: 32px; margin-bottom: 14px; }
+  .what-item h3 { color: var(--text); margin-bottom: 8px; }
+  .what-item p { font-size: 14px; }
+
+  /* ── SLIDE 3: HIERARCHY ── */
+  #s3 {}
+  .hier-section { margin-top: 40px; }
+  .hier-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--muted);
+    margin-bottom: 20px;
+  }
+  .tier {
+    display: flex; align-items: stretch; gap: 0; margin-bottom: 24px;
+  }
+  .tier-box {
+    flex: 1; padding: 20px 24px; border-radius: 10px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .tier-label { font-size: 10px; letter-spacing: .15em; text-transform: uppercase; font-family: 'Space Mono', monospace; }
+  .tier-name { font-weight: 800; font-size: 18px; }
+  .tier-model { font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+  .tier-arrow { width: 50px; display: flex; align-items: center; justify-content: center; font-size: 22px; color: var(--muted); flex-shrink: 0; }
+
+  .tier-18 { background: rgba(100,116,139,.12); border: 1px solid rgba(100,116,139,.3); }
+  .tier-19 { background: rgba(249,115,22,.08); border: 1px solid rgba(249,115,22,.3); }
+  .tier-group { background: rgba(34,211,238,.08); border: 1px solid rgba(34,211,238,.25); }
+  .tier-user { background: rgba(74,222,128,.08); border: 1px solid rgba(74,222,128,.25); }
+
+  .new-badge {
+    display: inline-flex; align-items: center;
+    background: var(--orange); color: #000;
+    font-size: 9px; font-weight: 800; letter-spacing: .1em;
+    padding: 2px 7px; border-radius: 4px; text-transform: uppercase;
+    margin-left: 8px; vertical-align: middle;
+  }
+
+  /* comparison 2-col */
+  .compare-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px;
+  }
+  .compare-col { }
+  .compare-head {
+    font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+    font-family: 'Space Mono', monospace; margin-bottom: 16px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border);
+  }
+
+  /* ── SLIDE 4: XML BEFORE ── */
+  #s4 { background: var(--surface); }
+  #s5 { }
+
+  /* ── SLIDE 5: XML AFTER ── */
+  .step-row {
+    display: flex; gap: 12px; align-items: flex-start; margin-bottom: 16px;
+  }
+  .step-num {
+    width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800;
+    font-family: 'Space Mono', monospace;
+  }
+  .step-num-1 { background: rgba(249,115,22,.2); color: var(--orange); border: 1px solid var(--orange); }
+  .step-num-2 { background: rgba(34,211,238,.15); color: var(--cyan); border: 1px solid var(--cyan); }
+  .step-num-3 { background: rgba(74,222,128,.15); color: var(--green); border: 1px solid var(--green); }
+  .step-content { flex: 1; }
+  .step-label { font-size: 13px; font-weight: 700; margin-bottom: 4px; color: var(--text); }
+  .step-desc { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+
+  /* ── SLIDE 6: USER FORM DEMO ── */
+  #s6 { background: var(--surface); }
+  .form-demo {
+    background: #1a1f2e;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    max-width: 760px;
+    margin-top: 36px;
+  }
+  .form-header {
+    background: #1e2638; padding: 14px 24px;
+    font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--muted); border-bottom: 1px solid var(--border);
+    display: flex; gap: 8px; align-items: center;
+  }
+  .form-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .form-row {
+    display: grid; grid-template-columns: 180px 1fr;
+    border-bottom: 1px solid var(--border);
+    min-height: 52px;
+  }
+  .form-label {
+    padding: 16px 20px; background: rgba(255,255,255,.02);
+    font-size: 12px; font-weight: 700; color: var(--muted);
+    text-transform: uppercase; letter-spacing: .08em;
+    display: flex; align-items: center;
+    border-right: 1px solid var(--border);
+  }
+  .form-value {
+    padding: 12px 20px;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .radio-btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 6px 14px; border-radius: 6px;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    transition: all .15s;
+  }
+  .radio-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    border: 2px solid currentColor;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .radio-dot.checked::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor;
+  }
+  .r-none { background: rgba(100,116,139,.1); color: var(--muted); border: 1px solid transparent; }
+  .r-active { background: rgba(249,115,22,.12); color: var(--orange); border: 1px solid rgba(249,115,22,.3); }
+  .r-opt { background: rgba(30,38,56,.8); color: var(--dim); border: 1px solid var(--border); }
+  .r-opt:hover { background: rgba(249,115,22,.08); border-color: rgba(249,115,22,.2); color: var(--orange-soft); }
+
+  .privilege-badge {
+    display: flex; align-items: center; gap: 6px;
+    padding: 3px 10px; border-radius: 4px;
+    background: rgba(249,115,22,.1); border: 1px solid rgba(249,115,22,.25);
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .1em; color: var(--orange-soft);
+    font-family: 'Space Mono', monospace; white-space: nowrap;
+  }
+
+  /* ── SLIDE 7: TABLE COMPARE ── */
+  #s7 {}
+  .cmp-table { width: 100%; border-collapse: collapse; margin-top: 36px; }
+  .cmp-table th {
+    text-align: left; padding: 14px 20px;
+    font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+    font-family: 'Space Mono', monospace; color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .cmp-table td {
+    padding: 16px 20px; font-size: 14px; color: var(--dim);
+    border-bottom: 1px solid rgba(30,38,56,.7);
+    vertical-align: top;
+  }
+  .cmp-table tr:hover td { background: rgba(255,255,255,.015); }
+  .cmp-table td:first-child { color: var(--text); font-weight: 600; font-size: 13px; }
+  .cmp-table td:nth-child(2) { color: var(--red); }
+  .cmp-table td:nth-child(3) { color: var(--green); }
+  code.inline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; background: rgba(255,255,255,.06);
+    padding: 2px 7px; border-radius: 4px; color: var(--cyan);
+  }
+
+  /* ── SLIDE 8: MIGRATION ── */
+  #s8 { background: var(--surface); }
+  .migrate-steps {
+    display: flex; flex-direction: column; gap: 0; margin-top: 36px;
+    max-width: 860px;
+  }
+  .m-step {
+    display: flex; gap: 0; position: relative;
+  }
+  .m-step:not(:last-child) .m-line {
+    position: absolute; left: 23px; top: 48px; bottom: -8px; width: 2px;
+    background: var(--border);
+  }
+  .m-icon {
+    width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; z-index: 1; margin-right: 20px; margin-bottom: 32px;
+  }
+  .m-body { flex: 1; padding-top: 8px; }
+  .m-title { font-weight: 700; font-size: 16px; margin-bottom: 6px; }
+  .m-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  .ic1 { background: rgba(249,115,22,.15); border: 2px solid var(--orange); }
+  .ic2 { background: rgba(34,211,238,.12); border: 2px solid var(--cyan); }
+  .ic3 { background: rgba(74,222,128,.12); border: 2px solid var(--green); }
+  .ic4 { background: rgba(251,191,36,.12); border: 2px solid var(--yellow); }
+
+  /* ── SLIDE 9: OUTRO ── */
+  #s9 {
+    background: radial-gradient(ellipse 70% 60% at 30% 60%, rgba(249,115,22,.1) 0%, transparent 65%),
+                var(--bg);
+    align-items: center; text-align: center;
+  }
+  .outro-title { font-size: clamp(30px,5vw,64px); font-weight: 800; line-height: 1; margin: 24px 0 20px; }
+  .outro-sub { font-size: 18px; color: var(--dim); max-width: 560px; margin: 0 auto 40px; }
+  .cta-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .cta-btn {
+    padding: 14px 32px; border-radius: 8px;
+    font-weight: 700; font-size: 14px; letter-spacing: .05em; text-decoration: none;
+    transition: transform .15s;
+  }
+  .cta-btn:hover { transform: translateY(-2px); }
+  .cta-primary { background: var(--orange); color: #000; }
+  .cta-secondary { background: var(--card); color: var(--text); border: 1px solid var(--border); }
+
+  .watermark {
+    position: absolute; bottom: 32px; right: 80px;
+    font-size: 11px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase;
+    font-family: 'Space Mono', monospace;
+  }
+  .watermark span { color: var(--orange); }
+
+  @media (max-width: 768px) {
+    .slide { padding: 90px 28px 60px; }
+    .what-grid, .compare-grid, .hero-grid { grid-template-columns: 1fr; }
+    .slide-num { right: 28px; }
+    .watermark { right: 28px; }
+    .form-row { grid-template-columns: 1fr; }
+    .form-label { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Weblearns</div>
+  <div class="nav-sep"></div>
+  <div class="nav-dots">
+    <div class="nav-dot active" onclick="scrollTo(0)"></div>
+    <div class="nav-dot" onclick="document.getElementById('s2').scrollIntoView({behavior:'smooth'})"></div>
+    <div class="nav-dot" onclick="document.getElementById('s3').scrollIntoView({behavior:'smooth'})"></div>
+    <div class="nav-dot" onclick="document.getElementById('s4').scrollIntoView({behavior:'smooth'})"></div>
+    <div class="nav-dot" onclick="document.getElementById('s5').scrollIntoView({behavior:'smooth'})"></div>
+    <div class="nav-dot" onclick="document.getElementById('s6').scrollIntoView({behavior:'smooth'})"></div>
+    <div class="nav-dot" onclick="document.getElementById('s7').scrollIntoView({behavior:'smooth'})"></div>
+    <div class="nav-dot" onclick="document.getElementById('s8').scrollIntoView({behavior:'smooth'})"></div>
+    <div class="nav-dot" onclick="document.getElementById('s9').scrollIntoView({behavior:'smooth'})"></div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 1 — HERO
+═══════════════════════════════════════════════════════ -->
+<section class="slide" id="s1">
+  <div class="grid-bg"></div>
+  <div class="slide-num">01 / 09</div>
+
+  <div class="hero-eyebrow">
+    <span class="tag tag-odoo">Odoo 19</span>
+    <span class="tag tag-orange">New in Security</span>
+    <span class="tag tag-cyan">Breaking Change</span>
+  </div>
+
+  <h1 class="hero-title">
+    <span class="accent">res.groups</span><br>
+    <span style="color:var(--dim);">.</span><span class="accent">privilege</span><br>
+    <span style="font-size:.55em; color:var(--dim); font-weight:600;">The New Security Layer in Odoo 19</span>
+  </h1>
+
+  <p class="hero-sub">
+    Odoo 19 introduces a brand-new model between <code style="color:var(--cyan);font-family:'JetBrains Mono';font-size:14px">ir.module.category</code> and <code style="color:var(--orange);font-family:'JetBrains Mono';font-size:14px">res.groups</code>
+    — reshaping how Role-Based Access Control works across every module.
+  </p>
+
+  <div class="channel-badge">
+    <svg class="yt-icon" viewBox="0 0 24 24" fill="#f97316"><path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.6-.8-2-.9C16.6 5 12 5 12 5s-4.6 0-7 .1c-.4 0-1.2.1-2 .9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.5c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.8.8 1.8.8 2.3.9C6.8 19 12 19 12 19s4.6 0 7-.1c.4 0 1.2-.1 2-.9.6-.6.8-2 .8-2S22 14.4 22 12.8v-1.5C22 9.6 21.8 8 21.8 8z"/><path d="M9.75 15.02V8.98l5.75 3.02-5.75 3.02z" fill="#0a0d14"/></svg>
+    <strong>@Weblearns</strong>
+    <span>— Odoo Developer Tutorial Series</span>
+  </div>
+
+  <div class="hero-grid">
+    <div class="hero-stat">
+      <div class="hero-stat-num">3</div>
+      <div class="hero-stat-label">Tier Security Architecture</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num" style="color:var(--cyan)">100%</div>
+      <div class="hero-stat-label">New in Odoo 19 (Not in v18)</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num" style="color:var(--green)">RBAC</div>
+      <div class="hero-stat-label">Enhanced Granularity</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num" style="color:var(--yellow)">⚠</div>
+      <div class="hero-stat-label">Breaking Change for Custom Modules</div>
+    </div>
+  </div>
+
+  <div class="watermark">weblearns.youtube / <span>odoo19</span></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 2 — WHAT IS IT
+═══════════════════════════════════════════════════════ -->
+<section class="slide" id="s2">
+  <div class="grid-bg"></div>
+  <div class="slide-num">02 / 09</div>
+
+  <span class="tag tag-orange" style="margin-bottom:20px; display:inline-flex;">What Is res.groups.privilege?</span>
+  <h2>A New <span class="accent">Intermediate Layer</span><br>in the Security Stack</h2>
+  <p style="max-width:640px; margin-top:12px;">
+    Think of it as a named "role slot" — it sits between the App Category and the individual permission Groups,
+    giving each section in the user form its own independent selection row.
+  </p>
+
+  <div class="what-grid">
+    <div class="what-item">
+      <div class="what-icon">🧩</div>
+      <h3>Named Role Container</h3>
+      <p>Groups are no longer directly attached to <code class="inline">ir.module.category</code>. They link to a <code class="inline">res.groups.privilege</code> which belongs to the category.</p>
+    </div>
+    <div class="what-item card-glow-orange">
+      <div class="what-icon">🎛️</div>
+      <h3>Independent Selection Rows</h3>
+      <p>Multiple privileges under one App means <strong style="color:var(--orange)">multiple radio-button rows</strong> in the user form — instead of one flat group list.</p>
+    </div>
+    <div class="what-item">
+      <div class="what-icon">🔑</div>
+      <h3>New <code class="inline">privilege_id</code> Field</h3>
+      <p><code class="inline">res.groups</code> gains a new <code class="inline">privilege_id</code> Many2one field in Odoo 19 that replaces the old direct <code class="inline">category_id</code> usage.</p>
+    </div>
+    <div class="what-item card-glow-cyan">
+      <div class="what-icon">📐</div>
+      <h3>Better RBAC Granularity</h3>
+      <p>E.g. <em>Accounting</em> can now have a <strong style="color:var(--cyan)">Core Accounting</strong> privilege AND a separate <strong style="color:var(--cyan)">Bank Management</strong> privilege, each with own User/Admin levels.</p>
+    </div>
+  </div>
+
+  <div class="watermark">weblearns.youtube / <span>odoo19</span></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 3 — HIERARCHY COMPARISON
+═══════════════════════════════════════════════════════ -->
+<section class="slide" id="s3">
+  <div class="grid-bg"></div>
+  <div class="slide-num">03 / 09</div>
+
+  <span class="tag tag-orange" style="margin-bottom:20px; display:inline-flex;">Architecture Comparison</span>
+  <h2>Security Hierarchy: <span class="accent">v18</span> vs <span class="accent-cyan">v19</span></h2>
+
+  <div class="compare-grid">
+    <div class="compare-col">
+      <div class="compare-head" style="color:var(--red);">❌ Odoo 18 — Flat (2-Tier)</div>
+
+      <div class="arrow-row" style="margin-bottom:16px; flex-direction:column; gap:8px; align-items:stretch;">
+        <div class="arrow-box tier-18" style="color:var(--dim);">
+          <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-family:'Space Mono',monospace;color:var(--muted);margin-bottom:4px">App</div>
+          <div style="font-weight:800;font-size:17px;">ir.module.category</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-top:3px">e.g. "Real Estate"</div>
+        </div>
+        <div style="text-align:center;font-size:22px;color:var(--muted);">↓ category_id</div>
+        <div class="arrow-box tier-group" style="">
+          <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-family:'Space Mono',monospace;color:var(--muted);margin-bottom:4px">Groups</div>
+          <div style="font-weight:800;font-size:17px;color:var(--cyan);">res.groups</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-top:3px">Agent / Manager (flat)</div>
+        </div>
+        <div style="text-align:center;font-size:22px;color:var(--muted);">↓</div>
+        <div class="arrow-box tier-user">
+          <div style="font-weight:800;font-size:17px;color:var(--green);">res.users</div>
+        </div>
+      </div>
+
+      <pre><span class="com">&lt;!-- Odoo 18 —— old way --&gt;</span>
+<span class="tag-xml">&lt;record</span> <span class="attr">model</span>=<span class="str">"res.groups"</span><span class="tag-xml">&gt;</span>
+  <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"name"</span><span class="tag-xml">&gt;</span>Agent<span class="tag-xml">&lt;/field&gt;</span>
+  <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"category_id"</span>
+         <span class="attr">ref</span>=<span class="str">"module_category_real_estate"</span><span class="tag-xml">/&gt;</span>
+<span class="tag-xml">&lt;/record&gt;</span></pre>
+    </div>
+
+    <div class="compare-col">
+      <div class="compare-head" style="color:var(--green);">✅ Odoo 19 — Layered (3-Tier)</div>
+
+      <div class="arrow-row" style="margin-bottom:16px; flex-direction:column; gap:8px; align-items:stretch;">
+        <div class="arrow-box tier-18" style="color:var(--dim);">
+          <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-family:'Space Mono',monospace;color:var(--muted);margin-bottom:4px">App</div>
+          <div style="font-weight:800;font-size:17px;">ir.module.category</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-top:3px">e.g. "Real Estate"</div>
+        </div>
+        <div style="text-align:center;font-size:22px;color:var(--muted);">↓ category_id</div>
+        <div class="arrow-box tier-19" style="">
+          <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-family:'Space Mono',monospace;color:var(--orange);margin-bottom:4px">
+            Privilege <span class="new-badge">NEW v19</span>
+          </div>
+          <div style="font-weight:800;font-size:17px;color:var(--orange);">res.groups.privilege</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-top:3px">e.g. "Real Estate Brokerage"</div>
+        </div>
+        <div style="text-align:center;font-size:22px;color:var(--muted);">↓ privilege_id</div>
+        <div class="arrow-box tier-group">
+          <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-family:'Space Mono',monospace;color:var(--muted);margin-bottom:4px">Groups</div>
+          <div style="font-weight:800;font-size:17px;color:var(--cyan);">res.groups</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-top:3px">Agent / Manager</div>
+        </div>
+        <div style="text-align:center;font-size:22px;color:var(--muted);">↓</div>
+        <div class="arrow-box tier-user">
+          <div style="font-weight:800;font-size:17px;color:var(--green);">res.users</div>
+        </div>
+      </div>
+
+      <pre><span class="com">&lt;!-- Odoo 19 —— new way --&gt;</span>
+<span class="tag-xml">&lt;record</span> <span class="attr">model</span>=<span class="str">"res.groups"</span><span class="tag-xml">&gt;</span>
+  <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"name"</span><span class="tag-xml">&gt;</span>Agent<span class="tag-xml">&lt;/field&gt;</span>
+  <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"privilege_id"</span>
+         <span class="attr">ref</span>=<span class="str">"groups_privilege_real_estate"</span><span class="tag-xml">/&gt;</span>
+<span class="tag-xml">&lt;/record&gt;</span></pre>
+    </div>
+  </div>
+
+  <div class="watermark">weblearns.youtube / <span>odoo19</span></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 4 — BEFORE (XML Odoo 18)
+═══════════════════════════════════════════════════════ -->
+<section class="slide" id="s4">
+  <div class="grid-bg"></div>
+  <div class="slide-num">04 / 09</div>
+
+  <span class="tag tag-red" style="margin-bottom:20px; display:inline-flex;">❌ Odoo 18 — Old Approach</span>
+  <h2>security.xml — <span style="color:var(--red)">Before</span></h2>
+  <p style="max-width:640px;margin:12px 0 28px;">Groups directly reference <code class="inline">category_id</code> → <code class="inline">ir.module.category</code>. No Privilege layer exists.</p>
+
+  <pre style="max-width:900px"><span class="com">&lt;!-- 1. Define the Application Category --&gt;</span>
+<span class="tag-xml">&lt;record</span> <span class="attr">id</span>=<span class="str">"module_category_real_estate"</span> <span class="attr">model</span>=<span class="str">"ir.module.category"</span><span class="tag-xml">&gt;</span>
+    <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"name"</span><span class="tag-xml">&gt;</span>Real Estate<span class="tag-xml">&lt;/field&gt;</span>
+    <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"sequence"</span><span class="tag-xml">&gt;</span>50<span class="tag-xml">&lt;/field&gt;</span>
+<span class="tag-xml">&lt;/record&gt;</span>
+
+<span class="com">&lt;!-- 2. Groups directly use category_id (old) --&gt;</span>
+<span class="tag-xml">&lt;record</span> <span class="attr">id</span>=<span class="str">"estate_group_user"</span> <span class="attr">model</span>=<span class="str">"res.groups"</span><span class="tag-xml">&gt;</span>
+    <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"name"</span><span class="tag-xml">&gt;</span>Agent<span class="tag-xml">&lt;/field&gt;</span>
+    <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"category_id"</span> <span class="attr">ref</span>=<span class="str">"module_category_real_estate"</span><span class="tag-xml">/&gt;</span>  <span class="com">&lt;!-- OLD --&gt;</span>
+    <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"implied_ids"</span> <span class="attr">eval</span>=<span class="str">"[(4, ref('base.group_user'))]"</span><span class="tag-xml">/&gt;</span>
+<span class="tag-xml">&lt;/record&gt;</span>
+
+<span class="tag-xml">&lt;record</span> <span class="attr">id</span>=<span class="str">"estate_group_manager"</span> <span class="attr">model</span>=<span class="str">"res.groups"</span><span class="tag-xml">&gt;</span>
+    <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"name"</span><span class="tag-xml">&gt;</span>Manager<span class="tag-xml">&lt;/field&gt;</span>
+    <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"category_id"</span> <span class="attr">ref</span>=<span class="str">"module_category_real_estate"</span><span class="tag-xml">/&gt;</span>  <span class="com">&lt;!-- OLD --&gt;</span>
+    <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"implied_ids"</span> <span class="attr">eval</span>=<span class="str">"[(4, ref('estate_group_user'))]"</span><span class="tag-xml">/&gt;</span>
+<span class="tag-xml">&lt;/record&gt;</span></pre>
+
+  <div class="card" style="margin-top:24px; max-width:900px; border-color:rgba(248,113,113,.3); background:rgba(248,113,113,.04)">
+    <span style="font-size:13px; color:var(--red)">⚠️ Problem:</span>
+    <span style="font-size:13px; color:var(--muted); margin-left:8px">Only ONE radio-button row per App. You can't have separate "Accounting" + "Bank" sections inside the same category.</span>
+  </div>
+
+  <div class="watermark">weblearns.youtube / <span>odoo19</span></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 5 — AFTER (XML Odoo 19)
+═══════════════════════════════════════════════════════ -->
+<section class="slide" id="s5">
+  <div class="grid-bg"></div>
+  <div class="slide-num">05 / 09</div>
+
+  <span class="tag tag-green" style="margin-bottom:20px; display:inline-flex;">✅ Odoo 19 — New Approach</span>
+  <h2>security.xml — <span class="accent-green">After</span></h2>
+  <p style="max-width:640px;margin:12px 0 28px;">Three-step definition: App Category → Privilege → Groups.</p>
+
+  <div style="display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:start; max-width:900px;">
+
+    <div>
+      <div class="step-row">
+        <div class="step-num step-num-1">1</div>
+        <div class="step-content">
+          <div class="step-label" style="color:var(--orange)">App Category (unchanged)</div>
+          <div class="step-desc">Still uses <code class="inline">ir.module.category</code></div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num step-num-2">2</div>
+        <div class="step-content">
+          <div class="step-label" style="color:var(--cyan)">Define Privilege <span class="new-badge">NEW</span></div>
+          <div class="step-desc">Create <code class="inline">res.groups.privilege</code> record</div>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num step-num-3">3</div>
+        <div class="step-content">
+          <div class="step-label" style="color:var(--green)">Groups use privilege_id</div>
+          <div class="step-desc">Replace <code class="inline">category_id</code> with <code class="inline">privilege_id</code></div>
+        </div>
+      </div>
+    </div>
+
+    <pre><span class="com">&lt;!-- STEP 1: App Category (same as v18) --&gt;</span>
+<span class="tag-xml">&lt;record</span> <span class="attr">id</span>=<span class="str">"module_category_real_estate"</span> <span class="attr">model</span>=<span class="str">"ir.module.category"</span><span class="tag-xml">&gt;</span>
+    <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"name"</span><span class="tag-xml">&gt;</span>Real Estate<span class="tag-xml">&lt;/field&gt;</span>
+<span class="tag-xml">&lt;/record&gt;</span>
+
+<span class="com">&lt;!-- STEP 2: Create the Privilege (NEW in v19!) --&gt;</span>
+<span class="tag-xml">&lt;record</span> <span class="attr">id</span>=<span class="str">"groups_privilege_real_estate"</span>
+        <span class="attr">model</span>=<span class="str">"res.groups.privilege"</span><span class="tag-xml">&gt;</span>
+    <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"name"</span><span class="tag-xml">&gt;</span>Real Estate<span class="tag-xml">&lt;/field&gt;</span>
+    <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"sequence"</span><span class="tag-xml">&gt;</span>50<span class="tag-xml">&lt;/field&gt;</span>
+    <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"category_id"</span>
+           <span class="attr">ref</span>=<span class="str">"module_category_real_estate"</span><span class="tag-xml">/&gt;</span>
+<span class="tag-xml">&lt;/record&gt;</span>
+
+<span class="com">&lt;!-- STEP 3: Groups use privilege_id (not category_id) --&gt;</span>
+<span class="tag-xml">&lt;record</span> <span class="attr">id</span>=<span class="str">"estate_group_user"</span> <span class="attr">model</span>=<span class="str">"res.groups"</span><span class="tag-xml">&gt;</span>
+    <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"name"</span><span class="tag-xml">&gt;</span>Agent<span class="tag-xml">&lt;/field&gt;</span>
+    <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"privilege_id"</span>
+           <span class="attr">ref</span>=<span class="str">"groups_privilege_real_estate"</span><span class="tag-xml">/&gt;</span>
+    <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"implied_ids"</span>
+           <span class="attr">eval</span>=<span class="str">"[(4, ref('base.group_user'))]"</span><span class="tag-xml">/&gt;</span>
+<span class="tag-xml">&lt;/record&gt;</span>
+
+<span class="tag-xml">&lt;record</span> <span class="attr">id</span>=<span class="str">"estate_group_manager"</span> <span class="attr">model</span>=<span class="str">"res.groups"</span><span class="tag-xml">&gt;</span>
+    <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"name"</span><span class="tag-xml">&gt;</span>Manager<span class="tag-xml">&lt;/field&gt;</span>
+    <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"privilege_id"</span>
+           <span class="attr">ref</span>=<span class="str">"groups_privilege_real_estate"</span><span class="tag-xml">/&gt;</span>
+    <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"implied_ids"</span>
+           <span class="attr">eval</span>=<span class="str">"[(4, ref('estate_group_user'))]"</span><span class="tag-xml">/&gt;</span>
+<span class="tag-xml">&lt;/record&gt;</span></pre>
+  </div>
+
+  <div class="watermark">weblearns.youtube / <span>odoo19</span></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 6 — USER FORM VISUALIZATION
+═══════════════════════════════════════════════════════ -->
+<section class="slide" id="s6">
+  <div class="grid-bg"></div>
+  <div class="slide-num">06 / 09</div>
+
+  <span class="tag tag-cyan" style="margin-bottom:20px; display:inline-flex;">UI Impact</span>
+  <h2>What It Looks Like in the <span class="accent">User Form</span></h2>
+  <p style="max-width:680px; margin-top:12px;">
+    Each <code class="inline">res.groups.privilege</code> under an App becomes its own exclusive radio-button row.
+    Previously, one App = one row. Now, one App can have <strong style="color:var(--orange)">multiple independent rows</strong>.
+  </p>
+
+  <!-- BEFORE: v18 User Form -->
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:32px;">
+
+    <div>
+      <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);font-family:'Space Mono',monospace;margin-bottom:12px">
+        ❌ Odoo 18 — One row per App
+      </div>
+      <div class="form-demo">
+        <div class="form-header">
+          <div class="form-dot" style="background:#ff5f57"></div>
+          <div class="form-dot" style="background:#febc2e"></div>
+          <div class="form-dot" style="background:#28c840"></div>
+          <span style="margin-left:8px">User Form — Access Rights Tab</span>
+        </div>
+        <div class="form-row">
+          <div class="form-label">Real Estate</div>
+          <div class="form-value">
+            <div class="radio-btn r-none"><div class="radio-dot"></div>None</div>
+            <div class="radio-btn r-active"><div class="radio-dot checked"></div>Agent</div>
+            <div class="radio-btn r-opt"><div class="radio-dot"></div>Manager</div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-label">Accounting</div>
+          <div class="form-value">
+            <div class="radio-btn r-none"><div class="radio-dot checked"></div>None</div>
+            <div class="radio-btn r-opt"><div class="radio-dot"></div>Accountant</div>
+            <div class="radio-btn r-opt"><div class="radio-dot"></div>Administrator</div>
+          </div>
+        </div>
+        <div style="padding:14px 20px;font-size:11px;color:var(--muted);font-family:'Space Mono',monospace;">
+          ← Only 1 row per app. No sub-roles possible.
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);font-family:'Space Mono',monospace;margin-bottom:12px">
+        ✅ Odoo 19 — Multiple rows per App
+      </div>
+      <div class="form-demo" style="border-color:rgba(249,115,22,.3);">
+        <div class="form-header" style="background:rgba(249,115,22,.05);">
+          <div class="form-dot" style="background:#ff5f57"></div>
+          <div class="form-dot" style="background:#febc2e"></div>
+          <div class="form-dot" style="background:#28c840"></div>
+          <span style="margin-left:8px">User Form — Access Rights Tab</span>
+        </div>
+        <div class="form-row">
+          <div class="form-label" style="flex-direction:column; align-items:flex-start; gap:4px;">
+            Accounting
+            <div class="privilege-badge">privilege 1</div>
+          </div>
+          <div class="form-value">
+            <div class="radio-btn r-none"><div class="radio-dot"></div>None</div>
+            <div class="radio-btn r-active"><div class="radio-dot checked"></div>Accountant</div>
+            <div class="radio-btn r-opt"><div class="radio-dot"></div>Admin</div>
+          </div>
+        </div>
+        <div class="form-row" style="border-left:3px solid rgba(249,115,22,.4);">
+          <div class="form-label" style="flex-direction:column; align-items:flex-start; gap:4px;">
+            Bank
+            <div class="privilege-badge">privilege 2</div>
+          </div>
+          <div class="form-value">
+            <div class="radio-btn r-none"><div class="radio-dot"></div>None</div>
+            <div class="radio-btn r-opt"><div class="radio-dot"></div>User</div>
+            <div class="radio-btn r-active"><div class="radio-dot checked"></div>Manager</div>
+          </div>
+        </div>
+        <div style="padding:14px 20px;font-size:11px;color:var(--orange);font-family:'Space Mono',monospace;">
+          ← 2 independent rows under same "Accounting" app!
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="watermark">weblearns.youtube / <span>odoo19</span></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 7 — COMPARISON TABLE
+═══════════════════════════════════════════════════════ -->
+<section class="slide" id="s7">
+  <div class="grid-bg"></div>
+  <div class="slide-num">07 / 09</div>
+
+  <span class="tag tag-orange" style="margin-bottom:20px; display:inline-flex;">Full Comparison</span>
+  <h2>Odoo 18 vs Odoo 19 — <span class="accent">Side by Side</span></h2>
+
+  <table class="cmp-table">
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th style="color:var(--red)">Odoo 18</th>
+        <th style="color:var(--green)">Odoo 19</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Group Categorization</td>
+        <td><code class="inline">category_id</code> on <code class="inline">res.groups</code></td>
+        <td><code class="inline">privilege_id</code> on <code class="inline">res.groups</code></td>
+      </tr>
+      <tr>
+        <td>App Association</td>
+        <td>Direct: <code class="inline">res.groups → ir.module.category</code></td>
+        <td>Via: <code class="inline">res.groups → res.groups.privilege → ir.module.category</code></td>
+      </tr>
+      <tr>
+        <td>Security Tiers</td>
+        <td>2-Tier (App → Groups → User)</td>
+        <td>3-Tier (App → Privilege → Groups → User)</td>
+      </tr>
+      <tr>
+        <td>Rows in User Form</td>
+        <td>1 row per App Category</td>
+        <td>Multiple rows per App (1 per Privilege)</td>
+      </tr>
+      <tr>
+        <td>Sub-role Sections</td>
+        <td>❌ Not possible cleanly</td>
+        <td>✅ Multiple privileges per App</td>
+      </tr>
+      <tr>
+        <td>XML model keyword</td>
+        <td><code class="inline">model="res.groups"</code> only</td>
+        <td>Add <code class="inline">model="res.groups.privilege"</code></td>
+      </tr>
+      <tr>
+        <td>Python access path</td>
+        <td><code class="inline">group.category_id</code></td>
+        <td><code class="inline">group.privilege_id.category_id</code></td>
+      </tr>
+      <tr>
+        <td>Custom module impact</td>
+        <td>No change needed</td>
+        <td>⚠ Must update security.xml for Odoo 19</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="watermark">weblearns.youtube / <span>odoo19</span></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 8 — MIGRATION STEPS
+═══════════════════════════════════════════════════════ -->
+<section class="slide" id="s8">
+  <div class="grid-bg"></div>
+  <div class="slide-num">08 / 09</div>
+
+  <span class="tag tag-yellow" style="margin-bottom:20px; display:inline-flex;">⚠️ Migration Guide</span>
+  <h2>Migrating Custom Module<br>from Odoo 18 → <span class="accent">Odoo 19</span></h2>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:32px; align-items:start;">
+    <div class="migrate-steps">
+
+      <div class="m-step">
+        <div class="m-line"></div>
+        <div class="m-icon ic1">1️⃣</div>
+        <div class="m-body">
+          <div class="m-title" style="color:var(--orange)">Keep ir.module.category</div>
+          <div class="m-desc">Your existing App category definition remains unchanged.</div>
+        </div>
+      </div>
+
+      <div class="m-step">
+        <div class="m-line"></div>
+        <div class="m-icon ic2">2️⃣</div>
+        <div class="m-body">
+          <div class="m-title" style="color:var(--cyan)">Add res.groups.privilege record</div>
+          <div class="m-desc">For each logical "role slot" your module had, create a privilege record with <code class="inline">category_id</code> pointing to your App.</div>
+        </div>
+      </div>
+
+      <div class="m-step">
+        <div class="m-line"></div>
+        <div class="m-icon ic3">3️⃣</div>
+        <div class="m-body">
+          <div class="m-title" style="color:var(--green)">Replace category_id with privilege_id</div>
+          <div class="m-desc">On every <code class="inline">res.groups</code> record, change <code class="inline">category_id</code> → <code class="inline">privilege_id</code> referencing your new privilege.</div>
+        </div>
+      </div>
+
+      <div class="m-step">
+        <div class="m-icon ic4">4️⃣</div>
+        <div class="m-body">
+          <div class="m-title" style="color:var(--yellow)">Update Python references</div>
+          <div class="m-desc">If your code accesses <code class="inline">group.category_id</code>, update to <code class="inline">group.privilege_id.category_id</code>.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div>
+      <pre style="font-size:12px"><span class="com"># ── BEFORE (Odoo 18) ──────────────────</span>
+<span class="com"># security.xml snippet</span>
+<span class="tag-xml">&lt;record</span> <span class="attr">id</span>=<span class="str">"my_group_user"</span>
+        <span class="attr">model</span>=<span class="str">"res.groups"</span><span class="tag-xml">&gt;</span>
+  <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"name"</span><span class="tag-xml">&gt;</span>User<span class="tag-xml">&lt;/field&gt;</span>
+  <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"category_id"</span>
+         <span class="attr">ref</span>=<span class="str">"my_module_category"</span><span class="tag-xml">/&gt;</span>
+<span class="tag-xml">&lt;/record&gt;</span>
+
+
+<span class="com"># ── AFTER (Odoo 19) ───────────────────</span>
+<span class="com"># ADDED: res.groups.privilege</span>
+<span class="tag-xml">&lt;record</span> <span class="attr">id</span>=<span class="str">"my_privilege"</span>
+        <span class="attr">model</span>=<span class="str">"res.groups.privilege"</span><span class="tag-xml">&gt;</span>
+  <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"name"</span><span class="tag-xml">&gt;</span>My Module<span class="tag-xml">&lt;/field&gt;</span>
+  <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"category_id"</span>
+         <span class="attr">ref</span>=<span class="str">"my_module_category"</span><span class="tag-xml">/&gt;</span>
+<span class="tag-xml">&lt;/record&gt;</span>
+
+<span class="com"># CHANGED: privilege_id instead of category_id</span>
+<span class="tag-xml">&lt;record</span> <span class="attr">id</span>=<span class="str">"my_group_user"</span>
+        <span class="attr">model</span>=<span class="str">"res.groups"</span><span class="tag-xml">&gt;</span>
+  <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"name"</span><span class="tag-xml">&gt;</span>User<span class="tag-xml">&lt;/field&gt;</span>
+  <span class="tag-xml">&lt;field</span> <span class="attr">name</span>=<span class="str">"privilege_id"</span>
+         <span class="attr">ref</span>=<span class="str">"my_privilege"</span><span class="tag-xml">/&gt;</span>
+<span class="tag-xml">&lt;/record&gt;</span></pre>
+
+      <div class="card" style="margin-top:16px; border-color:rgba(251,191,36,.3); background:rgba(251,191,36,.04)">
+        <p style="font-size:13px; color:var(--yellow)">
+          💡 <strong>Tip:</strong> You can still read <code class="inline">group.category_id</code> in Odoo 19 — Odoo auto-computes it from <code class="inline">privilege_id.category_id</code> for backward compatibility in some contexts. But always set <code class="inline">privilege_id</code> in XML.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="watermark">weblearns.youtube / <span>odoo19</span></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     SLIDE 9 — OUTRO
+═══════════════════════════════════════════════════════ -->
+<section class="slide" id="s9">
+  <div class="grid-bg"></div>
+  <div class="slide-num">09 / 09</div>
+
+  <div style="position:relative; z-index:1; text-align:center; max-width:700px; margin:0 auto;">
+
+    <span class="tag tag-odoo" style="margin-bottom:24px">Key Takeaways</span>
+
+    <h1 class="outro-title">
+      <span class="accent">3-Tier</span> Security<br>is the Future
+    </h1>
+
+    <p class="outro-sub">
+      <code style="font-family:'JetBrains Mono',monospace; color:var(--orange); font-size:14px">ir.module.category</code>
+      → <code style="font-family:'JetBrains Mono',monospace; color:var(--cyan); font-size:14px">res.groups.privilege</code>
+      → <code style="font-family:'JetBrains Mono',monospace; color:var(--green); font-size:14px">res.groups</code>
+      → <code style="font-family:'JetBrains Mono',monospace; color:var(--dim); font-size:14px">res.users</code>
+    </p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin:36px auto; max-width:620px;">
+      <div class="card" style="text-align:left; padding:20px;">
+        <div style="font-size:22px; margin-bottom:8px">🔑</div>
+        <div style="font-size:12px; font-weight:700; color:var(--orange); margin-bottom:4px">New Model</div>
+        <div style="font-size:12px; color:var(--muted)">res.groups.privilege — Not in Odoo 18</div>
+      </div>
+      <div class="card" style="text-align:left; padding:20px;">
+        <div style="font-size:22px; margin-bottom:8px">🔄</div>
+        <div style="font-size:12px; font-weight:700; color:var(--cyan); margin-bottom:4px">Breaking Change</div>
+        <div style="font-size:12px; color:var(--muted)">Replace category_id with privilege_id</div>
+      </div>
+      <div class="card" style="text-align:left; padding:20px;">
+        <div style="font-size:22px; margin-bottom:8px">📐</div>
+        <div style="font-size:12px; font-weight:700; color:var(--green); margin-bottom:4px">Better RBAC</div>
+        <div style="font-size:12px; color:var(--muted)">Multiple role rows per App in user form</div>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <a href="https://www.youtube.com/@Weblearns" target="_blank" class="cta-btn cta-primary">
+        ▶ Subscribe @Weblearns
+      </a>
+      <a href="https://www.odoo.com/documentation/19.0/developer/reference/backend/security.html" target="_blank" class="cta-btn cta-secondary">
+        📖 Odoo 19 Docs
+      </a>
+    </div>
+
+    <p style="margin-top:32px; font-size:12px; color:var(--muted)">
+      Like • Comment • Share — Help other Odoo developers discover this series!
+    </p>
+  </div>
+
+  <div class="watermark">weblearns.youtube / <span>odoo19</span></div>
+</section>
+
+<script>
+  // Active nav dot tracking
+  const sections = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.nav-dot');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && e.intersectionRatio > .4) {
+        const idx = [...sections].indexOf(e.target);
+        dots.forEach((d,i) => d.classList.toggle('active', i === idx));
+      }
+    });
+  }, { threshold: .4 });
+  sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
