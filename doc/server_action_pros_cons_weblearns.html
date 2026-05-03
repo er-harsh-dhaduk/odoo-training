@@ -1,0 +1,152 @@
+<style>
+  .wl-wrap { padding: 1.5rem 0 1rem; }
+  .wl-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 8px; }
+  .wl-title { font-size: 16px; font-weight: 500; color: var(--color-text-primary); }
+  .wl-badge { font-size: 11px; font-weight: 500; background: #534AB7; color: #EEEDFE; padding: 4px 12px; border-radius: 20px; letter-spacing: 0.03em; }
+  .wl-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 14px; }
+  .wl-col { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overflow: hidden; }
+  .wl-col-head { padding: 10px 16px; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
+  .wl-col-head.pro { background: #EAF3DE; color: #27500A; border-bottom: 0.5px solid #C0DD97; }
+  .wl-col-head.con { background: #FCEBEB; color: #791F1F; border-bottom: 0.5px solid #F7C1C1; }
+  .wl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .wl-dot.pro { background: #3B6D11; }
+  .wl-dot.con { background: #A32D2D; }
+  .wl-list { padding: 10px 0; }
+  .wl-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 16px; }
+  .wl-item:not(:last-child) { border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .wl-icon { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+  .wl-icon.pro { background: #639922; }
+  .wl-icon.con { background: #E24B4A; }
+  .wl-text { font-size: 13px; color: var(--color-text-primary); line-height: 1.5; }
+  .wl-sub { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; line-height: 1.4; }
+  .wl-footer { margin-top: 14px; padding: 10px 16px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .wl-footer-note { font-size: 12px; color: var(--color-text-secondary); }
+  .wl-powered { font-size: 11px; color: var(--color-text-tertiary); display: flex; align-items: center; gap: 6px; }
+  .wl-logo { width: 18px; height: 18px; background: #534AB7; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+  .wl-logo svg { width: 10px; height: 10px; }
+</style>
+
+<div class="wl-wrap">
+  <div class="wl-header">
+    <span class="wl-title">Odoo 19 server action — GUI vs module</span>
+    <span class="wl-badge">WebLearns</span>
+  </div>
+
+  <div class="wl-grid">
+    <div class="wl-col">
+      <div class="wl-col-head pro">
+        <div class="wl-dot pro"></div>
+        Pros — module approach
+      </div>
+      <div class="wl-list">
+        <div class="wl-item">
+          <div class="wl-icon pro"></div>
+          <div>
+            <div class="wl-text">Version controlled</div>
+            <div class="wl-sub">Lives in Git — trackable, reviewable, rollback-safe</div>
+          </div>
+        </div>
+        <div class="wl-item">
+          <div class="wl-icon pro"></div>
+          <div>
+            <div class="wl-text">Auto-deployed on install</div>
+            <div class="wl-sub">No manual GUI clicks on every environment</div>
+          </div>
+        </div>
+        <div class="wl-item">
+          <div class="wl-icon pro"></div>
+          <div>
+            <div class="wl-text">Full Python power</div>
+            <div class="wl-sub">Import any lib, define methods, use decorators freely</div>
+          </div>
+        </div>
+        <div class="wl-item">
+          <div class="wl-icon pro"></div>
+          <div>
+            <div class="wl-text">Team-friendly</div>
+            <div class="wl-sub">Shared via module — no per-user manual setup needed</div>
+          </div>
+        </div>
+        <div class="wl-item">
+          <div class="wl-icon pro"></div>
+          <div>
+            <div class="wl-text">Binding auto-attached</div>
+            <div class="wl-sub">binding_model_id handles Action menu automatically</div>
+          </div>
+        </div>
+        <div class="wl-item">
+          <div class="wl-icon pro"></div>
+          <div>
+            <div class="wl-text">Better error debugging</div>
+            <div class="wl-sub">Full stack traces in server logs, not vague GUI messages</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wl-col">
+      <div class="wl-col-head con">
+        <div class="wl-dot con"></div>
+        Cons — GUI Python code block
+      </div>
+      <div class="wl-list">
+        <div class="wl-item">
+          <div class="wl-icon con"></div>
+          <div>
+            <div class="wl-text">No import statements</div>
+            <div class="wl-sub">IMPORT_NAME opcode is forbidden — security sandbox</div>
+          </div>
+        </div>
+        <div class="wl-item">
+          <div class="wl-icon con"></div>
+          <div>
+            <div class="wl-text">Limited context vars</div>
+            <div class="wl-sub">Only env, records, record, model, log, Warning available</div>
+          </div>
+        </div>
+        <div class="wl-item">
+          <div class="wl-icon con"></div>
+          <div>
+            <div class="wl-text">No class definitions</div>
+            <div class="wl-sub">Cannot define functions, classes, or decorators in block</div>
+          </div>
+        </div>
+        <div class="wl-item">
+          <div class="wl-icon con"></div>
+          <div>
+            <div class="wl-text">Lost on DB reset</div>
+            <div class="wl-sub">GUI-created actions are not reproducible automatically</div>
+          </div>
+        </div>
+        <div class="wl-item">
+          <div class="wl-icon con"></div>
+          <div>
+            <div class="wl-text">Vague error messages</div>
+            <div class="wl-sub">Debugging failures in GUI code block is painful</div>
+          </div>
+        </div>
+        <div class="wl-item">
+          <div class="wl-icon con"></div>
+          <div>
+            <div class="wl-text">Not production-safe</div>
+            <div class="wl-sub">Any admin can edit it — no code review, no safety net</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wl-footer">
+    <span class="wl-footer-note">Best practice: write logic in model methods, call from server action XML</span>
+    <div class="wl-powered">
+      <div class="wl-logo">
+        <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="5" cy="5" r="3.5" stroke="#EEEDFE" stroke-width="1.2"/>
+          <line x1="5" y1="2" x2="5" y2="5" stroke="#EEEDFE" stroke-width="1.2" stroke-linecap="round"/>
+          <circle cx="5" cy="6.5" r="0.6" fill="#EEEDFE"/>
+        </svg>
+      </div>
+      Powered by WebLearns
+    </div>
+  </div>
+</div>
